@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>支付业务 + AI：数据分析方法完整案例</title>
+<style>
+:root{--ink:#192b3e;--muted:#5e7182;--navy:#102d42;--teal:#007e83;--line:#dce5e9;--paper:#fff;--bg:#f3f6f7;--light:#eaf5f4;--gold:#b16b24}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif;font-size:16px;line-height:1.85}a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}header{background:var(--navy);color:white;padding:64px max(28px,calc((100vw - 1180px)/2)) 52px}header .eyebrow{font-size:13px;letter-spacing:2px;color:#91d7d3;margin-bottom:18px}h1{font-size:clamp(32px,4vw,49px);line-height:1.28;margin:0 0 22px;letter-spacing:-1px}header p{max-width:850px;color:#d3e3eb;margin:0;font-size:18px}.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}.meta span{border:1px solid #446276;border-radius:30px;padding:3px 13px;font-size:12px;color:#d3e3eb}.layout{max-width:1220px;margin:34px auto 70px;display:grid;grid-template-columns:218px minmax(0,1fr);gap:28px;padding:0 20px}nav{position:sticky;top:24px;align-self:start;font-size:13px;padding:21px 14px 20px;border-top:3px solid var(--teal)}nav strong{display:block;margin-bottom:12px;font-size:14px}nav a{display:block;padding:6px 0;color:var(--muted)}main{background:var(--paper);padding:40px 46px 46px;min-width:0;border:1px solid var(--line);border-radius:10px}section{margin-top:47px}section:first-child{margin-top:0}.kicker{color:var(--teal);font-size:12px;font-weight:700;letter-spacing:1.5px;margin-bottom:7px}h2{font-size:26px;line-height:1.4;margin:0 0 20px;padding-bottom:13px;border-bottom:1px solid var(--line);letter-spacing:-.4px}h3{font-size:19px;margin:27px 0 12px}p{margin:12px 0}strong{font-weight:700}ul,ol{padding-left:24px;margin:12px 0}li{margin:6px 0}.note,.decision,.formula{border-radius:7px;padding:18px 21px;margin:22px 0}.note{background:#f7f4ed;border-left:4px solid var(--gold);font-size:14px}.decision{background:var(--light);border-left:4px solid var(--teal)}.decision .label{display:block;color:var(--teal);font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:5px}.formula{background:#eff3f6;font-family:ui-monospace,"Noto Sans CJK SC",monospace;font-size:14px;line-height:1.9;overflow-wrap:anywhere}.table-wrap{overflow:auto;margin:20px 0}table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.65}th{text-align:left;background:#eaf0f3;color:#233f50;font-weight:700}td,th{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}tbody tr:nth-child(even){background:#fbfcfd}.small{font-size:13px;color:var(--muted)}.tag{display:inline-block;background:#e9f4f2;color:var(--teal);padding:1px 7px;border-radius:3px;font-size:12px;margin-right:6px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.card{border:1px solid var(--line);border-radius:7px;padding:17px 16px}.card .value{display:block;font-size:27px;line-height:1.3;font-weight:750;color:var(--teal);margin:5px 0}.card .caption{font-size:12px;color:var(--muted)}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em;background:#eef2f4;padding:2px 4px;border-radius:3px}pre{white-space:pre;overflow:auto;background:#142e40;color:#e4eef3;padding:20px;border-radius:7px;font-size:12px;line-height:1.75}pre code{background:none;padding:0;color:inherit}blockquote{border-left:3px solid var(--teal);margin:20px 0;padding:4px 0 4px 20px;color:#385465}.sources{font-size:13px;word-break:break-word}.sources li{margin:12px 0}.summary{font-size:18px;line-height:1.85}footer{margin-top:35px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+@media(max-width:1000px){.layout{grid-template-columns:1fr;max-width:900px}nav{position:static;display:flex;gap:10px 18px;flex-wrap:wrap;padding:10px 0}nav strong{width:100%;margin:0}nav a{padding:0}main{padding:28px 26px}.cards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){header{padding:35px 22px}header p{font-size:16px}.layout{padding:0 12px;margin-top:18px}main{padding:25px 18px}.cards{grid-template-columns:1fr}.card .value{font-size:25px}h2{font-size:23px}table{min-width:580px}.note,.decision,.formula{padding:15px}section{margin-top:38px}}
+@media print{body{background:white;font-size:10.5pt;line-height:1.7}header{background:white!important;color:var(--ink);padding:0 0 25px;border-bottom:3px solid var(--teal)}header p,header .eyebrow,.meta span{color:var(--muted)}h1{font-size:28pt}.meta{display:none}.layout{display:block;margin:24px 0;padding:0;max-width:none}nav{display:none}main{border:0;padding:0}h2{font-size:18pt;break-after:avoid}h3{break-after:avoid}.table-wrap{overflow:visible}table{font-size:8.5pt;min-width:0}thead{display:table-header-group}tr{break-inside:avoid}.note,.decision,.formula,.card{break-inside:avoid}pre{white-space:pre-wrap;color:var(--ink);background:#f0f3f4}a{color:var(--ink)}@page{size:A4;margin:18mm}}
+
+/* Embedded flowcharts: self-contained SVG, no network dependency. */
+.case-flow{margin:24px 0 25px;border:1px solid #d6e3e8;border-radius:10px;overflow:hidden;background:#fff}
+.flow-heading{padding:14px 18px;background:#edf5f6;border-bottom:1px solid #d6e3e8;color:#214b5c;font-size:15px;font-weight:700;line-height:1.6}
+.flow-scroll{overflow-x:auto;overscroll-behavior-x:contain;padding:14px 8px 8px;outline-offset:-3px}
+.case-flow-svg{display:block;width:100%;height:auto;min-width:740px}
+.case-flow figcaption{font-size:13px;line-height:1.8;color:#526b7c;padding:16px 19px;background:#f7fafa;border-top:1px solid #e0e9ed}
+.flow-legend{display:flex;flex-wrap:wrap;gap:10px 20px;margin:20px 0 12px;color:#586f7c;font-size:12px}
+.flow-legend span{display:inline-flex;align-items:center;gap:8px}
+.legend-line{width:26px;height:0;border-top:2px solid #6e8798;display:inline-block}
+.legend-line.feedback{border-color:#008489;border-top-style:dashed}.legend-line.caution{border-color:#b07839;border-top-style:dashed}
+.flow-jumps{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}.flow-jumps a{font-size:13px;padding:8px 13px;border:1px solid #c8dedf;background:#f5fbfa;border-radius:6px}
+@media(max-width:600px){.flow-scroll::before{content:"可左右滑动查看完整流程图";display:block;font-size:12px;color:#607787;margin:0 5px 10px}.flow-heading{padding:12px 14px;font-size:14px}.case-flow figcaption{padding:13px 15px}.flow-jumps{display:block}.flow-jumps a{display:block;margin:8px 0}}
+@media print{.case-flow{break-inside:avoid;page-break-inside:avoid;margin:18px 0}.flow-scroll{overflow:visible;padding:10px 5px}.case-flow-svg{min-width:0;width:100%;height:auto;max-height:215mm}.flow-scroll::before{display:none}.flow-jumps{display:none}.flow-heading{padding:9px 12px;font-size:10pt}.case-flow figcaption{font-size:8.5pt;line-height:1.5;padding:10px 12px}}
+
+</style>
+</head>
+<body>
+<header>
+<div class="eyebrow">AI 产品经理 · 数据分析实战案例</div>
+<h1>支付异常处理 AI 助手<br>把数据分析方法串成一次产品迭代</h1>
+<p>从“使用量上涨，业务效果却下滑”出发，依次完成指标定义、贡献拆解、漏斗诊断、留存与同期群分析，再通过实验、看板和评测回流作出产品决策。</p>
+<div class="meta"><span>原创教学案例</span><span>3 张流程图串联全过程</span><span>所有业务数据均为模拟</span><span>不含个人信息</span><span>方法来源：AI-PM 数据分析入门</span></div>
+</header>
+<div class="layout">
+<nav aria-label="文档目录"><strong>案例导航</strong><a href="#brief">00 · 背景与决策</a><a href="#process-overview">流程图 · 全局总览</a><a href="#metrics">01 · 指标与口径</a><a href="#events">02 · 埋点与数据</a><a href="#breakdown">03 · 拆解与贡献</a><a href="#funnel">04 · 漏斗与流程</a><a href="#retention">05 · 留存与激活</a><a href="#cohort">06 · 同期群与结构</a><a href="#experiment">07 · A/B 验证</a><a href="#dashboard">08 · 看板与排查</a><a href="#evaluation">09 · 评测与模型</a><a href="#economics">10 · 营收同期群</a><a href="#decisions">11 · 最终产品决策</a><a href="#sql">附录 · SQL 与 BI</a><a href="#references">来源与口径校正</a></nav>
+<main>
+<section id="brief">
+<div class="kicker">00 / CASE BRIEF</div>
+<h2>业务背景：大家开始用了，为什么处理完成的单反而少了？</h2>
+<div class="note"><strong>使用说明：</strong>本文参考指定页面的方法路线，另行设计支付业务案例。业务设定、样本、调研发现、实验结果及阈值均为教学模拟，未使用真实业务数据，也不代表读者实际完成过的项目。任务漏斗、商户留存和随机实验是不同样本，分别标明分析单位。</div>
+<p>假设你负责一家支付服务商的商户后台。商户运营人员遇到支付失败、退款状态疑问或对账异常时，需要查订单、核对渠道规则，再决定如何处理。产品上线了一个 AI 助手：读取授权范围内的订单状态和规则资料，给出有来源的解释、处理建议和人工转接入口；涉及资金的操作仍走既有授权与审核流程。</p>
+<p>本轮只分析<strong>入组前即可按规则识别、适合在 24 小时内完成诊断或处置的异常类型</strong>。银行侧长期等待等其他任务另建时效指标，范围不能看到结果后再改变。</p>
+<p>上线后的两个完整观察周，进入助手的异常单从 1,000 单增至 1,200 单，团队直觉是“需求增长，可以扩大推广”。但经核验的有效处置从 300 单降至 216 单。</p>
+<div class="cards"><div class="card"><span class="caption">任务进入量</span><span class="value">+20%</span><span class="caption">1,000 → 1,200 单</span></div><div class="card"><span class="caption">有效处置量</span><span class="value">−28%</span><span class="caption">300 → 216 单</span></div><div class="card"><span class="caption">整体有效处置率</span><span class="value">30% → 18%</span><span class="caption">下降 12 个百分点</span></div></div>
+<p><strong>这次分析必须改变的决策：</strong>下一轮资源优先投向新手引导、建议质量、模型升级还是获客？改完之后，达到什么条件才能扩大流量？</p>
+<p>分析链条依次回答：成功如何定义 → 哪个因子拖累结果 → 哪一步、哪类任务流失 → 首次价值是否形成持续使用 → 总体变化是否来自客群结构 → 改动是否有效 → 能否持续运行并覆盖成本。方法路线参考原文，以下情节与数值为原创演示。<a href="#ref1">[1]</a></p>
+</section>
+
+<section id="process-overview">
+<div class="kicker">PROCESS MAP / 从问题到决策</div><h2>先看全局：这些方法如何接成一轮迭代？</h2>
+<p>沿主线自上而下阅读：先确认数据可信，再用两类分析提出假设，交给实验验证，最后持续复盘。点击图中节点可跳到相应章节；关键分支说明什么时候推进、等待或返回修复。</p>
+<div class="flow-legend"><span><i class="legend-line"></i>推进与分支</span><span><i class="legend-line feedback"></i>反馈与再次验证</span><span><i class="legend-line caution"></i>异常与未通过</span><span>◇ 判断条件</span></div>
+<figure class="case-flow" id="analysis-map"><div class="flow-heading">图 1 · 从业务异常到产品迭代的完整闭环</div><div class="flow-scroll" tabindex="0" aria-label="流程图，可横向滚动"><svg class="case-flow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1190" width="1000" height="1190" role="img" aria-labelledby="overview-title overview-desc">
+<title id="overview-title">图 1：数据分析如何串成一次产品迭代</title><desc id="overview-desc">从业务问题、指标埋点和数据检查出发，经指标拆解，分别用任务漏斗与留存同期群诊断，形成假设并开展随机实验。未成熟或证据不足保持范围，未达到门槛则调整方案，通过后扩大试验并持续监控，将新证据送回下一轮分析。</desc>
+<defs><marker id="overview-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#6e8798"/></marker><marker id="overview-feedback" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#008489"/></marker><marker id="overview-caution" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#b07839"/></marker></defs><style>
+text{font-family:"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif}
+.node rect{fill:#ffffff;stroke:#c9d8df;stroke-width:1.6}
+.node .title{fill:#19394d;font-size:20px;font-weight:700}
+.node .sub{fill:#566f80;font-size:15px;font-weight:400}
+.node.accent rect{fill:#e8f5f3;stroke:#008489;stroke-width:1.8}
+.node.dark rect{fill:#14384d;stroke:#14384d}
+.node.dark .title{fill:#ffffff}.node.dark .sub{fill:#d2e5eb}
+.node.wait rect{fill:#f5f7f8;stroke:#a8b9c4;stroke-dasharray:5 4}
+.node.warn rect{fill:#fff5e9;stroke:#b67b37}
+.node.danger rect{fill:#fbefed;stroke:#bd6c60}
+.decision-shape{fill:#f1f7fa;stroke:#557e96;stroke-width:1.8}
+.decision-title{fill:#24465c;font-size:19px;font-weight:700}
+.edge{fill:none;stroke:#6e8798;stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round}
+.edge.feedback{stroke:#008489;stroke-dasharray:7 5}
+.edge.caution{stroke:#b07839;stroke-dasharray:6 4}
+.edge-label{fill:#567081;font-size:13px;font-weight:500;paint-order:stroke;stroke:#ffffff;stroke-width:6px;stroke-linejoin:round}
+.edge-label.teal{fill:#007d83}.edge-label.amber{fill:#956023}
+a:hover .node rect{stroke:#007e83;stroke-width:2.6}
+</style><rect width="1000" height="1190" fill="#ffffff"/>
+<path class="edge " d="M 500 94 V 130" marker-end="url(#overview-arrow)"/><path class="edge " d="M 500 214 V 238" marker-end="url(#overview-arrow)"/><path class="edge " d="M 500 350 V 384" marker-end="url(#overview-arrow)"/><path class="edge " d="M 500 468 V 492 H 270 V 516" marker-end="url(#overview-arrow)"/><path class="edge " d="M 500 492 H 730 V 516" marker-end="url(#overview-arrow)"/><path class="edge " d="M 270 620 V 650 H 500 V 678" marker-end="url(#overview-arrow)"/><path class="edge " d="M 730 620 V 650 H 500" marker-end="url(#overview-arrow)"/><path class="edge " d="M 500 762 V 802" marker-end="url(#overview-arrow)"/><path class="edge " d="M 500 886 V 916" marker-end="url(#overview-arrow)"/><path class="edge " d="M 500 1028 V 1072" marker-end="url(#overview-arrow)"/><path class="edge caution" d="M 630 294 H 710" marker-end="url(#overview-caution)"/><path class="edge feedback" d="M 840 252 V 172 H 720" marker-end="url(#overview-feedback)"/><path class="edge " d="M 370 972 H 290" marker-end="url(#overview-arrow)"/><path class="edge feedback" d="M 165 926 V 844 H 310" marker-end="url(#overview-feedback)"/><path class="edge caution" d="M 630 972 H 710" marker-end="url(#overview-caution)"/><path class="edge feedback" d="M 835 926 H 970 V 720 H 730" marker-end="url(#overview-feedback)"/><path class="edge feedback" d="M 270 1120 H 20 V 294 H 370" marker-end="url(#overview-feedback)"/><a href="#brief" xlink:href="#brief" aria-label="查看：发现业务问题" tabindex="0"><g id="overview-node-problem" class="node dark"><rect x="280" y="18" width="440" height="76" rx="12"/><text x="500" y="39" text-anchor="middle" class="title">发现业务问题</text><text x="500" y="65" text-anchor="middle" class="sub">任务进入量 +20%</text><text x="500" y="88" text-anchor="middle" class="sub">有效处置量 −28%</text></g></a><a href="#metrics" xlink:href="#metrics" aria-label="查看：定义成功标准与设计埋点" tabindex="0"><g id="overview-node-metrics" class="node accent"><rect x="280" y="130" width="440" height="84" rx="12"/><text x="500" y="166.5" text-anchor="middle" class="title">定义成功标准与设计埋点</text><text x="500" y="192.5" text-anchor="middle" class="sub">有效处置／过程指标／质量与成本护栏</text></g></a><a href="#events" xlink:href="#events" aria-label="查看：数据完整、口径可信？" tabindex="0"><g id="overview-node-data"><polygon class="decision-shape" points="500,238 630,294 500,350 370,294"/><text x="500" y="289" class="decision-title" text-anchor="middle">数据完整、</text><text x="500" y="313" class="decision-title" text-anchor="middle">口径可信？</text></g></a><a href="#events" xlink:href="#events" aria-label="查看：修复采集与加工" tabindex="0"><g id="overview-node-fix-data" class="node warn"><rect x="710" y="252" width="260" height="84" rx="12"/><text x="840" y="288.5" text-anchor="middle" class="title">修复采集与加工</text><text x="840" y="314.5" text-anchor="middle" class="sub">补事件、去重、核对时间窗</text></g></a><a href="#breakdown" xlink:href="#breakdown" aria-label="查看：指标拆解与贡献分摊" tabindex="0"><g id="overview-node-decompose" class="node "><rect x="280" y="384" width="440" height="84" rx="12"/><text x="500" y="420.5" text-anchor="middle" class="title">指标拆解与贡献分摊</text><text x="500" y="446.5" text-anchor="middle" class="sub">进入量 → 提交 → 展示 → 采纳 → 处置</text></g></a><a href="#funnel" xlink:href="#funnel" aria-label="查看：漏斗与任务流程" tabindex="0"><g id="overview-node-funnel" class="node "><rect x="80" y="516" width="380" height="104" rx="12"/><text x="270" y="551" text-anchor="middle" class="title">漏斗与任务流程</text><text x="270" y="577" text-anchor="middle" class="sub">定位哪一步、哪些任务流失</text><text x="270" y="600" text-anchor="middle" class="sub">468 单展示后未采纳</text></g></a><a href="#cohort" xlink:href="#cohort" aria-label="查看：留存与同期群" tabindex="0"><g id="overview-node-cohort" class="node "><rect x="540" y="516" width="380" height="104" rx="12"/><text x="730" y="551" text-anchor="middle" class="title">留存与同期群</text><text x="730" y="577" text-anchor="middle" class="sub">检查首次价值与渠道结构</text><text x="730" y="600" text-anchor="middle" class="sub">总体下降先看分组</text></g></a><a href="#decisions" xlink:href="#decisions" aria-label="查看：形成可验证的产品假设" tabindex="0"><g id="overview-node-hypothesis" class="node accent"><rect x="270" y="678" width="460" height="84" rx="12"/><text x="500" y="714.5" text-anchor="middle" class="title">形成可验证的产品假设</text><text x="500" y="740.5" text-anchor="middle" class="sub">优先试验带上下文与证据的处置卡片</text></g></a><a href="#experiment" xlink:href="#experiment" aria-label="查看：同期随机实验" tabindex="0"><g id="overview-node-experiment" class="node "><rect x="310" y="802" width="380" height="84" rx="12"/><text x="500" y="838.5" text-anchor="middle" class="title">同期随机实验</text><text x="500" y="864.5" text-anchor="middle" class="sub">按商户分流；预设样本、窗口和护栏</text></g></a><a href="#experiment" xlink:href="#experiment" aria-label="查看：实验结果支持什么动作？" tabindex="0"><g id="overview-node-decision"><polygon class="decision-shape" points="500,916 630,972 500,1028 370,972"/><text x="500" y="967" class="decision-title" text-anchor="middle">实验结果</text><text x="500" y="991" class="decision-title" text-anchor="middle">支持什么动作？</text></g></a><a href="#experiment" xlink:href="#experiment" aria-label="查看：保持范围，继续观察" tabindex="0"><g id="overview-node-wait" class="node wait"><rect x="40" y="926" width="250" height="92" rx="12"/><text x="165" y="966.5" text-anchor="middle" class="title">保持范围，继续观察</text><text x="165" y="992.5" text-anchor="middle" class="sub">等待成熟或补足预设证据</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：调整方案或暂停" tabindex="0"><g id="overview-node-revise" class="node warn"><rect x="710" y="926" width="250" height="92" rx="12"/><text x="835" y="966.5" text-anchor="middle" class="title">调整方案或暂停</text><text x="835" y="992.5" text-anchor="middle" class="sub">确认有害时回退相关配置</text></g></a><a href="#dashboard" xlink:href="#dashboard" aria-label="查看：扩大试验与持续复盘" tabindex="0"><g id="overview-node-monitor" class="node dark"><rect x="270" y="1072" width="460" height="96" rx="12"/><text x="500" y="1114.5" text-anchor="middle" class="title">扩大试验与持续复盘</text><text x="500" y="1140.5" text-anchor="middle" class="sub">看板／badcase／W4 留存／贡献毛利</text></g></a><text x="670" y="277" text-anchor="middle" class="edge-label amber">异常</text><text x="330" y="939" text-anchor="middle" class="edge-label ">未成熟</text><text x="330" y="957" text-anchor="middle" class="edge-label ">或证据不足</text><text x="208" y="828" text-anchor="middle" class="edge-label teal">继续预定观察</text><text x="670" y="939" text-anchor="middle" class="edge-label amber">未达门槛</text><text x="670" y="957" text-anchor="middle" class="edge-label amber">或确认有害</text><text x="546" y="372" text-anchor="middle" class="edge-label ">通过</text><text x="500" y="1055" text-anchor="middle" class="edge-label ">改善且护栏通过</text>
+</svg></div><figcaption>漏斗与同期群提供诊断线索，汇总后形成<strong>待验证假设</strong>。未成熟和证据不足保留观察；确认的严重错误可立即触发处置。监控发现新异常时，先重新核查数据，再进入下一轮拆解。</figcaption></figure>
+<div class="flow-jumps"><a href="#task-process-map">查看图 2：单张异常单怎样流转</a><a href="#model-process-map">查看图 3：坏例如何推动下一次发布</a></div>
+<div class="decision"><span class="label">这一轮分析的故事线</span>有效处置量下滑 → 检查到采纳环节损失 → 抽样提出“缺少上下文与证据”的假设 → 随机实验验证处置卡片 → 满足门槛后扩大试验 → 用留存、质量和贡献毛利继续复盘。</div>
+</section>
+
+<section id="metrics">
+<div class="kicker">01 / METRICS</div><h2>先约定“成功”，再看数据</h2>
+<p>北极星设为<strong>每周 AI 辅助有效处置的去重异常单数</strong>。一单需要同时满足：用户明确采纳建议；首次进入助手后 24 小时内完成可核验处置；业务系统与核验流程确认结果；处置后 48 小时内没有重开。人工执行 AI 建议可以计入；转人工后完全独立解决的单另计人工结果。</p>
+<p>“复制答案”“继续追问”“生成结束”保留为过程信号。有效处置需要业务结果支持，因此能区分“答案被使用”和“事情被办成”。</p>
+<div class="table-wrap"><table><thead><tr><th>层级</th><th>案例指标</th><th>支持的判断</th></tr></thead><tbody><tr><td>北极星</td><td>周 AI 辅助有效处置单数</td><td>实际交付的业务价值有没有增加</td></tr><tr><td>结果</td><td>有效处置率、商户 W1/W4 价值留存、处理时长分布、累计贡献毛利</td><td>业务效率、持续价值和经营表现</td></tr><tr><td>过程</td><td>提交率、结果展示率、建议采纳率、首次有效处置时间</td><td>具体该改入口、输入、等待还是结果</td></tr><tr><td>护栏</td><td>关键事实错误率、端到端 P95 延迟、每有效处置 AI 成本、严重错误事件</td><td>改进是否带来质量、体验或成本问题</td></tr></tbody></table></div>
+<h3>三个统计单位必须分开</h3>
+<ul><li><strong>任务漏斗：</strong>按 <code>case_id</code> 去重；一个商户可有多单，一单多次生成仍只算一单。</li><li><strong>留存：</strong>按 <code>merchant_id</code> 去重；成员名单从首用时固定，包含后来没有回来的商户。</li><li><strong>成本：</strong>汇总所有实际请求，包含重试、失败、未采纳、未解决任务消耗的推理与检索成本。</li></ul>
+<p>周漏斗按首次进入助手的自然周归属，业务时区固定为 Asia/Shanghai。每单最多等待 72 小时完成“24 小时处置＋48 小时重开观察”；未成熟周标为暂定，成熟后回填。有效处置量是产品价值指标，不能据此声称这些单全部由 AI 增量创造。</p>
+<div class="decision"><span class="label">本步产出的决策</span>团队用“有效处置”评估价值，并固定分母、去重、时间窗和成熟条件。后续所有分析共用同一口径。</div>
+</section>
+
+<section id="events">
+<div class="kicker">02 / INSTRUMENTATION</div><h2>把每个指标落到可追溯的事件</h2>
+<div class="table-wrap"><table><thead><tr><th>事件</th><th>触发含义</th><th>关键字段／用途</th></tr></thead><tbody><tr><td><code>enter_assistant</code></td><td>首次从合格异常单进入助手</td><td>case_id、merchant_id、操作者、异常类型、首用渠道；固定任务分母</td></tr><tr><td><code>submit_case</code></td><td>提交本次问题及上下文</td><td>上下文字段完整度、输入方式；定位输入阻力</td></tr><tr><td><code>finish_generation</code></td><td>某次生成请求结束</td><td>attempt_id、错误码、模型／提示词／检索版本、tokens、成本、延迟</td></tr><tr><td><code>view_recommendation</code></td><td>建议实际展示给用户</td><td>recommendation_id、展示时间；区分服务生成与用户看到</td></tr><tr><td><code>adopt_recommendation</code></td><td>用户把建议纳入处理动作</td><td>采纳的建议、修改内容与执行路径；独立于复制、点赞</td></tr><tr><td><code>verify_resolution</code>／<code>reopen_case</code></td><td>业务核验完成／异常单重开</td><td>业务状态证据、核验结论、完成与重开时间；确认最终价值</td></tr></tbody></table></div>
+<p>各事件还需要事件唯一 ID、服务端时间、实验分组和版本号。保留可追溯、经脱敏的输入输出及证据版本；按权限管理诊断材料，支持后续 badcase 复核。</p>
+<h3>先过数据检查，再解释业务</h3>
+<p>对照客户端展示、服务端生成、工单核验三类日志，检查漏报、重复、延迟和版本变化。排除测试流量，并确认事件顺序与时间窗；跨周完成仍回填原进入周。以下演示假设数据完整性已通过检查，两个观察周覆盖相同星期结构且无已知促销或故障冲击。</p>
+<p>数据层建立“一单一行”的任务事实表。先重建同一异常单在允许时间窗内的有效路径，再计算漏斗；直接对每类事件分别去重，无法确认它们来自同一条有序路径。</p>
+<div class="decision"><span class="label">本步产出的决策</span>分析可以继续进入业务诊断；如果数据检查未通过，先修复采集或数据处理，暂缓产品归因。</div>
+</section>
+
+<section id="breakdown">
+<div class="kicker">03 / DECOMPOSITION</div><h2>用公式找到拖累结果的因子</h2>
+<div class="formula">有效处置单数<br>＝进入任务数 × 提交率 × 结果展示率 × 建议采纳率 × 处置确认率</div>
+<div class="table-wrap"><table><thead><tr><th>阶段／指标</th><th class="num">对照周</th><th class="num">诊断周</th></tr></thead><tbody><tr><td>进入助手</td><td class="num">1,000</td><td class="num">1,200</td></tr><tr><td>提交问题</td><td class="num">800</td><td class="num">840</td></tr><tr><td>实际看到建议</td><td class="num">720</td><td class="num">756</td></tr><tr><td>采纳建议</td><td class="num">400</td><td class="num">288</td></tr><tr><td>有效处置</td><td class="num">300</td><td class="num">216</td></tr><tr><td>提交率</td><td class="num">80.0%</td><td class="num">70.0%</td></tr><tr><td>结果展示率</td><td class="num">90.0%</td><td class="num">90.0%</td></tr><tr><td>建议采纳率</td><td class="num">55.6%</td><td class="num">38.1%</td></tr><tr><td>处置确认率</td><td class="num">75.0%</td><td class="num">75.0%</td></tr><tr><td><strong>整体有效处置率</strong></td><td class="num"><strong>30.0%</strong></td><td class="num"><strong>18.0%</strong></td></tr></tbody></table></div>
+<p class="small">模拟数据；单位为去重异常单。展示率＝看到建议／已提交，采纳率＝采纳／看到建议，处置确认率＝有效处置／已采纳。计算使用未四舍五入的精确比率。</p>
+<h3>把规模贡献与转化率贡献分开</h3>
+<p>按“规模 → 提交率 → 展示率 → 采纳率 → 处置确认率”做顺序替换：</p>
+<div class="table-wrap"><table><thead><tr><th>替换步骤</th><th class="num">模拟处置量</th><th class="num">本步算术贡献</th></tr></thead><tbody><tr><td>全部使用对照周参数</td><td class="num">300</td><td class="num">—</td></tr><tr><td>仅把进入量换成 1,200</td><td class="num">360</td><td class="num">+60</td></tr><tr><td>再把提交率换成 70%</td><td class="num">315</td><td class="num">−45</td></tr><tr><td>展示率仍为 90%</td><td class="num">315</td><td class="num">0</td></tr><tr><td>再把采纳率换成 288/756</td><td class="num">216</td><td class="num">−99</td></tr><tr><td>处置确认率仍为 75%</td><td class="num">216</td><td class="num">0</td></tr></tbody></table></div>
+<p>总变化：<strong>+60 − 45 − 99＝−84 单</strong>，对应 216 − 300。新增任务量本应增加产出，但提交和采纳环节的下降抵消了规模增长。</p>
+<p class="small">这是指定替换顺序下的算术分摊。更换顺序会重新分配交互贡献；它用于确定检查重点，不构成各因素影响的因果估计。</p>
+<div class="decision"><span class="label">本步产出的决策</span>优先检查“结果展示到采纳”，同时把输入环节列为第二条问题线索。新增流量和更换模型暂时没有成为首要动作的证据。</div>
+</section>
+
+<section id="funnel">
+<div class="kicker">04 / FUNNEL &amp; JOURNEY</div><h2>定位流失步骤，再追到具体原因</h2>
+<div class="table-wrap"><table><thead><tr><th>诊断周阶段</th><th class="num">异常单数</th><th class="num">单步转化率</th><th class="num">上一步流失</th></tr></thead><tbody><tr><td>进入助手</td><td class="num">1,200</td><td class="num">—</td><td class="num">—</td></tr><tr><td>提交问题</td><td class="num">840</td><td class="num">70.0%</td><td class="num">360</td></tr><tr><td>看到建议</td><td class="num">756</td><td class="num">90.0%</td><td class="num">84</td></tr><tr><td>采纳建议</td><td class="num">288</td><td class="num">38.1%</td><td class="num">468</td></tr><tr><td>有效处置</td><td class="num">216</td><td class="num">75.0%</td><td class="num">72</td></tr></tbody></table></div>
+<p>最大绝对流失是 <strong>468 单看到建议却没有采纳</strong>，其次是 360 单没有提交。生成或展示失败影响 84 单，需要关注，但当前不能据此把“换更快模型”列为第一优先级。</p>
+<h3>用 badcase、回放和访谈把“低采纳”变成可验证的问题</h3>
+<p>教学设定：从 468 单未采纳任务随机抽取 100 单，结合脱敏会话回放与用户解释标注主要原因。分组标签相互排斥，每单只标一个主要原因。</p>
+<div class="table-wrap"><table><thead><tr><th>模拟错因</th><th class="num">样本数</th><th>产品假设／待验证动作</th></tr></thead><tbody><tr><td>建议缺少最新订单状态，回答过于通用</td><td class="num">45</td><td>生成前补齐订单上下文，让结论对应当前状态</td></tr><tr><td>渠道规则或依据不明确、过期</td><td class="num">25</td><td>检索当前有效规则，展示来源与生效时间</td></tr><tr><td>知道原因但不知道下一步如何处理</td><td class="num">20</td><td>以“判断—依据—操作—预期结果”组织建议</td></tr><tr><td>暂时无需处理或其他原因</td><td class="num">10</td><td>单独识别，不自动归为模型错误</td></tr></tbody></table></div>
+<p>这份抽样提供的是机制线索，样本比例存在不确定性。“生成后离开”也可能是任务已经完成、暂时没有需求或选择人工，不应全部当成答案质量失败。修复排序还要综合受影响单量、可改善空间、实施成本和错误严重性。</p>
+<h3>同时保留重试、回流和人工转接</h3>
+<figure class="case-flow" id="task-process-map"><div class="flow-heading">图 2 · 一张异常单的处理、重试与核验</div><div class="flow-scroll" tabindex="0" aria-label="流程图，可横向滚动"><svg class="case-flow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1090" width="1000" height="1090" role="img" aria-labelledby="task-title task-desc">
+<title id="task-title">图 2：异常单处理、重试与业务核验</title><desc id="task-desc">一张异常单从进入、提交、生成展示、采纳执行到业务核验和重开观察。未采纳可补充重试、转人工或退出。人工独立结果另计，未成熟状态等待确认，满足明确采纳、24小时内处置、业务确认、48小时无重开才计有效处置。</desc>
+<defs><marker id="task-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#6e8798"/></marker><marker id="task-feedback" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#008489"/></marker><marker id="task-caution" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#b07839"/></marker></defs><style>
+text{font-family:"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif}
+.node rect{fill:#ffffff;stroke:#c9d8df;stroke-width:1.6}
+.node .title{fill:#19394d;font-size:20px;font-weight:700}
+.node .sub{fill:#566f80;font-size:15px;font-weight:400}
+.node.accent rect{fill:#e8f5f3;stroke:#008489;stroke-width:1.8}
+.node.dark rect{fill:#14384d;stroke:#14384d}
+.node.dark .title{fill:#ffffff}.node.dark .sub{fill:#d2e5eb}
+.node.wait rect{fill:#f5f7f8;stroke:#a8b9c4;stroke-dasharray:5 4}
+.node.warn rect{fill:#fff5e9;stroke:#b67b37}
+.node.danger rect{fill:#fbefed;stroke:#bd6c60}
+.decision-shape{fill:#f1f7fa;stroke:#557e96;stroke-width:1.8}
+.decision-title{fill:#24465c;font-size:19px;font-weight:700}
+.edge{fill:none;stroke:#6e8798;stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round}
+.edge.feedback{stroke:#008489;stroke-dasharray:7 5}
+.edge.caution{stroke:#b07839;stroke-dasharray:6 4}
+.edge-label{fill:#567081;font-size:13px;font-weight:500;paint-order:stroke;stroke:#ffffff;stroke-width:6px;stroke-linejoin:round}
+.edge-label.teal{fill:#007d83}.edge-label.amber{fill:#956023}
+a:hover .node rect{stroke:#007e83;stroke-width:2.6}
+</style><rect width="1000" height="1090" fill="#ffffff"/>
+<path class="edge " d="M 300 100 V 136" marker-end="url(#task-arrow)"/><path class="edge " d="M 300 212 V 248" marker-end="url(#task-arrow)"/><path class="edge " d="M 300 332 V 360" marker-end="url(#task-arrow)"/><path class="edge " d="M 300 472 V 508" marker-end="url(#task-arrow)"/><path class="edge " d="M 300 596 V 652" marker-end="url(#task-arrow)"/><path class="edge " d="M 300 740 V 790" marker-end="url(#task-arrow)"/><path class="edge " d="M 300 910 V 964" marker-end="url(#task-arrow)"/><path class="edge " d="M 425 416 H 580" marker-end="url(#task-arrow)"/><path class="edge " d="M 530 416 V 552 H 580" marker-end="url(#task-arrow)"/><path class="edge caution" d="M 480 290 H 760 V 372" marker-end="url(#task-caution)"/><path class="edge feedback" d="M 940 416 H 978 V 230 H 300 V 248" marker-end="url(#task-feedback)"/><path class="edge " d="M 480 696 H 580" marker-end="url(#task-arrow)"/><path class="edge feedback" d="M 760 740 V 770 H 510 V 716 H 480" marker-end="url(#task-feedback)"/><path class="edge caution" d="M 440 850 H 580" marker-end="url(#task-caution)"/><a href="#events" xlink:href="#events" aria-label="查看：合格异常单进入助手" tabindex="0"><g id="task-node-entry" class="node dark"><rect x="110" y="20" width="380" height="80" rx="12"/><text x="300" y="54.5" text-anchor="middle" class="title">合格异常单进入助手</text><text x="300" y="80.5" text-anchor="middle" class="sub">1,200 单；固定任务 ID 与首次进入时间</text></g></a><a href="#funnel" xlink:href="#funnel" aria-label="查看：提交问题与上下文" tabindex="0"><g id="task-node-submit" class="node "><rect x="120" y="136" width="360" height="76" rx="12"/><text x="300" y="168.5" text-anchor="middle" class="title">提交问题与上下文</text><text x="300" y="194.5" text-anchor="middle" class="sub">840 单</text></g></a><a href="#funnel" xlink:href="#funnel" aria-label="查看：生成并展示建议" tabindex="0"><g id="task-node-generation" class="node "><rect x="120" y="248" width="360" height="84" rx="12"/><text x="300" y="284.5" text-anchor="middle" class="title">生成并展示建议</text><text x="300" y="310.5" text-anchor="middle" class="sub">756 单看到建议；每次尝试记录成本</text></g></a><a href="#funnel" xlink:href="#funnel" aria-label="查看：用户是否采纳？" tabindex="0"><g id="task-node-adoption"><polygon class="decision-shape" points="300,360 425,416 300,472 175,416"/><text x="300" y="423" class="decision-title" text-anchor="middle">用户是否采纳？</text></g></a><a href="#funnel" xlink:href="#funnel" aria-label="查看：补充信息／重新生成" tabindex="0"><g id="task-node-retry" class="node accent"><rect x="580" y="372" width="360" height="88" rx="12"/><text x="760" y="410.5" text-anchor="middle" class="title">补充信息／重新生成</text><text x="760" y="436.5" text-anchor="middle" class="sub">同一任务；不重置首次进入时间</text></g></a><a href="#metrics" xlink:href="#metrics" aria-label="查看：采纳建议并按权限执行" tabindex="0"><g id="task-node-adopt" class="node "><rect x="120" y="508" width="360" height="88" rx="12"/><text x="300" y="546.5" text-anchor="middle" class="title">采纳建议并按权限执行</text><text x="300" y="572.5" text-anchor="middle" class="sub">288 单；按首次进入时间计算处置期限</text></g></a><a href="#metrics" xlink:href="#metrics" aria-label="查看：人工独立处理／退出" tabindex="0"><g id="task-node-human" class="node wait"><rect x="580" y="502" width="360" height="100" rx="12"/><text x="760" y="535" text-anchor="middle" class="title">人工独立处理／退出</text><text x="760" y="561" text-anchor="middle" class="sub">人工独立结果另计</text><text x="760" y="584" text-anchor="middle" class="sub">退出保留原因，不直接判成模型错误</text></g></a><a href="#metrics" xlink:href="#metrics" aria-label="查看：业务核验与重开观察" tabindex="0"><g id="task-node-verify" class="node "><rect x="120" y="652" width="360" height="88" rx="12"/><text x="300" y="690.5" text-anchor="middle" class="title">业务核验与重开观察</text><text x="300" y="716.5" text-anchor="middle" class="sub">确认处置结果，观察其后 48 小时</text></g></a><a href="#metrics" xlink:href="#metrics" aria-label="查看：仍在处理或观察窗口内" tabindex="0"><g id="task-node-pending" class="node wait"><rect x="580" y="652" width="360" height="88" rx="12"/><text x="760" y="690.5" text-anchor="middle" class="title">仍在处理或观察窗口内</text><text x="760" y="716.5" text-anchor="middle" class="sub">标为待确认，继续按计划观察</text></g></a><a href="#metrics" xlink:href="#metrics" aria-label="查看：符合有效处置口径？" tabindex="0"><g id="task-node-outcome"><polygon class="decision-shape" points="300,790 440,850 300,910 160,850"/><text x="300" y="845" class="decision-title" text-anchor="middle">符合有效</text><text x="300" y="869" class="decision-title" text-anchor="middle">处置口径？</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：未达到本次处置口径" tabindex="0"><g id="task-node-not-effective" class="node warn"><rect x="580" y="798" width="360" height="104" rx="12"/><text x="760" y="833" text-anchor="middle" class="title">未达到本次处置口径</text><text x="760" y="859" text-anchor="middle" class="sub">超时／核验不通过／观察期重开</text><text x="760" y="882" text-anchor="middle" class="sub">进入后续处理与问题复核</text></g></a><a href="#metrics" xlink:href="#metrics" aria-label="查看：AI 辅助有效处置" tabindex="0"><g id="task-node-effective" class="node dark"><rect x="100" y="964" width="400" height="96" rx="12"/><text x="300" y="1006.5" text-anchor="middle" class="title">AI 辅助有效处置</text><text x="300" y="1032.5" text-anchor="middle" class="sub">216 单；同一异常单只计一次</text></g></a><text x="331" y="495" text-anchor="middle" class="edge-label ">采纳</text><text x="502" y="399" text-anchor="middle" class="edge-label ">未采纳</text><text x="530" y="492" text-anchor="middle" class="edge-label ">其他</text><text x="530" y="510" text-anchor="middle" class="edge-label ">选择</text><text x="639" y="274" text-anchor="middle" class="edge-label amber">生成失败／信息不足</text><text x="659" y="216" text-anchor="middle" class="edge-label teal">补齐后重试</text><text x="530" y="678" text-anchor="middle" class="edge-label ">未成熟</text><text x="655" y="758" text-anchor="middle" class="edge-label teal">窗口完成后复核</text><text x="511" y="832" text-anchor="middle" class="edge-label amber">不符合</text><text x="339" y="943" text-anchor="middle" class="edge-label ">符合</text>
+</svg></div><figcaption><strong>统计边界：</strong>同一 case_id 的重试不增加任务数，也不重置首次进入时间；所有请求累计成本。人工按照 AI 建议执行可进入主线核验，人工完全独立解决则单独统计。最终成功需要同时满足明确采纳、24 小时内处置、业务确认以及处置后 48 小时无重开。</figcaption></figure>
+<p>真实流程允许用户补充信息、再次生成或转人工。因此任务漏斗统计“该单是否最终走到某一步”，另看首轮成功率、平均重试次数、等待中退出率、结果展示后退出率和人工接管率。重试不增加任务漏斗分子，但每次请求都增加成本。</p>
+<div class="decision"><span class="label">本步产出的决策</span>第一轮验证“带订单上下文和有效规则证据的处置卡片”。输入预填与第一单引导留待下一轮独立验证；继续追问次数上升不能直接当成成功。</div>
+</section>
+
+<section id="retention">
+<div class="kicker">05 / RETENTION &amp; ACTIVATION</div><h2>一次有用之后，商户是否会继续使用？</h2>
+<p>本案例假设商户按周处理若干异常任务，因此主看周价值留存。首次进入真实任务的时间记为 t₀；按首用自然周组建固定同期群，但每个商户的留存窗口统一按首用后的相对天数计算：</p>
+<ul><li><strong>W0：</strong>[t₀, t₀＋7 天)。</li><li><strong>W1：</strong>[t₀＋7 天, t₀＋14 天)。</li><li><strong>W2：</strong>[t₀＋14 天, t₀＋21 天)；W4：[t₀＋28 天, t₀＋35 天)。</li><li><strong>回访事件：</strong>窗口内至少完成一次有效处置，按处置完成时间归属，并等待之后 48 小时的重开核验。</li></ul>
+<div class="formula">W1 价值留存率<br>＝同一首用批次中，在 W1 至少完成一次有效处置的商户数<br>÷该首用批次全部商户数</div>
+<p>看曲线时，早期大幅下降提示需要检查首次体验，后期平台提示存在持续使用人群，周期性回升则要对照任务周期或运营活动。仅凭曲线形状不能确认某一个原因。</p>
+<h3>寻找候选激活动作</h3>
+<p>取一个独立的 1,000 家首用商户批次 D。将“首用 24 小时内完成第一次有效处置，随后通过核验”设为候选激活动作，比较之后的 W1 留存：</p>
+<div class="table-wrap"><table><thead><tr><th>首用表现</th><th class="num">商户数</th><th class="num">W1 留存商户</th><th class="num">W1 留存率</th></tr></thead><tbody><tr><td>完成候选激活动作</td><td class="num">400</td><td class="num">180</td><td class="num">45.0%</td></tr><tr><td>没有完成</td><td class="num">600</td><td class="num">80</td><td class="num">13.3%</td></tr><tr><td>合计</td><td class="num">1,000</td><td class="num">260</td><td class="num">26.0%</td></tr></tbody></table></div>
+<p><strong>可提出的假设：</strong>帮助新商户尽快完成第一单，可能提升后续留存。具体可测试从真实异常单直接进入、自动带入允许使用的字段、给出场景模板，以及展示第一单的清晰处理路径；同时记录从首次进入到首次价值的时间。</p>
+<p>需求强度、商户熟练度和任务难度都可能同时影响激活与留存，因此 45% 与 13.3% 的差异只能产生假设，不能直接当作引导功能的预期增幅。</p>
+<p>新增商户、持续活跃商户和沉默至少四周后回流的商户分别观察，避免混合比例掩盖变化。对于当周没有异常任务的商户，可补充“有处理机会的商户继续使用率”；固定同期群价值留存仍保留，以免改变分母后失去可比性。</p>
+<div class="decision"><span class="label">本步产出的决策</span>将“首次有效处置”作为激活假设，把第一单引导列入后续实验；以周窗口和需求机会辅助解释留存。</div>
+</section>
+
+<section id="cohort">
+<div class="kicker">06 / COHORTS &amp; COMPOSITION</div><h2>总体变差，可能藏着各组变好</h2>
+<p>以下是不同首用批次的模拟价值留存；只填写该批次全部商户都已完成观察窗口及核验期的格子，未成熟显示“—”。</p>
+<div class="table-wrap"><table><thead><tr><th>首用批次</th><th class="num">商户数</th><th class="num">W1</th><th class="num">W2</th><th class="num">W4</th></tr></thead><tbody><tr><td>A</td><td class="num">1,000</td><td class="num">36%</td><td class="num">30%</td><td class="num">24%</td></tr><tr><td>B</td><td class="num">1,000</td><td class="num">34%</td><td class="num">29%</td><td class="num">23%</td></tr><tr><td>C</td><td class="num">1,000</td><td class="num">28%</td><td class="num">23%</td><td class="num">—</td></tr><tr><td>D</td><td class="num">1,000</td><td class="num">26%</td><td class="num">—</td><td class="num">—</td></tr></tbody></table></div>
+<p>横向看 A，可观察同一批商户在不同使用年龄的表现；纵向看 W1，可发现新批次从 36% 降到 26%。这定位了需要调查的变化，尚不能区分版本、客群或季节因素。</p>
+<h3>再按首用时固定的渠道拆开</h3>
+<div class="table-wrap"><table><thead><tr><th>渠道</th><th>A 商户数</th><th>A W1 留存</th><th>D 商户数</th><th>D W1 留存</th></tr></thead><tbody><tr><td>客户成功陪同上线</td><td>800</td><td>320/800＝40%</td><td>200</td><td>84/200＝42%</td></tr><tr><td>自助上线</td><td>200</td><td>40/200＝20%</td><td>800</td><td>176/800＝22%</td></tr><tr><td><strong>总体</strong></td><td><strong>1,000</strong></td><td><strong>36%</strong></td><td><strong>1,000</strong></td><td><strong>26%</strong></td></tr></tbody></table></div>
+<p>两个渠道的留存各提高了 2 个百分点，但自助渠道的占比从 20% 增至 80%，拉低总体。这是本案例中的辛普森悖论。</p>
+<div class="formula">把 D 标准化到 A 的渠道结构：<br>80% × 42% ＋ 20% × 22% ＝ 38%<br>相对 A 的 36%，同权重对比提高 2 个百分点。</div>
+<p>因此，不能把总体 36% → 26% 直接解释为产品退化。数据支持进一步研究自助上线路径及渠道内客群；固定渠道权重也不等于已控制商户规模、任务难度等全部混杂因素。</p>
+<div class="decision"><span class="label">本步产出的决策</span>不凭整体留存下滑回滚版本。重点调查自助商户的首单体验，并在后续实验中按首用渠道、新老商户等预先分层。</div>
+</section>
+
+<section id="experiment">
+<div class="kicker">07 / CONTROLLED EXPERIMENT</div><h2>让改动接受验证，再决定推广</h2>
+<p>前面的分析给出优先级和解释候选。要验证处置卡片的影响，设计同期随机对照；合理的随机化和实验设计为因果判断提供依据。<a href="#ref3">[3]</a></p>
+<div class="table-wrap"><table><thead><tr><th>实验设计项</th><th>本案例约定</th></tr></thead><tbody><tr><td>被验证的假设</td><td>基于最新订单状态与有效规则、展示依据和操作步骤的处置卡片，可提高首单有效处置率</td></tr><tr><td>对照与实验</td><td>A：原建议卡片；B：新版处置卡片。模型版本、入口和新手引导保持一致</td></tr><tr><td>入组与分流</td><td>首次进入合格异常单助手时、看到任何实验内容前入组；按 merchant_id 1:1 随机固定分组，按预设渠道等分层</td></tr><tr><td>主要终点</td><td>每家商户入组的第一张合格异常单是否有效处置；全部入组商户按原始分组进入分母，包括未提交、未采纳者</td></tr><tr><td>样本与期限</td><td>双侧 α＝0.05、80% 检验效能、基线 18%、希望检测至少 3 个百分点，正态近似约需每组 2,737 家；计划每组 3,000 家</td></tr><tr><td>观察安排</td><td>预设完整两周招募、每组至少 3,000 家，等待最后样本成熟；不足样本则按预设整周规则延长，不根据中途显著性任意提前结束</td></tr><tr><td>扩大条件</td><td>点估计提升至少 3 个百分点、95% 区间下界高于 0，并通过预先设定的质量、延迟和成本护栏</td></tr></tbody></table></div>
+<p>之所以每家只取第一张单作为主要检验，是为了让分流单位与分析单位匹配。同一商户的后续多张单用作辅助分析；若纳入推断，需要处理商户内相关性。实验结果识别这套处置卡片组合的效果，不能拆成每个子功能各自的贡献。</p>
+<h3>模拟结果</h3>
+<div class="table-wrap"><table><thead><tr><th>指标</th><th class="num">A 对照</th><th class="num">B 新版</th><th>解释</th></tr></thead><tbody><tr><td>入组商户／首单</td><td class="num">3,000</td><td class="num">3,000</td><td>每家一张主要分析单</td></tr><tr><td>有效处置首单</td><td class="num">540</td><td class="num">750</td><td>所有样本已成熟</td></tr><tr><td><strong>首单有效处置率</strong></td><td class="num"><strong>18%</strong></td><td class="num"><strong>25%</strong></td><td><strong>提升 7 个百分点</strong></td></tr><tr><td>端到端 P95 延迟</td><td class="num">12 秒</td><td class="num">13 秒</td><td>均低于本例 15 秒护栏</td></tr><tr><td>主要分析单的总 AI 成本</td><td class="num">486 元</td><td class="num">600 元</td><td>包括失败、未采纳和所有重试</td></tr><tr><td>每有效处置 AI 成本</td><td class="num">0.90 元</td><td class="num">0.80 元</td><td>均低于本例 1 元护栏</td></tr><tr><td>盲审关键事实错误</td><td class="num">4/500＝0.8%</td><td class="num">3/500＝0.6%</td><td>作为小样本质量信号继续观察</td></tr></tbody></table></div>
+<div class="formula">绝对提升＝25% − 18%＝7 个百分点<br>相对提升＝(25% − 18%) ÷ 18% ≈ 38.9%<br>两独立商户比例差的近似 95% 置信区间：＋4.93 至＋9.07 个百分点</div>
+<p>教学设定的上线门槛还包括：完整通过严重错误专项回归、未发现已确认 P0 问题、完成随机分流及数据质量检查，并持续抽检。0.8% 与 0.6% 不能据此宣称错误率显著改善；有限样本中未发现严重问题，也不能证明风险已经为零。</p>
+<div class="decision"><span class="label">本步产出的决策</span>模拟结果支持扩大试验覆盖范围，并在新增覆盖商户中保留随机对照；具体档位按预先制定的放量计划执行。W4 留存和更长窗口的贡献毛利成熟后，再评估持续价值；首单改善暂不等于长期留存已经提升。</div>
+</section>
+
+<section id="dashboard">
+<div class="kicker">08 / MONITORING</div><h2>把分析变成每周都能执行的管理机制</h2>
+<p>看板分为总览、过程和明细三层。初始只放 9 类主指标，详细错误分布、时延、成本分布和人工接管放到下钻页面。</p>
+<div class="table-wrap"><table><thead><tr><th>看板层</th><th>指标</th><th>口径与动作</th></tr></thead><tbody><tr><td>总览</td><td>①周有效处置量；②整体有效处置率；③新商户 W1/W4 价值留存</td><td>每个数标样本量、成熟状态；产品负责人每周判断价值与持续使用</td></tr><tr><td>过程</td><td>④提交率；⑤展示率；⑥采纳率</td><td>按任务类型、首用渠道、新老商户、模型／检索版本下钻，定位具体责任环节</td></tr><tr><td>质量与经营</td><td>⑦关键事实错误率及严重事件；⑧端到端 P95；⑨每有效处置 AI 成本</td><td>质量抽检按样本标分母；性能与成本由服务、请求账单和任务事实表关联</td></tr></tbody></table></div>
+<p>指标字典记录定义、分子、分母、时间窗、数据源、刷新频率和负责人。采集类信号可分钟级刷新，转化等成熟指标按天回填，周留存按窗口成熟更新。</p>
+<h3>一次模拟告警如何处理</h3>
+<ol><li><strong>先确认数据。</strong>采纳率突然降低，检查事件上报、管道延迟、时区、样本量和核验是否成熟。</li><li><strong>拆群体。</strong>发现下降集中在某支付渠道的退款异常，其他类型没有同步下降。</li><li><strong>对照改动。</strong>检查该渠道规则版本和检索索引更新，提出“当前规则未被正确召回”的假设。</li><li><strong>验证机制。</strong>抽样核对证据，用同一任务重放新旧检索路径；安全范围内再做同期小流量对照。</li><li><strong>采取动作。</strong>证实异常后回退相关检索配置、修复索引，监控采纳和有效处置恢复情况。</li></ol>
+<p>阈值需要从历史波动、最低样本量和业务容忍度设置。教学示例可采用“同渠道同类任务采纳率较可比基线低 8 个百分点，且连续两个窗口各有至少 200 单”触发调查；这只是排查信号，不自动证明产品退化。确认的严重错误立即走处置流程。</p>
+<div class="decision"><span class="label">本步产出的决策</span>看板上的每个异常都有负责人、排查入口和后续动作；按成熟窗口比较，避免被未完成观察的数据误导。</div>
+</section>
+
+<section id="evaluation">
+<div class="kicker">09 / EVALUATION LOOP</div><h2>把流失证据送回评测，再决定是否换模型</h2>
+<figure class="case-flow" id="model-process-map"><div class="flow-heading">图 3 · 从线上坏例到模型与产品发布</div><div class="flow-scroll" tabindex="0" aria-label="流程图，可横向滚动"><svg class="case-flow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1240" width="1000" height="1240" role="img" aria-labelledby="evaluation-loop-title evaluation-loop-desc">
+<title id="evaluation-loop-title">图 3：badcase回流与模型发布决策</title><desc id="evaluation-loop-desc">先复核线上信号，确认产品问题后按风险分级。P0立即限制相关路径，P1下一迭代修复，P2批量处理。修复后独立回归并通过关键支付场景门槛，才进入同期小流量对照。未成熟或证据不足保持范围，确认有害暂停回退，成熟结果支持改善且护栏满足后扩大，新的坏例继续回流。</desc>
+<defs><marker id="evaluation-loop-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#6e8798"/></marker><marker id="evaluation-loop-feedback" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#008489"/></marker><marker id="evaluation-loop-caution" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 0 0 L 9 4.5 L 0 9 Z" fill="#b07839"/></marker></defs><style>
+text{font-family:"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif}
+.node rect{fill:#ffffff;stroke:#c9d8df;stroke-width:1.6}
+.node .title{fill:#19394d;font-size:20px;font-weight:700}
+.node .sub{fill:#566f80;font-size:15px;font-weight:400}
+.node.accent rect{fill:#e8f5f3;stroke:#008489;stroke-width:1.8}
+.node.dark rect{fill:#14384d;stroke:#14384d}
+.node.dark .title{fill:#ffffff}.node.dark .sub{fill:#d2e5eb}
+.node.wait rect{fill:#f5f7f8;stroke:#a8b9c4;stroke-dasharray:5 4}
+.node.warn rect{fill:#fff5e9;stroke:#b67b37}
+.node.danger rect{fill:#fbefed;stroke:#bd6c60}
+.decision-shape{fill:#f1f7fa;stroke:#557e96;stroke-width:1.8}
+.decision-title{fill:#24465c;font-size:19px;font-weight:700}
+.edge{fill:none;stroke:#6e8798;stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round}
+.edge.feedback{stroke:#008489;stroke-dasharray:7 5}
+.edge.caution{stroke:#b07839;stroke-dasharray:6 4}
+.edge-label{fill:#567081;font-size:13px;font-weight:500;paint-order:stroke;stroke:#ffffff;stroke-width:6px;stroke-linejoin:round}
+.edge-label.teal{fill:#007d83}.edge-label.amber{fill:#956023}
+a:hover .node rect{stroke:#007e83;stroke-width:2.6}
+</style><rect width="1000" height="1240" fill="#ffffff"/>
+<path class="edge " d="M 500 98 V 144" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 228 V 262" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 370 V 399" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 383 H 170 V 399" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 383 H 830 V 399" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 170 509 V 540 H 500 V 570" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 509 V 570" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 830 509 V 540 H 500" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 658 V 694" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 806 V 848" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 944 V 980" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 500 1096 V 1146" marker-end="url(#evaluation-loop-arrow)"/><path class="edge " d="M 680 186 H 725" marker-end="url(#evaluation-loop-arrow)"/><path class="edge caution" d="M 630 750 H 710" marker-end="url(#evaluation-loop-caution)"/><path class="edge feedback" d="M 840 706 V 614 H 730" marker-end="url(#evaluation-loop-feedback)"/><path class="edge " d="M 370 1038 H 290" marker-end="url(#evaluation-loop-arrow)"/><path class="edge feedback" d="M 165 988 V 896 H 310" marker-end="url(#evaluation-loop-feedback)"/><path class="edge caution" d="M 630 1038 H 710" marker-end="url(#evaluation-loop-caution)"/><path class="edge feedback" d="M 960 1038 H 990 V 120 H 500 V 144" marker-end="url(#evaluation-loop-feedback)"/><path class="edge feedback" d="M 270 1190 H 20 V 56 H 270" marker-end="url(#evaluation-loop-feedback)"/><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：收集线上信号" tabindex="0"><g id="evaluation-loop-node-signal" class="node dark"><rect x="270" y="14" width="460" height="84" rx="12"/><text x="500" y="50.5" text-anchor="middle" class="title">收集线上信号</text><text x="500" y="76.5" text-anchor="middle" class="sub">未采纳／点踩／用户纠错／业务核验错误</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：复核事件与业务事实" tabindex="0"><g id="evaluation-loop-node-review" class="node "><rect x="320" y="144" width="360" height="84" rx="12"/><text x="500" y="180.5" text-anchor="middle" class="title">复核事件与业务事实</text><text x="500" y="206.5" text-anchor="middle" class="sub">确认是否为真实产品问题</text></g></a><a href="#events" xlink:href="#events" aria-label="查看：数据问题／其他原因" tabindex="0"><g id="evaluation-loop-node-other" class="node wait"><rect x="725" y="142" width="250" height="88" rx="12"/><text x="850" y="180.5" text-anchor="middle" class="title">数据问题／其他原因</text><text x="850" y="206.5" text-anchor="middle" class="sub">修采集或保留原因标签</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：按风险与影响分级" tabindex="0"><g id="evaluation-loop-node-severity"><polygon class="decision-shape" points="500,262 630,316 500,370 370,316"/><text x="500" y="323" class="decision-title" text-anchor="middle">按风险与影响分级</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：P0 · 严重错误" tabindex="0"><g id="evaluation-loop-node-p0" class="node danger"><rect x="30" y="399" width="280" height="110" rx="12"/><text x="170" y="437" text-anchor="middle" class="title">P0 · 严重错误</text><text x="170" y="463" text-anchor="middle" class="sub">立即限制路径、人工接管</text><text x="170" y="486" text-anchor="middle" class="sub">同步修复与专项回归</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：P1 · 高频问题" tabindex="0"><g id="evaluation-loop-node-p1" class="node accent"><rect x="360" y="399" width="280" height="110" rx="12"/><text x="500" y="437" text-anchor="middle" class="title">P1 · 高频问题</text><text x="500" y="463" text-anchor="middle" class="sub">下一迭代重点修复</text><text x="500" y="486" text-anchor="middle" class="sub">关注该场景有效处置率</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：P2 · 低影响长尾" tabindex="0"><g id="evaluation-loop-node-p2" class="node "><rect x="690" y="399" width="280" height="110" rx="12"/><text x="830" y="437" text-anchor="middle" class="title">P2 · 低影响长尾</text><text x="830" y="463" text-anchor="middle" class="sub">周期汇总处理</text><text x="830" y="486" text-anchor="middle" class="sub">纳入常规回归</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：定位修复与独立回归" tabindex="0"><g id="evaluation-loop-node-repair" class="node "><rect x="270" y="570" width="460" height="88" rx="12"/><text x="500" y="608.5" text-anchor="middle" class="title">定位修复与独立回归</text><text x="500" y="634.5" text-anchor="middle" class="sub">关键支付场景单列门槛</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：离线门槛通过？" tabindex="0"><g id="evaluation-loop-node-offline"><polygon class="decision-shape" points="500,694 630,750 500,806 370,750"/><text x="500" y="757" class="decision-title" text-anchor="middle">离线门槛通过？</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：不发布，返回修复" tabindex="0"><g id="evaluation-loop-node-no-release" class="node warn"><rect x="710" y="706" width="260" height="88" rx="12"/><text x="840" y="744.5" text-anchor="middle" class="title">不发布，返回修复</text><text x="840" y="770.5" text-anchor="middle" class="sub">总体分提高不能替代关键门槛</text></g></a><a href="#experiment" xlink:href="#experiment" aria-label="查看：同期小流量对照" tabindex="0"><g id="evaluation-loop-node-online" class="node "><rect x="310" y="848" width="380" height="96" rx="12"/><text x="500" y="890.5" text-anchor="middle" class="title">同期小流量对照</text><text x="500" y="916.5" text-anchor="middle" class="sub">有效处置／错误／延迟／单位成本</text></g></a><a href="#experiment" xlink:href="#experiment" aria-label="查看：线上结果与护栏支持什么动作？" tabindex="0"><g id="evaluation-loop-node-online-result"><polygon class="decision-shape" points="500,980 630,1038 500,1096 370,1038"/><text x="500" y="1033" class="decision-title" text-anchor="middle">线上结果与护栏</text><text x="500" y="1057" class="decision-title" text-anchor="middle">支持什么动作？</text></g></a><a href="#experiment" xlink:href="#experiment" aria-label="查看：保持范围，继续观察" tabindex="0"><g id="evaluation-loop-node-observe" class="node wait"><rect x="40" y="988" width="250" height="100" rx="12"/><text x="165" y="1032.5" text-anchor="middle" class="title">保持范围，继续观察</text><text x="165" y="1058.5" text-anchor="middle" class="sub">窗口未成熟或证据不足</text></g></a><a href="#evaluation" xlink:href="#evaluation" aria-label="查看：调整方案；必要时回退" tabindex="0"><g id="evaluation-loop-node-rollback" class="node warn"><rect x="710" y="988" width="250" height="100" rx="12"/><text x="835" y="1021" text-anchor="middle" class="title">调整方案；必要时回退</text><text x="835" y="1047" text-anchor="middle" class="sub">有害或越界：暂停／回退</text><text x="835" y="1070" text-anchor="middle" class="sub">未达目标：返回修复</text></g></a><a href="#dashboard" xlink:href="#dashboard" aria-label="查看：扩大范围，持续监控与回流" tabindex="0"><g id="evaluation-loop-node-rollout" class="node dark"><rect x="270" y="1146" width="460" height="88" rx="12"/><text x="500" y="1184.5" text-anchor="middle" class="title">扩大范围，持续监控与回流</text><text x="500" y="1210.5" text-anchor="middle" class="sub">W1／W4 按各自成熟窗口复盘</text></g></a><text x="561" y="246" text-anchor="middle" class="edge-label ">确认产品问题</text><text x="702" y="169" text-anchor="middle" class="edge-label ">其他</text><text x="670" y="733" text-anchor="middle" class="edge-label amber">不通过</text><text x="534" y="832" text-anchor="middle" class="edge-label ">通过</text><text x="330" y="1006" text-anchor="middle" class="edge-label ">未成熟</text><text x="330" y="1024" text-anchor="middle" class="edge-label ">或证据不足</text><text x="670" y="1006" text-anchor="middle" class="edge-label amber">效果未达</text><text x="670" y="1024" text-anchor="middle" class="edge-label amber">或有害、越界</text><text x="500" y="1124" text-anchor="middle" class="edge-label ">成熟结果支持改善，且护栏满足</text>
+</svg></div><figcaption><strong>发布边界：</strong>离线门槛未通过时不发布；线上确认有害时暂停或回退。观察窗口未成熟、证据不足时保持范围并按预定方案观察。任何阶段确认 P0 都立即处置；总体评测分不能覆盖关键支付场景的退化。</figcaption></figure>
+<h3>badcase 采用风险与影响共同分级</h3>
+<div class="table-wrap"><table><thead><tr><th>级别</th><th>本案例中的例子</th><th>处理与回流</th></tr></thead><tbody><tr><td>P0</td><td>对资金状态作出关键错误判断，或建议越权操作</td><td>确认后立即限制受影响路径、人工接管、修复并加入必过专项回归；低频也可为 P0</td></tr><tr><td>P1</td><td>高频退款场景遗漏当前渠道规则，持续导致未采纳</td><td>进入下一迭代修复和重点评测，跟踪场景有效处置率</td></tr><tr><td>P2</td><td>低影响长尾表达、结构或格式问题</td><td>批量处理并纳入周期性回归</td></tr></tbody></table></div>
+<p>每条样本记录任务类型、上下文、输出、引用证据、用户修改、业务结果、错因与版本。将用于开发调试的样本和独立回归测试样本分开，避免只记住已经修过的题；补充正常成功样本，防止回流集合只代表投诉用户。</p>
+<div class="formula">线上未采纳／错误结果 → 复核标注 → 错因分级 → 修复 → 独立回归 → 小流量上线 → 线上有效处置与护栏复查</div>
+<h3>模型总体得分更高，是否就值得替换？</h3>
+<p>再设一个独立的模型替换评估。M1 与 M2 在同一套 1,000 条脱敏任务上盲评，其中 200 条属于关键支付状态判断子集。以下均为模拟结果。</p>
+<div class="table-wrap"><table><thead><tr><th>离线评测项</th><th class="num">M1</th><th class="num">M2</th></tr></thead><tbody><tr><td>全量任务通过率</td><td class="num">910/1,000＝91%</td><td class="num">940/1,000＝94%</td></tr><tr><td>关键支付状态子集</td><td class="num">194/200＝97%</td><td class="num">184/200＝92%</td></tr></tbody></table></div>
+<p>M2 的平均分提高，但关键业务子集退化，需要逐条复核差异和严重程度。按预先设置的关键场景门槛，当前不扩大替换。修复并通过回归后，再以固定商户分组测试模型差异，保持处置卡片等产品配置一致。</p>
+<p>线上模型比较同时看有效处置率、质量错误、端到端延迟和每有效处置成本；新旧两组跟踪同龄 W1/W4 留存。离线回放和跨时间同期群用于找问题，模型的增量效果仍由恰当设计的同期对照检验。<a href="#ref3">[3]</a></p>
+<div class="decision"><span class="label">本步产出的决策</span>先解决业务关键场景的退化，再进入模型灰度；用线上坏例和业务结果更新评测分布。</div>
+</section>
+
+<section id="economics">
+<div class="kicker">10 / REVENUE COHORTS</div><h2>最后检查：留得住，也要算清成本</h2>
+<p>另取一批已完整观察四周的 100 家开通商户，按首用批次固定成员。统计截至第四周的累计确认收入，并扣除该批次产生的推理、检索及可归属直接服务支持成本。</p>
+<div class="table-wrap"><table><thead><tr><th>四周累计项目</th><th class="num">金额</th></tr></thead><tbody><tr><td>AI 增值服务确认收入</td><td class="num">20,000 元</td></tr><tr><td>推理与检索成本</td><td class="num">3,000 元</td></tr><tr><td>直接服务支持等可归属变动成本</td><td class="num">5,000 元</td></tr><tr><td><strong>累计贡献毛利</strong></td><td class="num"><strong>12,000 元</strong></td></tr><tr><td>该批 100 家商户平均贡献毛利</td><td class="num">120 元／家</td></tr></tbody></table></div>
+<p>若该批获客支出为 10,000 元，CAC 为 100 元／家，这组教学数据中四周贡献毛利已覆盖获客支出。分母仍为原始 100 家，包含后来不再使用的商户。</p>
+<p>再做一个成本情景：如果模型更换后推理与检索成本升到 9,000 元，收入和其他成本暂时不变，则贡献毛利变成 6,000 元、60 元／家，四周内尚未覆盖同样的 CAC。</p>
+<p class="small">这是“截至第四周的累计贡献毛利”，尚未代表生命周期 LTV；本例扣除的是所列可归属变动成本，不包括全部研发及管理等固定开支，因此也不等于最终利润。成本变化情景不是已完成的模型实验结果。</p>
+<div class="decision"><span class="label">本步产出的决策</span>模型、渠道和推广预算以同龄队列的贡献表现复核；收入、增长和推理成本放在一起解释。</div>
+</section>
+
+<section id="decisions">
+<div class="kicker">11 / PRODUCT DECISIONS</div><h2>所有方法最终收敛成四项行动</h2>
+<div class="table-wrap"><table><thead><tr><th>行动</th><th>证据链</th><th>验证或推进条件</th></tr></thead><tbody><tr><td><strong>优先改处置卡片</strong></td><td>采纳环节算术贡献 −99 单；468 单展示后未采纳；样本提示上下文、依据和步骤不足</td><td>模拟随机实验首单有效处置率 18% → 25%，护栏通过后按计划扩大</td></tr><tr><td><strong>下一轮试验第一单引导</strong></td><td>360 单未提交；激活与后续留存相关；自助商户基数增加且留存相对低</td><td>独立随机实验检验，观察首次价值时间与成熟 W1/W4 留存</td></tr><tr><td><strong>暂缓扩大模型替换</strong></td><td>总体离线分提高，但关键支付子集从 97% 降至 92%</td><td>修复关键退化并通过回归，再独立比较线上质量、延迟和单位有效处置成本</td></tr><tr><td><strong>建立持续复盘</strong></td><td>指标、埋点、看板、badcase、同期群与贡献毛利已经连接</td><td>固定负责人和节奏，维护同口径、完整窗口与原始分母</td></tr></tbody></table></div>
+<blockquote class="summary">这次分析把“下一版应该做什么”落到证据上：优先验证有业务上下文和依据的处置建议，再检验第一单引导；每次扩大流量都同时看有效处置、持续使用、质量和成本。</blockquote>
+<h3>方法与产出的对应关系</h3>
+<p>指标分层产出共同成功标准；公式拆解产出排查顺序；埋点产出可信事实表；漏斗和流程产出问题清单；留存产出激活假设；同期群与分群产出可比解释；随机实验产出改动证据；看板产出监控动作；badcase 回流产出评测任务；营收同期群产出经营约束。</p>
+<p>如果用于作品集，可保留“业务问题—口径—证据—假设—实验—决策”的结构，并明确标识练习性质。真正迁移到项目时，需要替换为能够追溯的业务数据与实际实施记录。</p>
+</section>
+
+<section id="sql">
+<div class="kicker">APPENDIX / REPRODUCIBLE METRICS</div><h2>SQL 与 BI：让指标可以复核</h2>
+<p>数据加工链路为：原始事件与业务状态 → 清洗及有效路径重建 → 任务／商户事实表 → 统一指标 → 按维度下钻的看板。BI 中“数据源”对应事实表，“指标”对应计算口径，“维度”对应渠道、任务类型和版本，“仪表盘”组织这些结果。</p>
+<h3>A. 从一单一行事实表核对漏斗</h3>
+<p>下面是通用 SQL 示意，<code>:cohort_start</code> 等为调用侧绑定参数。前提是事实表已按有效事件顺序与窗口构造 <code>reached_stage</code>：1 进入、2 提交、3 看到、4 采纳、5 有效处置；一单只能有一行。<code>mature_after</code> 固定为首次进入后 72 小时。原始多轮事件需要先重建合法路径，不能各取最早时间后假定已经满足顺序。</p>
+<pre><code>SELECT
+  COUNT(*) AS entered_cases,
+  SUM(CASE WHEN reached_stage &gt;= 2 THEN 1 ELSE 0 END)
+    AS submitted_cases,
+  SUM(CASE WHEN reached_stage &gt;= 3 THEN 1 ELSE 0 END)
+    AS viewed_cases,
+  SUM(CASE WHEN reached_stage &gt;= 4 THEN 1 ELSE 0 END)
+    AS adopted_cases,
+  SUM(CASE WHEN reached_stage &gt;= 5 THEN 1 ELSE 0 END)
+    AS effective_cases,
+  SUM(total_ai_cost) /
+    NULLIF(SUM(CASE WHEN reached_stage &gt;= 5
+                    THEN 1.0 ELSE 0 END), 0)
+    AS ai_cost_per_effective_case
+FROM payment_ai_case_fact
+WHERE is_eligible = 1
+  AND first_entered_at &gt;= :cohort_start
+  AND first_entered_at &lt; :cohort_end;
+-- 调用前检查该完整周期：MAX(mature_after) &lt;= :as_of。
+-- 如未全部成熟，整期标为暂定，不删掉未成熟单后冒充完整周。
+-- total_ai_cost 包含该任务截至核算截点的全部请求与重试成本。</code></pre>
+<p>用于推断的实验成本必须约定相同归集窗口。本例实验表使用首单进入后 72 小时内的全部 AI 请求成本；业务周报可另做账期成本，但两者不能混用。</p>
+<h3>B. 固定商户分母，计算同期群 W1 留存</h3>
+<p><code>merchant_retention_fact</code> 按商户一行，保留首用时的同期群、渠道、窗口成熟标志和价值回访结果。只有整组完成观察与核验才输出留存率。</p>
+<pre><code>SELECT
+  first_use_cohort_week,
+  channel_at_first_use,
+  COUNT(*) AS merchants,
+  CASE WHEN MIN(w1_matured) = 1
+       THEN SUM(w1_value_retained) * 1.0 / COUNT(*)
+       ELSE NULL
+  END AS w1_value_retention
+FROM merchant_retention_fact
+GROUP BY first_use_cohort_week, channel_at_first_use;
+-- w1_matured、w1_value_retained 为非空的 0/1 字段。
+-- w1 窗口为个人首用后的第 7–13 天，并等待处置后 48 小时核验。
+-- 不要通过只保留活跃商户来“清洗”这张表。</code></pre>
+<p>统计前还需核对主键唯一、阶段人数嵌套、与业务核验数量一致、版本字段齐全。转化率连乘能检查算术一致性，不能替代事件准确性核查。</p>
+</section>
+
+<section id="references">
+<div class="kicker">REFERENCES / DEFINITIONS</div><h2>来源与两处容易误用的口径</h2>
+<ol><li><strong>滚动留存的方向。</strong>指定页面将其写成第 N 天之前回访；常见 Return On or After／无界留存指第 N 天当天或之后回访。固定队列是成员定义，精确日、区间或滚动留存是回访窗口定义。本文直接采用首用后固定周区间，并标明未成熟数据。<a href="#ref2">[2]</a></li><li><strong>同期群与因果。</strong>同期群使不同使用年龄的数据更容易比较，但不能自动消除渠道、版本和市场环境等混杂。本文用它发现线索，再用同期随机实验验证改动；激活与留存的关联同样按这一边界解释。<a href="#ref3">[3]</a></li></ol>
+<ol class="sources"><li id="ref1">AI-PM Wiki Team，<a href="https://aipm.ac/pm/data-analysis/" target="_blank" rel="noopener">《数据分析入门》</a>。本文参考其指标、漏斗、留存、同期群、看板与 AI 评测迭代的方法路线，案例和数值另行设计。</li><li id="ref2">Amplitude 官方文档，<a href="https://www.amplitude.com/docs/analytics/charts/retention-analysis/retention-analysis-calculation" target="_blank" rel="noopener">How the Retention Analysis chart calculates retention</a>。用于核对 Return On、Return On or After 和未成熟观察窗口。</li><li id="ref3">Microsoft Research，<a href="https://www.microsoft.com/en-us/research/publication/online-experimentation-at-microsoft/" target="_blank" rel="noopener">Online Experimentation at Microsoft</a>。用于说明随机化、恰当实验设计与因果判断的关系。</li></ol>
+</section>
+<footer>更新日期：2026-11-07 · 全文为原创教学演示，所有样本、结果、金额与阈值均为模拟。文档可离线阅读，表格在窄屏上可横向滚动。</footer>
+</main>
+</div>
+</body>
+</html>
