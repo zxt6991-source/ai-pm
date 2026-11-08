@@ -1,0 +1,2054 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
+<meta name="description" content="设计哲学与设计思维：从高级前端工程师转向 AI 产品经理的交互式学习手册，涵盖设计决策、双钻模型、AI 人机协作、风险与实践。">
+<title>设计哲学与设计思维 · AI 产品经理学习手册</title>
+<style>
+:root{color-scheme:light;--bg:#f6f8fa;--surface:#fff;--surface-alt:#f1f5f9;--ink:#22334b;--strong:#11283d;--muted:#63758b;--quiet:#8493a4;--border:#e4eaf0;--accent:#1b6e79;--accent2:#167c82;--accent-bg:#e9f6f5;--blue:#eaf1f8;--soft-shadow:0 12px 42px rgba(32,55,80,.045);--font-scale:1;--reader-width:860px;--nav-width:278px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:32px}body{margin:0;background:var(--bg);font-family:Inter,-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}button,input{font:inherit}button{cursor:pointer}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #67b6b9;outline-offset:3px}::selection{background:#b7ebe4;color:#0a3338}
+#progress-line{position:fixed;z-index:100;left:0;top:0;width:0;height:3px;background:linear-gradient(90deg,#4fb5b3,#237584);transition:width .08s linear}
+.layout{display:grid;grid-template-columns:var(--nav-width) minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--surface);border-right:1px solid var(--border);padding:29px 17px 26px 20px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}.logo{display:flex;align-items:center;gap:11px;padding:3px 11px 23px;border-bottom:1px solid var(--border)}.logo-symbol{width:37px;height:37px;display:grid;place-items:center;border-radius:11px;background:#d9eeed;color:#116773;font-size:22px;font-weight:700}.logo-title{font-size:14px;font-weight:790;letter-spacing:.01em;color:var(--strong)}.logo-caption{font-size:11px;color:var(--quiet);margin-top:3px}.sidebar-tools{padding:18px 8px 14px}.search-box{position:relative}.search-icon{position:absolute;left:12px;top:11px;color:var(--quiet)}.search-box input{height:39px;width:100%;border:1px solid var(--border);border-radius:9px;background:var(--surface-alt);padding:0 48px 0 34px;color:var(--ink);font-size:12px;outline:0}.search-box input:focus{border-color:#a4d2d1;box-shadow:0 0 0 3px rgba(68,176,177,.1)}.search-kbd{position:absolute;top:10px;right:11px;font-size:11px;color:var(--quiet);border:1px solid var(--border);border-radius:4px;padding:2px 5px}.nav-group{margin:15px 0 22px}.nav-group-title{display:flex;align-items:center;gap:9px;padding:2px 12px 9px;color:var(--quiet);font-size:11px;font-weight:750;letter-spacing:.03em}.nav-group-title span{font-size:10px;color:#9ca9b5}.nav-item{display:flex;align-items:center;gap:10px;padding:8px 11px;color:#627487;border-radius:8px;margin:2px 0;font-size:12px;line-height:1.45;transition:background .16s,color .16s;text-decoration:none!important}.nav-number{font-variant-numeric:tabular-nums;font-size:10px;color:#95a4b3;min-width:21px}.nav-label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nav-item:hover{background:var(--surface-alt);color:var(--strong)}.nav-item.active{background:var(--accent-bg);color:var(--accent);font-weight:700}.nav-item.active .nav-number{color:var(--accent)}.nav-item.done .nav-state{width:7px;height:7px;border-radius:50%;background:#4ca69f}.sidebar-footer{padding:15px 11px 8px;border-top:1px solid var(--border);font-size:11px;color:var(--quiet)}.reading-count{display:flex;justify-content:space-between;margin-bottom:8px}.mini-track{height:5px;background:var(--surface-alt);border-radius:99px;overflow:hidden}.mini-track i{display:block;height:100%;width:0;background:#57a7a3;transition:width .2s}.sidebar-footer small{display:block;margin-top:11px;line-height:1.6;color:var(--quiet)}
+.main-shell{min-width:0}.topbar{height:66px;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:0 max(35px,calc((100% - 990px)/2));border-bottom:1px solid var(--border);background:var(--surface);position:relative}.crumb{font-size:12px;color:var(--quiet);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.crumb strong{color:var(--ink);font-weight:650}.top-actions{display:flex;gap:8px;align-items:center}.tool-btn{height:34px;min-width:34px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;display:inline-flex;align-items:center;justify-content:center;gap:6px}.tool-btn:hover{background:var(--surface-alt);text-decoration:none}.mobile-nav{display:none}.content-wrap{width:100%;max-width:1040px;margin:0 auto;padding:0 54px 130px}.hero{padding:59px 0 31px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-size:12px;font-weight:740;letter-spacing:.14em}.eyebrow:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#56aaa5}.hero h1{font-size:clamp(31px,3.1vw,45px);letter-spacing:-.035em;line-height:1.26;color:var(--strong);font-weight:800;margin:17px 0 16px}.hero h1 em{font-style:normal;color:var(--accent)}.hero-lede{font-size:16px;color:var(--muted);line-height:1.95;max-width:760px;margin:0}.hero-meta{display:flex;align-items:center;flex-wrap:wrap;gap:10px 21px;margin-top:27px;font-size:12px;color:var(--muted)}.hero-meta .meta-dot:before{content:"";display:inline-block;width:5px;height:5px;vertical-align:middle;border-radius:50%;background:#a6c6c7;margin-right:8px}.hero-quote{margin-top:24px;padding:15px 19px 15px 21px;border-left:3px solid #65b3ac;background:var(--accent-bg);border-radius:0 10px 10px 0;line-height:1.9;color:#2a6367;font-size:14px}.hero-quote blockquote{margin:0}.hero-quote p{margin:0}.reading-path{margin:25px 0 32px;padding:24px 26px;background:var(--surface);border:1px solid var(--border);border-radius:15px;box-shadow:var(--soft-shadow)}.reading-path-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:17px}.path-title{font-weight:740;color:var(--strong);font-size:15px}.path-subtitle{font-size:11px;color:var(--quiet)}.path-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.path-link{display:block;padding:14px 13px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--strong);text-decoration:none!important;transition:transform .15s,border-color .15s}.path-link:hover{transform:translateY(-2px);border-color:#8ec2c3}.path-num{font-size:11px;font-weight:750;color:var(--accent)}.path-link strong{display:block;font-size:13px;margin:6px 0}.path-link small{display:block;color:var(--quiet);font-size:11px;line-height:1.5}.intro-block{color:var(--muted);border-bottom:1px solid var(--border);margin-bottom:32px}.intro-block blockquote{padding:0 0 7px;margin:0;border:0;background:none;color:var(--muted);font-size:12px}.intro-block blockquote p{margin:0}
+.chapter{scroll-margin-top:25px;margin-top:38px;margin-bottom:34px;padding:30px 39px 32px;background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--soft-shadow);min-width:0;position:relative}.chapter-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:15px;border-bottom:1px solid var(--border);padding-bottom:18px}.chapter h2{font-size:calc(23px * var(--font-scale));letter-spacing:-.022em;line-height:1.4;color:var(--strong);font-weight:780;margin:0;max-width:100%}.mark-read{border:1px solid var(--border);border-radius:7px;padding:7px 9px;color:var(--quiet);background:transparent;font-size:11px;white-space:nowrap;flex-shrink:0}.mark-read:hover{color:var(--accent);border-color:#a9d6d3}.mark-read.is-read{border-color:#b6dcd9;background:#edf7f5;color:var(--accent)}.mark-read.is-read:before{content:'✓ ';font-weight:700}.chapter h3{font-size:calc(19px * var(--font-scale));line-height:1.5;color:var(--strong);margin:31px 0 14px;font-weight:740;letter-spacing:-.01em}.chapter h4{font-size:calc(16px * var(--font-scale));line-height:1.5;color:var(--strong);font-weight:720;margin:24px 0 12px}.chapter h5,.chapter h6{font-size:calc(14px * var(--font-scale));font-weight:700;margin:20px 0 10px;color:var(--strong)}.chapter p,.chapter li{font-size:calc(14.2px * var(--font-scale));line-height:2.05;overflow-wrap:break-word}.chapter p{margin:10px 0 17px}.chapter ol,.chapter ul{padding-left:1.55em;margin:12px 0 20px}.chapter li{padding-left:3px;margin:5px 0}.chapter li::marker{color:#6f9b9f;font-weight:650}.chapter strong{font-weight:730;color:var(--strong)}.chapter blockquote{margin:16px 0 22px;padding:12px 19px;background:var(--accent-bg);border-left:3px solid #72b7b1;border-radius:0 9px 9px 0;color:#2c6469}.chapter blockquote p{margin:1px 0;color:inherit;font-weight:560}.chapter blockquote strong{color:#16636b}.chapter hr{height:1px;border:0;background:var(--border);margin:32px 0}.chapter a{overflow-wrap:anywhere;text-decoration:underline;text-underline-offset:3px}.chapter h3[id],.chapter h4[id],.chapter h5[id]{scroll-margin-top:27px}.chapter h3[id]:hover:after,.chapter h4[id]:hover:after{content:" #";color:#a5b9bb;font-weight:400;font-size:.75em}
+.chapter#chapter-0 ol{counter-reset:seven;list-style:none;padding-left:0}.chapter#chapter-0 ol li{display:flex;gap:12px;align-items:flex-start;margin:12px 0;font-size:calc(14px * var(--font-scale));line-height:1.8}.chapter#chapter-0 ol li:before{counter-increment:seven;content:counter(seven,decimal-leading-zero);color:var(--accent);font-size:11px;font-weight:800;background:#eaf5f4;border-radius:6px;min-width:31px;height:31px;display:grid;place-items:center}
+.concept-card{border:1px solid var(--border);border-radius:12px;padding:4px 23px 16px;margin:20px 0 24px;background:linear-gradient(120deg,var(--surface) 78%,var(--surface-alt))}.concept-card h3{margin-top:20px!important;margin-bottom:12px!important;color:var(--accent)}
+.table-scroll{overflow-x:auto;scrollbar-width:thin;margin:19px 0 25px;border:1px solid var(--border);border-radius:10px}.comparison-table{width:100%;border-collapse:collapse;min-width:480px;font-size:calc(13px * var(--font-scale));line-height:1.75}.comparison-table th{background:var(--surface-alt);color:var(--strong);font-weight:720;text-align:left;padding:12px 15px;border-bottom:1px solid var(--border);white-space:nowrap}.comparison-table td{padding:12px 15px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--ink)}.comparison-table tr:last-child td{border-bottom:0}.comparison-table tr:hover td{background:rgba(121,168,179,.04)}
+.code-panel{overflow:hidden;border:1px solid var(--border);background:var(--surface-alt);border-radius:10px;margin:15px 0 23px}.code-header{font-size:10px;font-weight:760;letter-spacing:.03em;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 14px;background:var(--surface-alt);border-bottom:1px solid var(--border);color:var(--quiet)}.copy-code{border:0;background:transparent;color:var(--accent);font-size:11px;padding:3px 4px}.code-panel pre{margin:0;padding:17px 20px;overflow-x:auto;color:var(--ink);font-size:calc(12.8px * var(--font-scale));line-height:1.9;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Noto Sans Mono CJK SC",monospace;white-space:pre-wrap;word-break:break-word}.code-panel code{font:inherit}.chapter code:not(pre code){font-family:ui-monospace,monospace;background:var(--surface-alt);padding:2px 5px;border-radius:5px;font-size:.9em}
+.diagram{background:#fafcfe;border-radius:12px;overflow:hidden;border:1px solid var(--border);margin:19px 0 26px}.diagram-header{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);gap:10px}.diagram-kicker{font-size:11px;font-weight:710;color:var(--muted)}.diagram-mark{color:#43a3a6;font-size:15px;margin-right:4px}.diagram-open{font-size:11px;color:var(--accent);border:0;background:transparent;padding:5px}.diagram-viewport{padding:19px 18px;overflow-x:auto;display:flex;justify-content:center}.diagram svg{min-width:520px;max-width:100%;height:auto;display:block}.diagram[data-diagram="1"] svg,.diagram[data-diagram="3"] svg,.diagram[data-diagram="4"] svg,.diagram[data-diagram="5"] svg{min-width:760px;max-width:none}.diagram-source{white-space:pre-wrap;font-size:12px}
+.vertical-flow{--flow-node-size:56px;--flow-rail:#d8e8ea;--flow-node-bg:linear-gradient(180deg,#f1fbfb 0%,#e4f4f4 100%);--flow-card-bg:linear-gradient(180deg,#ffffff 0%,#fbfcfe 100%);max-width:780px;margin:18px 0 28px;padding:4px 0;display:flex;flex-direction:column;gap:14px;position:relative}.vertical-flow:before{content:"";position:absolute;left:calc(var(--flow-node-size)/2 - 1px);top:18px;bottom:18px;width:2px;background:linear-gradient(180deg,#dcecee 0%,#c6dde0 100%);border-radius:999px}.step{display:grid;grid-template-columns:var(--flow-node-size) minmax(0,1fr);align-items:start;column-gap:16px;position:relative;padding:0;border:0;border-radius:0;background:none;min-height:auto}.step:not(:last-child):after{content:none}.step-number{width:var(--flow-node-size);height:var(--flow-node-size);display:grid;place-items:center;position:relative;z-index:1;border-radius:18px;background:var(--flow-node-bg);border:1px solid #c5dfe1;box-shadow:0 10px 24px rgba(68,111,126,.10), inset 0 1px 0 rgba(255,255,255,.85);font-size:18px;letter-spacing:.08em;line-height:1;color:#2f7380;font-weight:800;font-variant-numeric:tabular-nums}.step-number:after{content:"";position:absolute;inset:8px;border-radius:14px;border:1px solid rgba(70,151,157,.14)}.step-label{display:block;min-height:var(--flow-node-size);padding:15px 18px;border:1px solid var(--border);border-radius:16px;background:var(--flow-card-bg);box-shadow:0 10px 26px rgba(44,71,91,.07);font-size:calc(14px * var(--font-scale));font-weight:680;line-height:1.75;color:var(--strong);position:relative}.step-label:before{content:"";position:absolute;left:-9px;top:20px;width:16px;height:16px;background:var(--flow-card-bg);border-left:1px solid var(--border);border-bottom:1px solid var(--border);transform:rotate(45deg);border-bottom-left-radius:4px}@media (max-width:720px){.vertical-flow{--flow-node-size:46px;gap:12px}.vertical-flow:before{left:calc(var(--flow-node-size)/2 - 1px);top:14px;bottom:14px}.step{grid-template-columns:var(--flow-node-size) minmax(0,1fr);column-gap:12px}.step-number{border-radius:15px;font-size:15px}.step-label{min-height:var(--flow-node-size);padding:12px 14px;border-radius:14px;font-size:calc(13.4px * var(--font-scale));line-height:1.65}.step-label:before{left:-7px;top:16px;width:12px;height:12px}}
+.checklist-item{list-style:none;display:flex;align-items:flex-start;gap:9px;margin-left:-24px!important}.checklist-item:before{content:none}.study-checkbox{appearance:none;flex:0 0 17px;height:17px;margin:9px 0 0;background:var(--surface);border:1.5px solid #aabcc4;border-radius:5px;position:relative;cursor:pointer}.study-checkbox:checked{background:#278c89;border-color:#278c89}.study-checkbox:checked:after{content:'✓';color:#fff;position:absolute;left:3px;top:-5px;font-size:16px;font-weight:700}
+.chapter#chapter-21 h3,.chapter#chapter-24 h3,.chapter#chapter-25 h3{border-left:3px solid #b7d3d5;padding-left:11px}
+.chapter#chapter-26 blockquote{background:var(--surface-alt);border-color:#90bdb8}
+.bottom-note{text-align:center;color:var(--quiet);font-size:12px;padding:10px 20px 0}.backtop{position:fixed;bottom:26px;right:26px;width:41px;height:41px;border-radius:50%;background:var(--surface);color:var(--accent);border:1px solid var(--border);box-shadow:0 6px 20px rgba(35,64,90,.09);font-size:20px;display:none;z-index:30}.backtop.visible{display:block}
+.search-results{display:none;position:fixed;z-index:110;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 18px 60px rgba(30,56,85,.19);max-height:50vh;overflow:auto;width:min(460px,calc(100vw - 25px));padding:6px}.search-results.visible{display:block}.search-result{width:100%;text-align:left;background:transparent;border:0;border-radius:8px;padding:11px;display:block;color:var(--ink)}.search-result:hover,.search-result.active{background:var(--accent-bg)}.search-result b{font-size:12px;display:block}.search-result small{font-size:11px;color:var(--muted);display:block;margin-top:5px;line-height:1.6}.search-empty{color:var(--quiet);font-size:12px;padding:12px}
+#diagram-modal{display:none;position:fixed;z-index:120;inset:0;background:rgba(12,27,42,.72);padding:24px}#diagram-modal.open{display:flex;align-items:center;justify-content:center}.modal-panel{width:min(1180px,98vw);height:min(90vh,950px);background:var(--surface);border-radius:15px;display:flex;flex-direction:column;overflow:hidden}.modal-top{height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 19px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700}.modal-exit{background:var(--surface-alt);border:1px solid var(--border);height:33px;width:33px;border-radius:8px;color:var(--ink)}.modal-scroll{flex:1;overflow:auto;padding:26px;text-align:center;display:flex;align-items:flex-start;justify-content:center}.modal-scroll svg{min-width:680px;max-width:none;height:auto}.modal-tools{height:42px;flex:0 0 auto;border-top:1px solid var(--border);display:flex;align-items:center;gap:9px;justify-content:center}.modal-tools button{border:1px solid var(--border);border-radius:7px;background:var(--surface);padding:5px 10px;color:var(--ink);font-size:12px}.modal-tools span{color:var(--muted);font-size:11px;width:35px;text-align:center}
+.mobile-backdrop{display:none}
+/* Recap journal / compact responsive question grid */
+.chapter#chapter-25 .recap-lead{margin:10px 0 13px;font-size:calc(13.6px * var(--font-scale));color:var(--muted);line-height:1.75}
+.recap-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 18px}
+.recap-tip{font-size:12px;color:var(--quiet)}.recap-progress{font-size:11px;font-weight:720;color:var(--accent);border:1px solid #abd4d1;background:var(--accent-bg);border-radius:99px;padding:5px 11px;white-space:nowrap}
+.recap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.recap-card{min-width:0;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:17px 18px 14px;transition:border-color .16s,box-shadow .16s}
+.recap-card:hover{border-color:#a6ccc9}.recap-card:focus-within{border-color:#62aaa9;box-shadow:0 0 0 3px rgba(77,166,163,.12)}
+.recap-card-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.recap-number{display:grid;place-items:center;background:var(--accent-bg);border-radius:6px;color:var(--accent);font-size:11px;font-weight:800;min-width:29px;height:27px;font-variant-numeric:tabular-nums}
+.recap-label{font-size:11px;font-weight:650;color:var(--muted);letter-spacing:.04em}
+.chapter#chapter-25 .recap-card h3{border:none;padding:0;margin:0 0 13px!important;font-size:calc(15px * var(--font-scale));line-height:1.55;letter-spacing:0;color:var(--strong);font-weight:720;min-height:calc(15px * var(--font-scale) * 3.1)}
+.chapter#chapter-25 .recap-card h3:hover:after{content:none}
+.recap-textarea{display:block;flex:1;width:100%;min-height:102px;max-height:320px;resize:vertical;border:1px solid var(--border);border-radius:9px;background:var(--surface-alt);padding:11px 12px;color:var(--ink);font:inherit;font-size:calc(12.7px * var(--font-scale));line-height:1.65;outline:0;transition:border-color .16s,background .16s}
+.recap-textarea::placeholder{color:var(--quiet);opacity:.9}.recap-textarea:focus{background:var(--surface);border-color:#81c1ba}
+.recap-card-foot{display:flex;align-items:center;justify-content:flex-end;min-height:19px;margin-top:8px}.recap-field-status{font-size:11px;color:var(--quiet)}.recap-card.is-filled .recap-field-status{color:var(--accent)}
+.recap-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:17px;padding:15px 0 1px;border-top:1px solid var(--border)}
+.recap-save-note{color:var(--quiet);font-size:11px}.recap-export{border:1px solid #a8d0ca;background:var(--accent-bg);color:var(--accent);border-radius:8px;padding:9px 14px;font:inherit;font-size:12px;font-weight:680;white-space:nowrap}.recap-export:hover{border-color:var(--accent);filter:brightness(.97)}
+@media(max-width:720px){.recap-grid{grid-template-columns:1fr}.chapter#chapter-25 .recap-card h3{min-height:auto}.recap-card{padding:15px}.recap-textarea{min-height:92px}.recap-actions{flex-wrap:wrap}.recap-topline{flex-wrap:wrap}}
+@media print{.recap-export,.recap-save-note,.recap-field-status{display:none!important}.recap-card{break-inside:avoid}.recap-grid{gap:10px}}
+
+[data-theme="dark"]{color-scheme:dark;--bg:#101922;--surface:#17232e;--surface-alt:#1d2d39;--ink:#c9d8e5;--strong:#edf5f8;--muted:#a7bacb;--quiet:#8398a8;--border:#314451;--accent:#73cdc8;--accent2:#64d0c8;--accent-bg:#1b3b41;--blue:#253745;--soft-shadow:0 12px 42px rgba(2,9,16,.12)}[data-theme="dark"] .logo-symbol{background:#244c50;color:#b4e8e1}[data-theme="dark"] .hero-quote{color:#b6e3dc}[data-theme="dark"] .chapter blockquote{color:#bfdfd9}[data-theme="dark"] .chapter blockquote strong{color:#d0f6ed}[data-theme="dark"] .diagram{background:#1a2935}[data-theme="dark"] .diagram-viewport svg{filter:brightness(.88) saturate(.8)}[data-theme="dark"] .step:not(:last-child):after{background:var(--surface-alt)}[data-theme="dark"] .chapter#chapter-0 ol li:before{background:#234248}
+@media(max-width:1180px){:root{--nav-width:254px}.content-wrap{padding:0 34px 110px}.chapter{padding:27px 30px}.topbar{padding:0 34px}}
+@media(max-width:900px){:root{--nav-width:0px}.layout{display:block}.sidebar{position:fixed;z-index:90;left:0;top:0;width:292px;max-width:85vw;transform:translateX(-102%);transition:transform .2s;box-shadow:18px 0 50px rgba(0,0,0,.08)}body.nav-open .sidebar{transform:translateX(0)}body.nav-open .mobile-backdrop{display:block;position:fixed;z-index:85;inset:0;background:rgba(7,24,39,.42)}.mobile-nav{display:inline-flex}.content-wrap{max-width:900px}.topbar{position:sticky;top:0;z-index:70;height:58px}.hero{padding-top:40px}.path-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.content-wrap{padding:0 16px 75px}.topbar{padding:0 15px}.tool-btn{padding:0 8px}.tool-btn .tool-label{display:none}.hero{padding:34px 6px 19px}.hero h1{font-size:32px}.hero-lede{font-size:14px}.hero-meta{font-size:11px;gap:8px 13px}.reading-path{padding:18px 15px;margin:18px 0}.path-grid{gap:8px}.path-link{padding:12px 10px}.path-link strong{font-size:12px}.path-subtitle{display:none}.chapter{padding:21px 17px;margin-top:18px;border-radius:13px}.chapter h2{font-size:calc(20px * var(--font-scale))}.chapter h3{font-size:calc(17px * var(--font-scale))}.chapter-heading{align-items:flex-start}.mark-read{font-size:10px;padding:6px}.chapter p,.chapter li{font-size:calc(13.5px * var(--font-scale));line-height:1.95}.diagram-viewport{justify-content:flex-start;padding:12px}.diagram svg{min-width:550px}.concept-card{padding:4px 15px 10px}.backtop{bottom:15px;right:13px}}
+@media print{html{scroll-behavior:auto}.sidebar,.topbar,#progress-line,.mark-read,.diagram-open,.backtop,.reading-path,.bottom-note,#diagram-modal,.search-results{display:none!important}.layout{display:block}.content-wrap{padding:0;max-width:none}.hero{padding:20px 0}.chapter{box-shadow:none;border:0;border-top:1px solid #d9e1e5;border-radius:0;padding:22px 0;margin:5px 0;break-inside:auto}.chapter h2,.chapter h3,.chapter h4{break-after:avoid}blockquote,.code-panel,.diagram,.table-scroll{break-inside:avoid}.diagram svg{max-width:100%;min-width:0!important}.table-scroll{overflow:visible}.comparison-table{min-width:0}.chapter p,.chapter li{line-height:1.6}body{background:white;color:#222}}
+
+
+/* === 统一图表查看器：SVG 流程图与步骤时间线 === */
+.diagram.flow-zoom-board{background:var(--surface);border-radius:15px;overflow:hidden}
+.diagram .diagram-header,.flow-board-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;background:var(--surface);border-bottom:1px solid var(--border);min-height:54px;flex-wrap:wrap}
+.diagram .diagram-header .diagram-kicker{font-size:12px;font-weight:730;color:var(--strong)}
+.flow-board{margin:18px 0 28px;border:1px solid var(--border);border-radius:15px;background:var(--surface);overflow:hidden}
+.flow-board-head .flow-board-caption{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:750;color:var(--strong)}
+.flow-board-caption em{font-size:11px;font-style:normal;color:var(--quiet);font-weight:520}
+.flow-board-symbol{width:27px;height:27px;display:grid;place-items:center;border-radius:8px;color:var(--accent);background:var(--accent-bg);font-size:14px}
+.flow-zoom-toolbar{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.flow-zoom-btn{cursor:pointer;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:8px;min-width:30px;height:30px;padding:0 9px;background:var(--surface);color:var(--muted);font-size:12px;font-weight:650;line-height:1;transition:background .12s,color .12s,border-color .12s}
+.flow-zoom-btn:hover{color:var(--accent);background:var(--accent-bg);border-color:#a5cecf}
+.flow-zoom-btn:focus-visible{outline:2px solid #39a8ab;outline-offset:2px}
+.flow-zoom-value{font-size:11px;font-weight:680;font-variant-numeric:tabular-nums;color:var(--muted);min-width:43px;text-align:center}
+.flow-zoom-btn.flow-zoom-expand{margin-left:4px;border-color:#b8d8d7;color:var(--accent);background:var(--accent-bg)}
+.diagram .diagram-viewport.zoom-stage,.flow-board .zoom-stage{display:block!important;justify-content:unset!important;overflow:auto!important;max-height:none;position:relative;min-width:0;width:100%;padding:18px 18px 21px;scrollbar-width:thin;overscroll-behavior:contain;touch-action:pan-x pan-y;cursor:grab}
+.diagram .diagram-viewport.zoom-stage{background:var(--surface-alt);max-height:490px}
+.flow-board .zoom-stage{background:var(--surface);max-height:none;padding:18px 19px 22px}
+.flow-board .zoom-stage.zoomed{max-height:560px}
+.zoom-stage.is-dragging{cursor:grabbing!important;user-select:none}
+.flow-zoom-shell{position:relative;margin:0 auto;box-sizing:content-box;min-width:0}
+.flow-zoom-content{position:absolute;left:0;top:0;transform-origin:top left;box-sizing:border-box}
+.diagram .flow-zoom-content svg,.diagram[data-diagram] .flow-zoom-content svg{display:block;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;overflow:visible}
+.flow-board .flow-zoom-content .vertical-flow{max-width:none;width:100%;margin:0;padding:2px 0 4px;box-sizing:border-box}
+.flow-zoom-hint{padding:7px 16px 9px;display:flex;align-items:center;justify-content:flex-end;font-size:10px;color:var(--quiet);background:var(--surface);border-top:1px solid var(--border)}
+#diagram-modal .modal-panel{width:min(1260px,98vw);height:min(92vh,980px)}
+#diagram-modal .modal-scroll{padding:0;display:block!important;text-align:left;overflow:hidden;min-height:0;background:var(--surface-alt)}
+#diagram-modal .modal-scroll .zoom-stage{width:100%;height:100%;max-height:none!important;padding:28px;overflow:auto;cursor:grab;touch-action:pan-x pan-y;overscroll-behavior:contain}
+#diagram-modal .modal-scroll .zoom-stage.is-dragging{cursor:grabbing}
+#diagram-modal .modal-tools{height:auto;min-height:54px;justify-content:space-between;padding:8px 18px;gap:12px;background:var(--surface)}
+#diagram-modal .modal-tools .flow-zoom-hint-text{font-size:11px;color:var(--quiet)}
+#diagram-modal .modal-tools .flow-zoom-toolbar button{font-size:12px;border-radius:8px;padding:0 10px;height:31px}
+#diagram-modal .modal-top{background:var(--surface);flex:0 0 52px}
+[data-theme="dark"] .diagram .diagram-viewport.zoom-stage{background:#182733}
+[data-theme="dark"] .diagram .flow-zoom-content svg{filter:brightness(.92) saturate(.82)}
+[data-theme="dark"] .flow-board{background:var(--surface)}
+@media(max-width:600px){
+  .diagram .diagram-header,.flow-board-head{padding:10px 11px;min-height:48px}
+  .flow-zoom-toolbar{gap:3px}
+  .flow-zoom-btn{height:29px;min-width:29px;padding:0 7px}
+  .flow-zoom-value{min-width:39px}
+  .flow-board .zoom-stage,.diagram .diagram-viewport.zoom-stage{padding:14px 12px 16px}
+  .flow-zoom-hint{font-size:9px;padding:7px 12px}
+  #diagram-modal{padding:7px}
+  #diagram-modal .modal-panel{height:96vh;width:100%;border-radius:12px}
+  #diagram-modal .modal-scroll .zoom-stage{padding:15px}
+  #diagram-modal .modal-tools{padding:8px 12px}
+  #diagram-modal .modal-tools .flow-zoom-hint-text{display:none}
+}
+@media print{.flow-zoom-toolbar,.flow-zoom-hint{display:none!important}.diagram .diagram-viewport.zoom-stage,.flow-board .zoom-stage{overflow:visible!important;max-height:none!important}.flow-board{break-inside:avoid}}
+
+</style></head>
+<body><div id="progress-line" aria-hidden="true"></div><div id="mobile-backdrop" class="mobile-backdrop"></div>
+<div class="layout"><aside class="sidebar" id="sidebar" aria-label="章节导航"><div class="logo"><div class="logo-symbol">∴</div><div><div class="logo-title">设计哲学与设计思维</div><div class="logo-caption">AI PRODUCT DESIGN · STUDY NOTES</div></div></div>
+<div class="sidebar-tools"><div class="search-box"><span class="search-icon" aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="搜索概念、章节、案例…" aria-label="搜索文档"><span class="search-kbd">/</span></div></div>
+<nav aria-label="目录"><div class="nav-group"><div class="nav-group-title"><span>01</span>建立框架</div><a class="nav-item" href="#chapter-0" data-id="chapter-0"><span class="nav-number">00</span><span class="nav-label">先看这一页：我到底要学会什么？</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-1" data-id="chapter-1"><span class="nav-number">01</span><span class="nav-label">知识地图（优化版）</span><span class="nav-state" aria-hidden="true"></span></a></div><div class="nav-group"><div class="nav-group-title"><span>02</span>设计理论与 AI 原则</div><a class="nav-item" href="#chapter-2" data-id="chapter-2"><span class="nav-number">02</span><span class="nav-label">核心概念卡片</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-3" data-id="chapter-3"><span class="nav-number">03</span><span class="nav-label">最容易混淆的概念：对比表</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-4" data-id="chapter-4"><span class="nav-number">04</span><span class="nav-label">认知设计：评审产品时怎么用？</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-5" data-id="chapter-5"><span class="nav-number">05</span><span class="nav-label">Kano：怎么决定先做什么？</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-6" data-id="chapter-6"><span class="nav-number">06</span><span class="nav-label">情感化设计：AI 为什么尤其重要？</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-7" data-id="chapter-7"><span class="nav-number">07</span><span class="nav-label">设计伦理：AI PM 必须加的一层</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-8" data-id="chapter-8"><span class="nav-number">08</span><span class="nav-label">AI 产品设计的 4 个新核心问题</span><span class="nav-state" aria-hidden="true"></span></a></div><div class="nav-group"><div class="nav-group-title"><span>03</span>支付 Copilot 案例</div><a class="nav-item" href="#chapter-9" data-id="chapter-9"><span class="nav-number">09</span><span class="nav-label">把整章知识用到一个案例</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-10" data-id="chapter-10"><span class="nav-number">10</span><span class="nav-label">第一钻：先研究问题，不要急着做 Agent</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-11" data-id="chapter-11"><span class="nav-number">11</span><span class="nav-label">第二钻：探索解决方案</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-12" data-id="chapter-12"><span class="nav-number">12</span><span class="nav-label">设计 Copilot</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-13" data-id="chapter-13"><span class="nav-number">13</span><span class="nav-label">控制权设计</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-14" data-id="chapter-14"><span class="nav-number">14</span><span class="nav-label">伦理检查</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-15" data-id="chapter-15"><span class="nav-number">15</span><span class="nav-label">用 Kano 做优先级</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-16" data-id="chapter-16"><span class="nav-number">16</span><span class="nav-label">这个案例的一条完整产品逻辑链</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-17" data-id="chapter-17"><span class="nav-number">17</span><span class="nav-label">问题树：遇到 AI 产品设计题时怎么拆</span><span class="nav-state" aria-hidden="true"></span></a></div><div class="nav-group"><div class="nav-group-title"><span>04</span>工具、训练与复盘</div><a class="nav-item" href="#chapter-18" data-id="chapter-18"><span class="nav-number">18</span><span class="nav-label">设计评审 Checklist</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-19" data-id="chapter-19"><span class="nav-number">19</span><span class="nav-label">设计决策记录模板</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-20" data-id="chapter-20"><span class="nav-number">20</span><span class="nav-label">一页纸总结</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-21" data-id="chapter-21"><span class="nav-number">21</span><span class="nav-label">主动回忆题</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-22" data-id="chapter-22"><span class="nav-number">22</span><span class="nav-label">面试表达训练</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-23" data-id="chapter-23"><span class="nav-number">23</span><span class="nav-label">针对工程背景转 AI PM 的学习重点</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-24" data-id="chapter-24"><span class="nav-number">24</span><span class="nav-label">推荐学习动作</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-25" data-id="chapter-25"><span class="nav-number">25</span><span class="nav-label">我的复盘区</span><span class="nav-state" aria-hidden="true"></span></a><a class="nav-item" href="#chapter-26" data-id="chapter-26"><span class="nav-number">26</span><span class="nav-label">最终记忆卡</span><span class="nav-state" aria-hidden="true"></span></a></div><div class="nav-group"><div class="nav-group-title"><span>05</span>参考资料</div><a class="nav-item" href="#references" data-id="references"><span class="nav-number">↗</span><span class="nav-label">资料来源</span></a></div></nav><div class="sidebar-footer"><div class="reading-count"><span>学习进度 · 已读章节</span><strong id="reading-count">0 / 27</strong></div><div class="mini-track"><i id="reading-mini"></i></div><small>自动保存已读章节和检查项到当前浏览器。<br>本文件无需联网即可阅读。</small></div></aside>
+<div class="main-shell"><header class="topbar"><div class="top-actions"><button type="button" id="nav-drawer" class="tool-btn mobile-nav" aria-label="展开目录" aria-expanded="false">☰</button><div class="crumb">学习手册 <span aria-hidden="true">/</span> <strong>设计哲学与设计思维</strong></div></div><div class="top-actions"><button type="button" id="font-down" class="tool-btn" aria-label="缩小正文字体">A−</button><span id="font-scale" style="font-size:11px;color:var(--quiet);min-width:37px;text-align:center">100%</span><button type="button" id="font-up" class="tool-btn" aria-label="增大正文字体">A＋</button><button type="button" id="theme-toggle" class="tool-btn" aria-label="切换深浅色模式" title="切换主题">☾</button><button type="button" onclick="window.print()" class="tool-btn"><span aria-hidden="true">⎙</span><span class="tool-label">打印</span></button></div></header>
+<div class="content-wrap"><div class="hero"><div class="eyebrow">AI PRODUCT MANAGEMENT · LEARNING GUIDE</div><h1>设计哲学<em>与</em>设计思维</h1><p class="hero-lede">从「把功能实现出来」，走向「判断什么问题值得解决」。这份手册围绕产品决策、用户体验与 AI 人机协作，建立可迁移的设计思考框架。</p><div class="hero-meta"><span>◫ 27 个学习章节</span><span class="meta-dot">8 张可放大流程图</span><span class="meta-dot">1 个完整支付 Copilot 案例</span><span class="meta-dot">支持离线阅读</span></div><div class="hero-quote">学习目标：<strong>发现问题 → 做设计决策 → 验证 → 控制 AI 风险</strong></div></div>
+<div class="reading-path"><div class="reading-path-head"><span class="path-title">建议阅读路线</span><span class="path-subtitle">先建立结构，再理解概念，最后通过案例内化</span></div><div class="path-grid"><a class="path-link" href="#chapter-0"><span class="path-num">01 / START</span><strong>先抓住全貌</strong><small>7 个判断 · 知识地图</small></a><a class="path-link" href="#chapter-2"><span class="path-num">02 / LEARN</span><strong>理解核心概念</strong><small>双钻 · UCD · 反馈</small></a><a class="path-link" href="#chapter-9"><span class="path-num">03 / APPLY</span><strong>跟做案例分析</strong><small>支付异常 AI Copilot</small></a><a class="path-link" href="#chapter-18"><span class="path-num">04 / PRACTICE</span><strong>检查与主动回忆</strong><small>Checklist · 决策记录</small></a></div></div>
+<div class="intro-block"><blockquote>
+<p>学习对象：从高级前端工程师转向 AI 产品经理<br/>
+原始资料：AI-PM《设计哲学与设计思维》<br/>
+学习目标：不是背诵设计理论，而是形成 <strong>“发现问题 → 做设计决策 → 验证 → 控制 AI 风险”</strong> 的产品判断能力。</p>
+</blockquote><hr/></div>
+<div id="book-content"><section class="chapter" data-chapter="0" data-title="先看这一页：我到底要学会什么？" id="chapter-0"><div class="chapter-heading"><h2 id="chapter-0-heading">0. 先看这一页：我到底要学会什么？</h2><button class="mark-read" data-target="chapter-0" type="button">标记已读</button></div><p>读完这一章，不要求记住所有设计史、人物和术语。</p><p>真正需要掌握的是下面 7 个判断：</p><ol>
+<li><strong>设计不是画界面，而是在信息不完整时做决策。</strong></li>
+<li><strong>先证明问题值得解决，再讨论方案。</strong></li>
+<li><strong>用户说的任务，不一定是用户真正的目标。</strong></li>
+<li><strong>产品必须让用户知道：能做什么、怎么做、做完发生了什么。</strong></li>
+<li><strong>AI 产品除了“好不好用”，还必须处理不确定性、信任、控制权和失败。</strong></li>
+<li><strong>设计不是只满足用户，还要平衡用户价值、商业价值、技术约束和伦理风险。</strong></li>
+<li><strong>设计最终需要被验证，而不是靠审美或个人偏好证明。</strong></li>
+</ol><p>如果这 7 条能在真实案例里用出来，这一章就算学会了。</p><hr/></section><section class="chapter" data-chapter="1" data-title="知识地图（优化版）" id="chapter-1"><div class="chapter-heading"><h2 id="chapter-1-heading">1. 知识地图（优化版）</h2><button class="mark-read" data-target="chapter-1" type="button">标记已读</button></div><blockquote>
+<p>不要一开始记所有概念。先记住下面这条 <strong>AI 产品设计主线</strong>：<br/>
+<strong>理解设计 → 找对问题 → 设计体验 → 做取舍 → 设计 AI 协作 → 验证迭代</strong></p>
+</blockquote><h3 id="1-1-先看主干-6-步学习路径">1.1 先看主干：6 步学习路径</h3><div class="diagram" data-diagram="1"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 01</span><button aria-label="放大查看流程图 1" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 1" height="auto" role="img" viewbox="0.00 0.00 1090.80 80.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 66.4)">
+<title>g</title>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M125.02,-26C135.87,-26 147.21,-26 158.2,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="158.49,-28.28 164.99,-26 158.49,-23.73 158.49,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>B-&gt;C</title>
+<path d="M287.1,-26C297.8,-26 309.13,-26 320.37,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="320.48,-28.28 326.98,-26 320.48,-23.73 320.48,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>C-&gt;D</title>
+<path d="M487.27,-26C498.09,-26 509.21,-26 520.03,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="520.23,-28.28 526.73,-26 520.23,-23.73 520.23,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;E -->
+<g class="edge" id="edge4">
+<title>D-&gt;E</title>
+<path d="M674.1,-26C684.9,-26 696.14,-26 707.28,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="707.31,-28.28 713.81,-26 707.31,-23.73 707.31,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;F -->
+<g class="edge" id="edge5">
+<title>E-&gt;F</title>
+<path d="M887.11,-26C898.13,-26 909.32,-26 920.12,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="920.28,-28.28 926.78,-26 920.28,-23.73 920.28,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M113,-52C113,-52 12,-52 12,-52 6,-52 0,-46 0,-40 0,-40 0,-12 0,-12 0,-6 6,0 12,0 12,0 113,0 113,0 119,0 125,-6 125,-12 125,-12 125,-40 125,-40 125,-46 119,-52 113,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="62.5" y="-29.6">① 理解设计本质</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="62.5" y="-15.6">设计 = 决策</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M275,-52C275,-52 177,-52 177,-52 171,-52 165,-46 165,-40 165,-40 165,-12 165,-12 165,-6 171,0 177,0 177,0 275,0 275,0 281,0 287,-6 287,-12 287,-12 287,-40 287,-40 287,-46 281,-52 275,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="226" y="-29.6">② 找对问题</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="226" y="-15.6">先问题，后方案</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M475,-52C475,-52 339,-52 339,-52 333,-52 327,-46 327,-40 327,-40 327,-12 327,-12 327,-6 333,0 339,0 339,0 475,0 475,0 481,0 487,-6 487,-12 487,-12 487,-40 487,-40 487,-46 481,-52 475,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="407" y="-29.6">③ 设计可用体验</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="407" y="-15.6">让用户看得懂、用得对</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M662,-52C662,-52 539,-52 539,-52 533,-52 527,-46 527,-40 527,-40 527,-12 527,-12 527,-6 533,0 539,0 539,0 662,0 662,0 668,0 674,-6 674,-12 674,-12 674,-40 674,-40 674,-46 668,-52 662,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="600.5" y="-29.6">④ 做产品取舍</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="600.5" y="-15.6">价值、成本、优先级</text>
+</g>
+<!-- E -->
+<g class="node" id="node5">
+<title>E</title>
+<path d="M875,-52C875,-52 726,-52 726,-52 720,-52 714,-46 714,-40 714,-40 714,-12 714,-12 714,-6 720,0 726,0 726,0 875,0 875,0 881,0 887,-6 887,-12 887,-12 887,-40 887,-40 887,-46 881,-52 875,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="800.5" y="-29.6">⑤ 设计 AI 协作</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="800.5" y="-15.6">信任、控制权、失败处理</text>
+</g>
+<!-- F -->
+<g class="node" id="node6">
+<title>F</title>
+<path d="M1050,-52C1050,-52 939,-52 939,-52 933,-52 927,-46 927,-40 927,-40 927,-12 927,-12 927,-6 933,0 939,0 939,0 1050,0 1050,0 1056,0 1062,-6 1062,-12 1062,-12 1062,-40 1062,-40 1062,-46 1056,-52 1050,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="994.5" y="-29.6">⑥ 验证与迭代</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="994.5" y="-15.6">原型、测试、指标</text>
+</g>
+</g>
+</svg>
+</div></div><h4 id="一句话记忆">一句话记忆</h4><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>不是先画页面，
+而是先找对问题；
+不是只让 AI 能做，
+而是让人知道 AI 在做什么、为什么、错了怎么办；
+最后用真实结果验证设计。</code></pre></div><hr/><h3 id="1-2-再看分层-每一层到底学什么">1.2 再看分层：每一层到底学什么？</h3><div class="table-scroll"><table class="comparison-table">
+<thead>
+<tr>
+<th>层级</th>
+<th>你要回答的核心问题</th>
+<th>重点概念</th>
+<th>最终产出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>① 理解设计本质</strong></td>
+<td>设计到底在解决什么？</td>
+<td>设计即决策、问题求解、意义创造</td>
+<td>设计判断原则</td>
+</tr>
+<tr>
+<td><strong>② 找对问题</strong></td>
+<td>我们真正应该解决什么？</td>
+<td>双钻模型、Design Thinking、UCD、情境调查、目标 ≠ 任务</td>
+<td>问题定义 / 用户目标</td>
+</tr>
+<tr>
+<td><strong>③ 设计可用体验</strong></td>
+<td>用户能不能理解、操作、判断结果？</td>
+<td>心智模型、反馈、映射、约束、示能性与能指、执行/评估鸿沟</td>
+<td>用户流程 / 交互方案</td>
+</tr>
+<tr>
+<td><strong>④ 做产品取舍</strong></td>
+<td>什么该做，什么不该做？</td>
+<td>Kano、Design Critique、Rams 原则</td>
+<td>优先级 / 设计决策</td>
+</tr>
+<tr>
+<td><strong>⑤ 设计 AI 协作</strong></td>
+<td>AI 应该做多少，人应该保留多少控制？</td>
+<td>不确定性、信任校准、控制权交接、透明、问责、偏见、自主性</td>
+<td>人机分工 / 风险策略</td>
+</tr>
+<tr>
+<td><strong>⑥ 验证与迭代</strong></td>
+<td>怎么证明设计真的有效？</td>
+<td>原型、用户测试、指标、持续迭代</td>
+<td>验证结论 / 下一轮决策</td>
+</tr>
+</tbody>
+</table></div><hr/><h3 id="1-3-ai-产品经理最重要的一条主线">1.3 AI 产品经理最重要的一条主线</h3><p>把所有概念压缩成一条产品逻辑链：</p><div class="diagram" data-diagram="2"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 02</span><button aria-label="放大查看流程图 2" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 2" height="auto" role="img" viewbox="0.00 0.00 342.30 1020.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 1006.4)">
+<title>g</title>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M148,-953.75C148,-943.59 148,-930.79 148,-919.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="150.28,-919.62 148,-913.12 145.73,-919.62 150.28,-919.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>B-&gt;C</title>
+<path d="M148,-874.75C148,-864.59 148,-851.79 148,-840.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="150.28,-840.62 148,-834.12 145.73,-840.62 150.28,-840.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>C-&gt;D</title>
+<path d="M148,-795.75C148,-785.59 148,-772.79 148,-761.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="150.28,-761.62 148,-755.12 145.73,-761.62 150.28,-761.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;E -->
+<g class="edge" id="edge4">
+<title>D-&gt;E</title>
+<path d="M148,-716.75C148,-706.59 148,-693.79 148,-682.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="150.28,-682.62 148,-676.12 145.73,-682.62 150.28,-682.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;F -->
+<g class="edge" id="edge5">
+<title>E-&gt;F</title>
+<path d="M148,-637.94C148,-628.23 148,-615.79 148,-603.71" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="150.28,-603.56 148,-597.06 145.73,-603.56 150.28,-603.56" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- F&#45;&gt;G -->
+<g class="edge" id="edge6">
+<title>F-&gt;G</title>
+<path d="M142.14,-522.41C136.99,-491.15 129.64,-446.46 125.1,-418.89" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="127.31,-418.31 124.01,-412.27 122.82,-419.05 127.31,-418.31" stroke="#8da6ba" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="144" y="-493">否</text>
+</g>
+<!-- F&#45;&gt;H -->
+<g class="edge" id="edge7">
+<title>F-&gt;H</title>
+<path d="M170.3,-526.48C181.91,-510.07 195.87,-490.35 206.5,-475.32" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="208.36,-476.63 210.26,-470.01 204.65,-474 208.36,-476.63" stroke="#8da6ba" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="200" y="-493">是</text>
+</g>
+<!-- G&#45;&gt;K -->
+<g class="edge" id="edge10">
+<title>G-&gt;K</title>
+<path d="M120.83,-373.75C120.47,-335.38 119.64,-246.27 119.23,-202.77" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="121.51,-202.68 119.17,-196.2 116.96,-202.72 121.51,-202.68" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- H&#45;&gt;I -->
+<g class="edge" id="edge8">
+<title>H-&gt;I</title>
+<path d="M223.63,-431.94C224.31,-412.79 225.37,-382.41 226.12,-360.98" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="228.4,-360.93 226.36,-354.36 223.85,-360.77 228.4,-360.93" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- I&#45;&gt;J -->
+<g class="edge" id="edge9">
+<title>I-&gt;J</title>
+<path d="M225.34,-315.75C224.42,-305.59 223.25,-292.79 222.25,-281.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="224.5,-281.38 221.65,-275.12 219.97,-281.8 224.5,-281.38" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- J&#45;&gt;K -->
+<g class="edge" id="edge11">
+<title>J-&gt;K</title>
+<path d="M196.32,-236.95C181.99,-226.02 163.6,-212 148.34,-200.37" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="149.43,-198.34 142.88,-196.21 146.67,-201.96 149.43,-198.34" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- K&#45;&gt;L -->
+<g class="edge" id="edge12">
+<title>K-&gt;L</title>
+<path d="M119,-157.75C119,-147.59 119,-134.79 119,-123.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="121.28,-123.62 119,-117.12 116.73,-123.62 121.28,-123.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- L&#45;&gt;M -->
+<g class="edge" id="edge13">
+<title>L-&gt;M</title>
+<path d="M119,-78.75C119,-68.59 119,-55.79 119,-44.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="121.28,-44.62 119,-38.12 116.73,-44.62 121.28,-44.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M196,-992C196,-992 100,-992 100,-992 94,-992 88,-986 88,-980 88,-980 88,-966 88,-966 88,-960 94,-954 100,-954 100,-954 196,-954 196,-954 202,-954 208,-960 208,-966 208,-966 208,-980 208,-980 208,-986 202,-992 196,-992" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="148" y="-969.6">用户 / 业务现象</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M178,-913C178,-913 118,-913 118,-913 112,-913 106,-907 106,-901 106,-901 106,-887 106,-887 106,-881 112,-875 118,-875 118,-875 178,-875 178,-875 184,-875 190,-881 190,-887 190,-887 190,-901 190,-901 190,-907 184,-913 178,-913" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="148" y="-890.6">发现问题</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M190.5,-834C190.5,-834 105.5,-834 105.5,-834 99.5,-834 93.5,-828 93.5,-822 93.5,-822 93.5,-808 93.5,-808 93.5,-802 99.5,-796 105.5,-796 105.5,-796 190.5,-796 190.5,-796 196.5,-796 202.5,-802 202.5,-808 202.5,-808 202.5,-822 202.5,-822 202.5,-828 196.5,-834 190.5,-834" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="148" y="-811.6">定义真正问题</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M203.5,-755C203.5,-755 92.5,-755 92.5,-755 86.5,-755 80.5,-749 80.5,-743 80.5,-743 80.5,-729 80.5,-729 80.5,-723 86.5,-717 92.5,-717 92.5,-717 203.5,-717 203.5,-717 209.5,-717 215.5,-723 215.5,-729 215.5,-729 215.5,-743 215.5,-743 215.5,-749 209.5,-755 203.5,-755" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="148" y="-732.6">确认是否值得解决</text>
+</g>
+<!-- E -->
+<g class="node" id="node5">
+<title>E</title>
+<path d="M190.5,-676C190.5,-676 105.5,-676 105.5,-676 99.5,-676 93.5,-670 93.5,-664 93.5,-664 93.5,-650 93.5,-650 93.5,-644 99.5,-638 105.5,-638 105.5,-638 190.5,-638 190.5,-638 196.5,-638 202.5,-644 202.5,-650 202.5,-650 202.5,-664 202.5,-664 202.5,-670 196.5,-676 190.5,-676" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="148" y="-653.6">探索多个方案</text>
+</g>
+<!-- F -->
+<g class="node" id="node6">
+<title>F</title>
+<path d="M136.38,-594.02C136.38,-594.02 11.62,-561.98 11.62,-561.98 5.81,-560.49 5.81,-557.51 11.62,-556.02 11.62,-556.02 136.38,-523.98 136.38,-523.98 142.19,-522.49 153.81,-522.49 159.62,-523.98 159.62,-523.98 284.38,-556.02 284.38,-556.02 290.19,-557.51 290.19,-560.49 284.38,-561.98 284.38,-561.98 159.62,-594.02 159.62,-594.02 153.81,-595.51 142.19,-595.51 136.38,-594.02" fill="#fdf4e8" stroke="#ddbd93" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="148" y="-555.6">"AI 是最佳方案吗？"</text>
+</g>
+<!-- G -->
+<g class="node" id="node7">
+<title>G</title>
+<path d="M170,-412C170,-412 72,-412 72,-412 66,-412 60,-406 60,-400 60,-400 60,-386 60,-386 60,-380 66,-374 72,-374 72,-374 170,-374 170,-374 176,-374 182,-380 182,-386 182,-386 182,-400 182,-400 182,-406 176,-412 170,-412" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="121" y="-389.6">选择更简单方案</text>
+</g>
+<!-- H -->
+<g class="node" id="node8">
+<title>H</title>
+<path d="M265.5,-470C265.5,-470 180.5,-470 180.5,-470 174.5,-470 168.5,-464 168.5,-458 168.5,-458 168.5,-444 168.5,-444 168.5,-438 174.5,-432 180.5,-432 180.5,-432 265.5,-432 265.5,-432 271.5,-432 277.5,-438 277.5,-444 277.5,-444 277.5,-458 277.5,-458 277.5,-464 271.5,-470 265.5,-470" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="223" y="-447.6">设计人机分工</text>
+</g>
+<!-- I -->
+<g class="node" id="node9">
+<title>I</title>
+<path d="M301.5,-354C301.5,-354 152.5,-354 152.5,-354 146.5,-354 140.5,-348 140.5,-342 140.5,-342 140.5,-328 140.5,-328 140.5,-322 146.5,-316 152.5,-316 152.5,-316 301.5,-316 301.5,-316 307.5,-316 313.5,-322 313.5,-328 313.5,-328 313.5,-342 313.5,-342 313.5,-348 307.5,-354 301.5,-354" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="227" y="-331.6">设计反馈、信任与控制权</text>
+</g>
+<!-- J -->
+<g class="node" id="node10">
+<title>J</title>
+<path d="M281.5,-275C281.5,-275 158.5,-275 158.5,-275 152.5,-275 146.5,-269 146.5,-263 146.5,-263 146.5,-249 146.5,-249 146.5,-243 152.5,-237 158.5,-237 158.5,-237 281.5,-237 281.5,-237 287.5,-237 293.5,-243 293.5,-249 293.5,-249 293.5,-263 293.5,-263 293.5,-269 287.5,-275 281.5,-275" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="220" y="-252.6">设计失败与人工兜底</text>
+</g>
+<!-- K -->
+<g class="node" id="node11">
+<title>K</title>
+<path d="M169,-196C169,-196 69,-196 69,-196 63,-196 57,-190 57,-184 57,-184 57,-170 57,-170 57,-164 63,-158 69,-158 69,-158 169,-158 169,-158 175,-158 181,-164 181,-170 181,-170 181,-184 181,-184 181,-190 175,-196 169,-196" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="119" y="-173.6">原型 / MVP 验证</text>
+</g>
+<!-- L -->
+<g class="node" id="node12">
+<title>L</title>
+<path d="M180.5,-117C180.5,-117 57.5,-117 57.5,-117 51.5,-117 45.5,-111 45.5,-105 45.5,-105 45.5,-91 45.5,-91 45.5,-85 51.5,-79 57.5,-79 57.5,-79 180.5,-79 180.5,-79 186.5,-79 192.5,-85 192.5,-91 192.5,-91 192.5,-105 192.5,-105 192.5,-111 186.5,-117 180.5,-117" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="119" y="-94.6">真实用户与数据验证</text>
+</g>
+<!-- M -->
+<g class="node" id="node13">
+<title>M</title>
+<path d="M173,-38C173,-38 65,-38 65,-38 59,-38 53,-32 53,-26 53,-26 53,-12 53,-12 53,-6 59,0 65,0 65,0 173,0 173,0 179,0 185,-6 185,-12 185,-12 185,-26 185,-26 185,-32 179,-38 173,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="119" y="-15.6">继续 / 调整 / 放弃</text>
+</g>
+</g>
+</svg>
+</div></div><h4 id="这张图真正要记的只有-4-个判断">这张图真正要记的只有 4 个判断</h4><ol>
+<li><strong>问题是真的吗？</strong> —— 不要把用户提出的功能直接当需求。</li>
+<li><strong>AI 是最佳方案吗？</strong> —— 不要为了 AI 而 AI。</li>
+<li><strong>人和 AI 怎么分工？</strong> —— 自动化程度越高，控制权设计越重要。</li>
+<li><strong>怎么证明有效？</strong> —— 用用户行为和业务结果验证，而不是靠主观判断。</li>
+</ol><hr/><h3 id="1-4-用-问题-而不是-术语-来记忆">1.4 用“问题”而不是“术语”来记忆</h3><p>以后看到这一章的概念，不需要逐个背，可以挂到下面 5 个问题上：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>Q1：我们到底在解决什么问题？
+    → 双钻、Design Thinking、UCD、目标 ≠ 任务
+
+Q2：用户为什么会看不懂 / 不会用？
+    → 心智模型、反馈、能指、映射、执行/评估鸿沟
+
+Q3：什么该优先做？
+    → Kano、Design Critique、设计原则
+
+Q4：AI 应该做到什么程度？
+    → 不确定性、信任校准、控制权、人机分工
+
+Q5：设计是否真的有效？
+    → 原型、用户测试、指标、持续迭代</code></pre></div><p>这样学习时，每遇到一个新概念，只要先问：</p><blockquote>
+<p><strong>“它是在帮我回答哪一个问题？”</strong></p>
+</blockquote><p>知识就不容易散。</p><hr/><h3 id="1-5-我的学习优先级">1.5 我的学习优先级</h3><p>对于 AI 产品经理转型，不需要平均用力。</p><h4 id="p0-必须会用-能拿来做产品判断">P0｜必须会用：能拿来做产品判断</h4><ul>
+<li>设计即决策</li>
+<li>双钻模型</li>
+<li>目标 ≠ 任务</li>
+<li>UCD</li>
+<li>心智模型</li>
+<li>反馈</li>
+<li>执行鸿沟 / 评估鸿沟</li>
+<li>AI 不确定性</li>
+<li>信任校准</li>
+<li>人机控制权</li>
+<li>失败与人工兜底</li>
+</ul><h4 id="p1-需要理解-遇到场景知道什么时候用">P1｜需要理解：遇到场景知道什么时候用</h4><ul>
+<li>Design Thinking</li>
+<li>Kano</li>
+<li>Design Critique</li>
+<li>情境调查</li>
+<li>情感化设计</li>
+<li>价值敏感设计</li>
+<li>服务设计</li>
+</ul><h4 id="p2-知道即可-需要时再查">P2｜知道即可：需要时再查</h4><ul>
+<li>设计史</li>
+<li>具体设计运动和人物</li>
+<li>各类理论的完整历史背景</li>
+</ul><h3 id="1-6-最简记忆版">1.6 最简记忆版</h3><p>如果过一周只允许记住一张图，就记这个：</p><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">找对问题</span></div><div class="step"><span class="step-number">02</span><span class="step-label">判断值不值得做</span></div><div class="step"><span class="step-number">03</span><span class="step-label">探索多种方案</span></div><div class="step"><span class="step-number">04</span><span class="step-label">判断 AI 是否合适</span></div><div class="step"><span class="step-number">05</span><span class="step-label">设计人机分工</span></div><div class="step"><span class="step-number">06</span><span class="step-label">设计反馈 / 信任 / 控制权</span></div><div class="step"><span class="step-number">07</span><span class="step-label">设计失败兜底</span></div><div class="step"><span class="step-number">08</span><span class="step-label">验证真实效果</span></div></div><hr/></section><section class="chapter" data-chapter="2" data-title="核心概念卡片" id="chapter-2"><div class="chapter-heading"><h2 id="chapter-2-heading">2. 核心概念卡片</h2><button class="mark-read" data-target="chapter-2" type="button">标记已读</button></div><hr/><div class="concept-card"><h3 id="卡片-1-设计即决策">卡片 1｜设计即决策</h3><h4 id="一句话">一句话</h4><p>设计的核心不是“把页面做漂亮”，而是：</p><blockquote>
+<p>在用户价值、商业目标、技术限制和风险之间做选择。</p>
+</blockquote><h4 id="产品经理真正需要回答">产品经理真正需要回答</h4><ul>
+<li>为谁设计？</li>
+<li>用户真正的问题是什么？</li>
+<li>做什么？</li>
+<li>不做什么？</li>
+<li>为什么现在做？</li>
+<li>失败怎么办？</li>
+<li>哪些决策可以回退？</li>
+</ul><h4 id="ai-产品里的特殊性">AI 产品里的特殊性</h4><p>传统软件的行为通常比较确定。</p><p>AI 产品存在：</p><ul>
+<li>输出不稳定</li>
+<li>可能产生错误</li>
+<li>能力边界模糊</li>
+<li>用户容易高估模型能力</li>
+</ul><p>因此 AI 产品设计的重点之一是：</p><blockquote>
+<p><strong>不要只设计“成功路径”，还要设计“模型失败之后怎么办”。</strong></p>
+</blockquote><h4 id="我的实践提醒">我的实践提醒</h4><p>作为工程背景转产品，容易快速进入：</p><blockquote>
+<p>“这个功能怎么实现？”</p>
+</blockquote><p>需要刻意提前问：</p><blockquote>
+<p><strong>“为什么要实现？”</strong></p>
+</blockquote><hr/></div><div class="concept-card"><h3 id="卡片-2-问题求解-vs-意义创造">卡片 2｜问题求解 vs 意义创造</h3><h4 id="问题求解">问题求解</h4><p>关注：</p><ul>
+<li>更快</li>
+<li>更准</li>
+<li>更省力</li>
+<li>更少错误</li>
+</ul><p>例如：</p><blockquote>
+<p>AI 帮客服自动查询支付订单。</p>
+</blockquote><h4 id="意义创造">意义创造</h4><p>关注：</p><ul>
+<li>用户如何理解产品</li>
+<li>产品扮演什么角色</li>
+<li>用户使用它时是什么感受</li>
+</ul><p>例如，同样一个 AI：</p><ul>
+<li>是“自动替我做决定的机器人”</li>
+<li>是“辅助判断的 Copilot”</li>
+<li>是“给我建议的专家”</li>
+</ul><p>会产生完全不同的信任与控制感。</p><h4 id="ai-pm-要问">AI PM 要问</h4><blockquote>
+<p>我的 AI 是工具、助手、同事、专家，还是代理人？</p>
+</blockquote><p>这个定位会影响：</p><ul>
+<li>UI</li>
+<li>文案</li>
+<li>权限</li>
+<li>用户预期</li>
+<li>错误成本</li>
+</ul><hr/></div><div class="concept-card"><h3 id="卡片-3-双钻模型">卡片 3｜双钻模型</h3><h4 id="一句话-2">一句话</h4><p><strong>先把问题想清楚，再把方案做出来。</strong></p><div class="diagram" data-diagram="3"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 03</span><button aria-label="放大查看流程图 3" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 3" height="auto" role="img" viewbox="0.00 0.00 499.80 114.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 100.4)">
+<title>g</title>
+<!-- A&#45;&gt;A -->
+<g class="edge" id="edge4">
+<title>A-&gt;A</title>
+<path d="M30.6,-52.21C29.36,-64.37 33.16,-75 42,-75 49.18,-75 53.04,-67.99 53.56,-58.83" fill="none" stroke="#9fb3c4" stroke-dasharray="5,2" stroke-width="1.5"></path>
+<polygon fill="#9fb3c4" points="55.83,-58.65 53.4,-52.21 51.29,-58.77 55.83,-58.65" stroke="#9fb3c4" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="42" y="-78">发散</text>
+</g>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M84.3,-26C95.05,-26 106.73,-26 117.8,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="118.1,-28.28 124.6,-26 118.1,-23.73 118.1,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;B -->
+<g class="edge" id="edge5">
+<title>B-&gt;B</title>
+<path d="M155.6,-52.21C154.36,-64.37 158.16,-75 167,-75 174.18,-75 178.04,-67.99 178.56,-58.83" fill="none" stroke="#9fb3c4" stroke-dasharray="5,2" stroke-width="1.5"></path>
+<polygon fill="#9fb3c4" points="180.83,-58.65 178.4,-52.21 176.29,-58.77 180.83,-58.65" stroke="#9fb3c4" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="167" y="-78">收敛</text>
+</g>
+<!-- B&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>B-&gt;C</title>
+<path d="M209.3,-26C220.05,-26 231.73,-26 242.8,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="243.1,-28.28 249.6,-26 243.1,-23.73 243.1,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;C -->
+<g class="edge" id="edge6">
+<title>C-&gt;C</title>
+<path d="M280.6,-52.21C279.36,-64.37 283.16,-75 292,-75 299.18,-75 303.04,-67.99 303.56,-58.83" fill="none" stroke="#9fb3c4" stroke-dasharray="5,2" stroke-width="1.5"></path>
+<polygon fill="#9fb3c4" points="305.83,-58.65 303.4,-52.21 301.29,-58.77 305.83,-58.65" stroke="#9fb3c4" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="292" y="-78">发散</text>
+</g>
+<!-- C&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>C-&gt;D</title>
+<path d="M334.17,-26C345.02,-26 356.89,-26 368.29,-26" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="368.44,-28.28 374.94,-26 368.44,-23.73 368.44,-28.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;D -->
+<g class="edge" id="edge7">
+<title>D-&gt;D</title>
+<path d="M410.5,-52.21C409.14,-64.37 413.3,-75 423,-75 430.88,-75 435.1,-67.99 435.68,-58.83" fill="none" stroke="#9fb3c4" stroke-dasharray="5,2" stroke-width="1.5"></path>
+<polygon fill="#9fb3c4" points="437.95,-58.65 435.5,-52.21 433.4,-58.77 437.95,-58.65" stroke="#9fb3c4" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="423" y="-78">收敛</text>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M72,-52C72,-52 12,-52 12,-52 6,-52 0,-46 0,-40 0,-40 0,-12 0,-12 0,-6 6,0 12,0 12,0 72,0 72,0 78,0 84,-6 84,-12 84,-12 84,-40 84,-40 84,-46 78,-52 72,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="42" y="-29.6">Discover</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="42" y="-15.6">发现问题</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M197,-52C197,-52 137,-52 137,-52 131,-52 125,-46 125,-40 125,-40 125,-12 125,-12 125,-6 131,0 137,0 137,0 197,0 197,0 203,0 209,-6 209,-12 209,-12 209,-40 209,-40 209,-46 203,-52 197,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="167" y="-29.6">Define</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="167" y="-15.6">定义问题</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M322,-52C322,-52 262,-52 262,-52 256,-52 250,-46 250,-40 250,-40 250,-12 250,-12 250,-6 256,0 262,0 262,0 322,0 322,0 328,0 334,-6 334,-12 334,-12 334,-40 334,-40 334,-46 328,-52 322,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="292" y="-29.6">Develop</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="292" y="-15.6">探索方案</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M459,-52C459,-52 387,-52 387,-52 381,-52 375,-46 375,-40 375,-40 375,-12 375,-12 375,-6 381,0 387,0 387,0 459,0 459,0 465,0 471,-6 471,-12 471,-12 471,-40 471,-40 471,-46 465,-52 459,-52" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="423" y="-29.6">Deliver</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="423" y="-15.6">验证与交付</text>
+</g>
+</g>
+</svg>
+</div></div><h4 id="第一个钻石-problem-space">第一个钻石：Problem Space</h4><p>核心问题：</p><blockquote>
+<p><strong>我们到底应该解决什么？</strong></p>
+</blockquote><p>方法：</p><ul>
+<li>用户访谈</li>
+<li>数据分析</li>
+<li>情境观察</li>
+<li>用户旅程</li>
+<li>痛点分析</li>
+</ul><p>输出：</p><blockquote>
+<p>清晰的问题定义。</p>
+</blockquote><h4 id="第二个钻石-solution-space">第二个钻石：Solution Space</h4><p>核心问题：</p><blockquote>
+<p><strong>什么方案最适合解决这个问题？</strong></p>
+</blockquote><p>方法：</p><ul>
+<li>多方案</li>
+<li>原型</li>
+<li>用户测试</li>
+<li>MVP</li>
+<li>实验</li>
+</ul><h4 id="ai-pm-最常见错误">AI PM 最常见错误</h4><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">发现 LLM 很强</span></div><div class="step"><span class="step-number">02</span><span class="step-label">想做 AI Agent</span></div><div class="step"><span class="step-number">03</span><span class="step-label">找一个业务场景套进去</span></div></div><p>正确顺序：</p><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">发现用户问题</span></div><div class="step"><span class="step-number">02</span><span class="step-label">判断问题价值</span></div><div class="step"><span class="step-number">03</span><span class="step-label">分析为什么发生</span></div><div class="step"><span class="step-number">04</span><span class="step-label">探索不同解决方案</span></div><div class="step"><span class="step-number">05</span><span class="step-label">再判断 AI 是否是最佳方案</span></div></div><h4 id="一句面试表达">一句面试表达</h4><blockquote>
+<p>我会先验证问题空间，再进入方案空间，避免“为了 AI 而 AI”。</p>
+</blockquote><hr/></div><div class="concept-card"><h3 id="卡片-4-design-thinking-五阶段">卡片 4｜Design Thinking 五阶段</h3><div class="diagram" data-diagram="4"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 04</span><button aria-label="放大查看流程图 4" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 4" height="auto" role="img" viewbox="0.00 0.00 669.80 107.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 93.4)">
+<title>g</title>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M97.35,-53C108.33,-53 120.01,-53 130.99,-53" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="131.23,-55.28 137.73,-53 131.23,-50.73 131.23,-55.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>B-&gt;C</title>
+<path d="M222.3,-53C233.05,-53 244.73,-53 255.8,-53" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="256.1,-55.28 262.6,-53 256.1,-50.73 256.1,-55.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>C-&gt;D</title>
+<path d="M347.04,-53C374.13,-53 409.9,-53 439.25,-53" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="439.29,-55.28 445.79,-53 439.29,-50.73 439.29,-55.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;E -->
+<g class="edge" id="edge4">
+<title>D-&gt;E</title>
+<path d="M542.18,-53C553.5,-53 565.39,-53 576.04,-53" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="576.35,-55.28 582.85,-53 576.35,-50.73 576.35,-55.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;A -->
+<g class="edge" id="edge5">
+<title>E-&gt;A</title>
+<path d="M582.8,-34.79C572.35,-28.04 563,-22 563,-22 563,-22 542,-11 542,-11 542,-11 347,0 347,0 347,0 263,0 263,0 263,0 138,-16 138,-16 138,-16 121.91,-22.73 103.45,-30.45" fill="none" stroke="#9fb3c4" stroke-dasharray="5,2" stroke-width="1.5"></path>
+<polygon fill="#9fb3c4" points="102.24,-28.49 97.12,-33.09 103.99,-32.68 102.24,-28.49" stroke="#9fb3c4" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="305" y="-3">新发现</text>
+</g>
+<!-- E&#45;&gt;B -->
+<g class="edge" id="edge6">
+<title>E-&gt;B</title>
+<path d="M582.94,-37.95C563.83,-27.71 542,-16 542,-16 542,-16 263,-16 263,-16 263,-16 246.45,-23.47 228.22,-31.69" fill="none" stroke="#9fb3c4" stroke-dasharray="5,2" stroke-width="1.5"></path>
+<polygon fill="#9fb3c4" points="226.99,-29.75 222,-34.5 228.86,-33.9 226.99,-29.75" stroke="#9fb3c4" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="396.5" y="-19">重新定义问题</text>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M85,-79C85,-79 12,-79 12,-79 6,-79 0,-73 0,-67 0,-67 0,-39 0,-39 0,-33 6,-27 12,-27 12,-27 85,-27 85,-27 91,-27 97,-33 97,-39 97,-39 97,-67 97,-67 97,-73 91,-79 85,-79" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="48.5" y="-56.6">Empathize</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="48.5" y="-42.6">理解用户</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M210,-79C210,-79 150,-79 150,-79 144,-79 138,-73 138,-67 138,-67 138,-39 138,-39 138,-33 144,-27 150,-27 150,-27 210,-27 210,-27 216,-27 222,-33 222,-39 222,-39 222,-67 222,-67 222,-73 216,-79 210,-79" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="180" y="-56.6">Define</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="180" y="-42.6">定义问题</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M335,-79C335,-79 275,-79 275,-79 269,-79 263,-73 263,-67 263,-67 263,-39 263,-39 263,-33 269,-27 275,-27 275,-27 335,-27 335,-27 341,-27 347,-33 347,-39 347,-39 347,-67 347,-67 347,-73 341,-79 335,-79" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="305" y="-56.6">Ideate</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="305" y="-42.6">产生方案</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M530,-79C530,-79 458,-79 458,-79 452,-79 446,-73 446,-67 446,-67 446,-39 446,-39 446,-33 452,-27 458,-27 458,-27 530,-27 530,-27 536,-27 542,-33 542,-39 542,-39 542,-67 542,-67 542,-73 536,-79 530,-79" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="494" y="-56.6">Prototype</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="494" y="-42.6">低成本原型</text>
+</g>
+<!-- E -->
+<g class="node" id="node5">
+<title>E</title>
+<path d="M629,-79C629,-79 595,-79 595,-79 589,-79 583,-73 583,-67 583,-67 583,-39 583,-39 583,-33 589,-27 595,-27 595,-27 629,-27 629,-27 635,-27 641,-33 641,-39 641,-39 641,-67 641,-67 641,-73 635,-79 629,-79" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="612" y="-56.6">Test</text>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="612" y="-42.6">测试</text>
+</g>
+</g>
+</svg>
+</div></div><h4 id="真正应该记住的不是-5-个单词">真正应该记住的不是 5 个单词</h4><p>而是两个原则：</p><h5 id="原则-1-不要太早爱上方案">原则 1：不要太早爱上方案</h5><p>先理解问题。</p><h5 id="原则-2-原型是为了学习-不是为了展示完成度">原则 2：原型是为了学习，不是为了展示完成度</h5><p>原型越便宜，越容易推翻。</p><h4 id="边界">边界</h4><p>Design Thinking 适合：</p><ul>
+<li>开启一个模糊问题</li>
+<li>组织团队探索</li>
+<li>快速形成共同语言</li>
+</ul><p>但它不能替代：</p><ul>
+<li>真实用户研究</li>
+<li>数据证据</li>
+<li>商业分析</li>
+<li>技术验证</li>
+</ul><p>所以：</p><blockquote>
+<p><strong>Design Thinking 是启动器，不是“方案正确”的证据。</strong></p>
+</blockquote><hr/></div><div class="concept-card"><h3 id="卡片-5-ucd-以人为中心设计">卡片 5｜UCD：以人为中心设计</h3><h4 id="核心思想">核心思想</h4><p>产品设计不能建立在“我觉得用户会这样用”上。</p><p>需要：</p><ol>
+<li>理解用户、任务和环境</li>
+<li>让用户参与</li>
+<li>用用户评价驱动迭代</li>
+<li>持续迭代</li>
+<li>看完整体验</li>
+<li>多角色共同参与</li>
+</ol><h4 id="ai-时代需要扩大-用户-的范围">AI 时代需要扩大“用户”的范围</h4><p>除了直接用户，还可能包括：</p><ul>
+<li>被 AI 决策影响的人</li>
+<li>客服</li>
+<li>运营</li>
+<li>审核人员</li>
+<li>风控人员</li>
+<li>管理者</li>
+</ul><h4 id="ai-pm-判断题">AI PM 判断题</h4><p>如果 AI 帮客服自动拒绝退款：</p><blockquote>
+<p>谁是这个产品的用户？</p>
+</blockquote><p>不能只回答：</p><blockquote>
+<p>客服。</p>
+</blockquote><p>还需要考虑：</p><blockquote>
+<p>被拒绝退款的消费者也是被系统影响的人。</p>
+</blockquote><hr/></div><div class="concept-card"><h3 id="卡片-6-目标-任务">卡片 6｜目标 ≠ 任务</h3><h4 id="任务">任务</h4><p>用户正在做什么。</p><p>例如：</p><blockquote>
+<p>客服不断复制订单号到不同系统查询。</p>
+</blockquote><h4 id="目标">目标</h4><p>用户真正想完成什么。</p><p>例如：</p><blockquote>
+<p>快速、准确地判断这笔支付为什么失败，并给用户明确解释。</p>
+</blockquote><h4 id="为什么非常重要">为什么非常重要？</h4><p>如果只看任务：</p><blockquote>
+<p>做一个“一键复制订单号”的功能。</p>
+</blockquote><p>如果看目标：</p><p>可能发现更好的方案是：</p><blockquote>
+<p>系统自动聚合订单、支付、退款和风控信息。</p>
+</blockquote><h4 id="学习公式">学习公式</h4><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">用户行为</span></div><div class="step"><span class="step-number">02</span><span class="step-label">用户任务</span></div><div class="step"><span class="step-number">03</span><span class="step-label">为什么要做？</span></div><div class="step"><span class="step-number">04</span><span class="step-label">最终目标</span></div><div class="step"><span class="step-number">05</span><span class="step-label">真正需求</span></div></div><hr/></div></section><section class="chapter" data-chapter="3" data-title="最容易混淆的概念：对比表" id="chapter-3"><div class="chapter-heading"><h2 id="chapter-3-heading">3. 最容易混淆的概念：对比表</h2><button class="mark-read" data-target="chapter-3" type="button">标记已读</button></div><h3 id="3-1-design-thinking-vs-双钻模型">3.1 Design Thinking vs 双钻模型</h3><div class="table-scroll"><table class="comparison-table">
+<thead>
+<tr>
+<th>维度</th>
+<th>Design Thinking</th>
+<th>双钻模型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>强调</td>
+<td>人本探索与迭代</td>
+<td>发散与收敛</td>
+</tr>
+<tr>
+<td>核心问题</td>
+<td>怎样理解用户并快速试验</td>
+<td>当前是在问题空间还是方案空间</td>
+</tr>
+<tr>
+<td>最有价值的地方</td>
+<td>指导探索过程</td>
+<td>防止过早进入方案</td>
+</tr>
+<tr>
+<td>AI PM 用法</td>
+<td>做用户探索、原型测试</td>
+<td>AI 需求评审守门</td>
+</tr>
+</tbody>
+</table></div><hr/><h3 id="3-2-ucd-vs-uxd-vs-产品设计">3.2 UCD vs UXD vs 产品设计</h3><div class="table-scroll"><table class="comparison-table">
+<thead>
+<tr>
+<th>概念</th>
+<th>主要回答</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UCD</td>
+<td>我们应该怎样围绕人进行设计？</td>
+</tr>
+<tr>
+<td>UXD</td>
+<td>用户完整体验应该怎样被设计？</td>
+</tr>
+<tr>
+<td>产品设计</td>
+<td>用户、商业、技术之间应该怎样取舍？</td>
+</tr>
+</tbody>
+</table></div><h4 id="对-ai-pm-的启发">对 AI PM 的启发</h4><p>用户喜欢，并不代表产品值得做。</p><p>技术能做，也不代表应该做。</p><p>产品经理最终需要回答：</p><blockquote>
+<p><strong>用户价值 × 商业价值 × 技术可行 × 风险可控，是否同时成立？</strong></p>
+</blockquote><hr/><h3 id="3-3-affordance-vs-signifier">3.3 Affordance vs Signifier</h3><h4 id="affordance">Affordance</h4><p>“客观上能不能做”。</p><h4 id="signifier">Signifier</h4><p>“用户知不知道可以这样做”。</p><p>数字产品里，产品经理更常遇到的是 <strong>Signifier 不足</strong>。</p><p>例如：</p><blockquote>
+<p>一个文字区域实际上可以点击，但用户看不出来。</p>
+</blockquote><p>这不是“不能点击”。</p><p>而是：</p><blockquote>
+<p>没有足够线索告诉用户它可以点击。</p>
+</blockquote><hr/><h3 id="3-4-执行鸿沟-vs-评估鸿沟">3.4 执行鸿沟 vs 评估鸿沟</h3><div class="table-scroll"><table class="comparison-table">
+<thead>
+<tr>
+<th>类型</th>
+<th>用户的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>执行鸿沟</td>
+<td>我知道自己想干什么，但不知道怎么操作</td>
+</tr>
+<tr>
+<td>评估鸿沟</td>
+<td>我操作了，但不知道系统发生了什么</td>
+</tr>
+</tbody>
+</table></div><p>AI 产品尤其容易出现 <strong>评估鸿沟</strong>。</p><p>例如：</p><p>用户点击：</p><blockquote>
+<p>“分析支付失败原因”</p>
+</blockquote><p>AI 输出：</p><blockquote>
+<p>“交易可能因为风险原因失败。”</p>
+</blockquote><p>用户接下来会问：</p><ul>
+<li>为什么？</li>
+<li>查了哪些数据？</li>
+<li>这个结论可靠吗？</li>
+<li>我应该怎么处理？</li>
+</ul><p>如果产品无法回答，评估鸿沟就很大。</p><hr/></section><section class="chapter" data-chapter="4" data-title="认知设计：评审产品时怎么用？" id="chapter-4"><div class="chapter-heading"><h2 id="chapter-4-heading">4. 认知设计：评审产品时怎么用？</h2><button class="mark-read" data-target="chapter-4" type="button">标记已读</button></div><h3 id="4-1-反馈">4.1 反馈</h3><p>用户做完动作，系统必须告诉用户：</p><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">收到操作</span></div><div class="step"><span class="step-number">02</span><span class="step-label">正在处理</span></div><div class="step"><span class="step-number">03</span><span class="step-label">当前状态</span></div><div class="step"><span class="step-number">04</span><span class="step-label">处理结果</span></div><div class="step"><span class="step-number">05</span><span class="step-label">下一步能做什么</span></div></div><h4 id="ai-产品特别需要反馈">AI 产品特别需要反馈</h4><p>因为 AI 可能等待数秒甚至更久。</p><p>例如不要只有：</p><blockquote>
+<p>正在思考……</p>
+</blockquote><p>而应该尽可能表达：</p><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">正在读取订单信息</span></div><div class="step"><span class="step-number">02</span><span class="step-label">正在检查支付状态</span></div><div class="step"><span class="step-number">03</span><span class="step-label">正在匹配异常规则</span></div><div class="step"><span class="step-number">04</span><span class="step-label">已生成分析结果</span></div></div><p>注意：</p><p>不能假装展示模型实际上没有执行的步骤。</p><hr/><h3 id="4-2-约束">4.2 约束</h3><p>设计不仅告诉用户“可以做什么”，也需要阻止危险操作。</p><p>AI 产品常见：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>低风险动作
+AI 可直接执行
+
+中风险动作
+AI 建议 → 用户确认
+
+高风险动作
+AI 建议 → 人工审批 → 执行</code></pre></div><p>例如：</p><div class="table-scroll"><table class="comparison-table">
+<thead>
+<tr>
+<th>操作</th>
+<th>推荐</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查询订单</td>
+<td>AI 自动</td>
+</tr>
+<tr>
+<td>生成客服回复</td>
+<td>AI 生成，人工确认</td>
+</tr>
+<tr>
+<td>发起退款</td>
+<td>人工确认</td>
+</tr>
+<tr>
+<td>大额资金操作</td>
+<td>多级审批</td>
+</tr>
+</tbody>
+</table></div><hr/><h3 id="4-3-心智模型">4.3 心智模型</h3><p>设计者认为 AI：</p><blockquote>
+<p>一个概率模型，有明确边界。</p>
+</blockquote><p>用户可能认为 AI：</p><blockquote>
+<p>一个什么都知道的智能专家。</p>
+</blockquote><p>两者差距越大，风险越高。</p><p>因此 AI 产品需要主动告诉用户：</p><ul>
+<li>AI 能做什么</li>
+<li>AI 不能做什么</li>
+<li>数据来自哪里</li>
+<li>什么时候可能出错</li>
+<li>用户什么时候需要人工判断</li>
+</ul><hr/></section><section class="chapter" data-chapter="5" data-title="Kano：怎么决定先做什么？" id="chapter-5"><div class="chapter-heading"><h2 id="chapter-5-heading">5. Kano：怎么决定先做什么？</h2><button class="mark-read" data-target="chapter-5" type="button">标记已读</button></div><h3 id="五种需求">五种需求</h3><div class="table-scroll"><table class="comparison-table">
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+<th>产品策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基本型</td>
+<td>没有就很不满</td>
+<td>必须保证</td>
+</tr>
+<tr>
+<td>期望型</td>
+<td>做得越好越满意</td>
+<td>持续优化</td>
+</tr>
+<tr>
+<td>兴奋型</td>
+<td>没想到，但有了很惊喜</td>
+<td>做差异化</td>
+</tr>
+<tr>
+<td>无差异型</td>
+<td>做不做都无所谓</td>
+<td>少投入</td>
+</tr>
+<tr>
+<td>反向型</td>
+<td>做了反而不喜欢</td>
+<td>谨慎 / 可关闭</td>
+</tr>
+</tbody>
+</table></div><h3 id="ai-产品里的典型例子">AI 产品里的典型例子</h3><p>“AI 自动执行退款”：</p><p>对追求效率的人：</p><blockquote>
+<p>可能是期望型。</p>
+</blockquote><p>对资金风险敏感的运营人员：</p><blockquote>
+<p>可能是反向型。</p>
+</blockquote><p>所以：</p><blockquote>
+<p><strong>需求类型不是功能固有属性，而取决于用户和场景。</strong></p>
+</blockquote><hr/></section><section class="chapter" data-chapter="6" data-title="情感化设计：AI 为什么尤其重要？" id="chapter-6"><div class="chapter-heading"><h2 id="chapter-6-heading">6. 情感化设计：AI 为什么尤其重要？</h2><button class="mark-read" data-target="chapter-6" type="button">标记已读</button></div><p>AI 通过语言和用户交流，因此天然带有“人格感”。</p><p>产品经理需要决定三个东西：</p><h3 id="persona">Persona</h3><p>AI 是谁？</p><ul>
+<li>助手</li>
+<li>同事</li>
+<li>顾问</li>
+<li>专家</li>
+<li>Agent</li>
+</ul><h3 id="tone">Tone</h3><p>不同场景怎么说话？</p><p>例如：</p><p>成功：</p><blockquote>
+<p>已完成订单状态检查。</p>
+</blockquote><p>高风险：</p><blockquote>
+<p>当前信息不足，暂不建议自动退款。</p>
+</blockquote><p>错误：</p><blockquote>
+<p>暂时无法确认失败原因，需要人工进一步检查。</p>
+</blockquote><h3 id="拟人化程度">拟人化程度</h3><p>最重要的原则：</p><blockquote>
+<p>可以像人一样自然交流，但必须像系统一样诚实表达能力边界。</p>
+</blockquote><p>不要为了让用户“喜欢 AI”，刻意制造不存在的：</p><ul>
+<li>情绪</li>
+<li>理解力</li>
+<li>记忆能力</li>
+<li>确定性</li>
+</ul><hr/></section><section class="chapter" data-chapter="7" data-title="设计伦理：AI PM 必须加的一层" id="chapter-7"><div class="chapter-heading"><h2 id="chapter-7-heading">7. 设计伦理：AI PM 必须加的一层</h2><button class="mark-read" data-target="chapter-7" type="button">标记已读</button></div><p>传统产品：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>用户体验
++ 商业价值
++ 技术可行</code></pre></div><p>AI 产品还需要：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>透明
++ 可问责
++ 公平
++ 用户自主性</code></pre></div><h3 id="四个检查问题">四个检查问题</h3><h4 id="透明">透明</h4><p>用户知道：</p><blockquote>
+<p>自己正在和 AI 交互吗？</p>
+</blockquote><h4 id="问责">问责</h4><p>AI 做错后：</p><blockquote>
+<p>能找到原因和负责人吗？</p>
+</blockquote><h4 id="偏见">偏见</h4><p>模型或界面：</p><blockquote>
+<p>会不会系统性影响某一类用户？</p>
+</blockquote><h4 id="自主性">自主性</h4><p>用户：</p><blockquote>
+<p>能不能拒绝 AI、修改 AI、退出 AI？</p>
+</blockquote><hr/></section><section class="chapter" data-chapter="8" data-title="AI 产品设计的 4 个新核心问题" id="chapter-8"><div class="chapter-heading"><h2 id="chapter-8-heading">8. AI 产品设计的 4 个新核心问题</h2><button class="mark-read" data-target="chapter-8" type="button">标记已读</button></div><p>这部分是整篇文章对 AI PM 最重要的内容之一。</p><h3 id="8-1-不确定性表达">8.1 不确定性表达</h3><p>传统程序：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>成功 / 失败</code></pre></div><p>AI：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>可能正确
+可能部分正确
+可能错误
+可能缺少信息</code></pre></div><p>产品需要回答：</p><blockquote>
+<p>怎么让用户感知这种不确定性？</p>
+</blockquote><p>可使用：</p><ul>
+<li>引用来源</li>
+<li>信息缺失提醒</li>
+<li>风险等级</li>
+<li>建议人工确认</li>
+<li>明确“推测”与“事实”</li>
+</ul><hr/><h3 id="8-2-信任校准">8.2 信任校准</h3><p>目标不是：</p><blockquote>
+<p>让用户越相信 AI 越好。</p>
+</blockquote><p>而是：</p><blockquote>
+<p><strong>用户的信任程度 ≈ AI 的真实能力。</strong></p>
+</blockquote><p>两种失败：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>AI 能力 60%
+用户信任 95%
+→ 盲从
+
+AI 能力 90%
+用户信任 20%
+→ 不使用</code></pre></div><p>真正需要的是：</p><blockquote>
+<p>Trust Calibration。</p>
+</blockquote><hr/><h3 id="8-3-控制权交接">8.3 控制权交接</h3><p>需要明确：</p><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">什么时候 AI 做？</span></div><div class="step"><span class="step-number">02</span><span class="step-label">什么时候人确认？</span></div><div class="step"><span class="step-number">03</span><span class="step-label">什么时候必须转人工？</span></div><div class="step"><span class="step-number">04</span><span class="step-label">用户怎么撤销？</span></div></div><p>这会直接影响 Agent 产品设计。</p><hr/><h3 id="8-4-长期关系">8.4 长期关系</h3><p>AI 产品可能：</p><ul>
+<li>记住用户</li>
+<li>学习用户偏好</li>
+<li>改变模型</li>
+<li>更新能力</li>
+</ul><p>因此产品还需要设计：</p><ul>
+<li>记忆管理</li>
+<li>删除记忆</li>
+<li>能力变化提示</li>
+<li>版本变化</li>
+<li>用户控制</li>
+</ul><hr/></section><section class="chapter" data-chapter="9" data-title="把整章知识用到一个案例" id="chapter-9"><div class="chapter-heading"><h2 id="chapter-9-heading">9. 把整章知识用到一个案例</h2><button class="mark-read" data-target="chapter-9" type="button">标记已读</button></div><h3 id="case-支付异常处理-ai-copilot">Case：支付异常处理 AI Copilot</h3><h3 id="背景">背景</h3><p>客服每天处理大量：</p><blockquote>
+<p>“为什么我的支付失败？”</p>
+</blockquote><p>当前流程：</p><div class="diagram" data-diagram="5"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 05</span><button aria-label="放大查看流程图 5" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 5" height="auto" role="img" viewbox="0.00 0.00 993.80 66.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 52.4)">
+<title>g</title>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M109.02,-19C119.81,-19 131.15,-19 141.96,-19" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="142.11,-21.28 148.61,-19 142.11,-16.73 142.11,-21.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>B-&gt;C</title>
+<path d="M245.18,-19C255.74,-19 267.08,-19 278.1,-19" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="278.41,-21.28 284.91,-19 278.41,-16.73 278.41,-21.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>C-&gt;D</title>
+<path d="M394.4,-19C404.99,-19 416.16,-19 426.95,-19" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="427.1,-21.28 433.6,-19 427.1,-16.73 427.1,-21.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;E -->
+<g class="edge" id="edge4">
+<title>D-&gt;E</title>
+<path d="M543.4,-19C553.99,-19 565.16,-19 575.95,-19" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="576.1,-21.28 582.6,-19 576.1,-16.73 576.1,-21.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;F -->
+<g class="edge" id="edge5">
+<title>E-&gt;F</title>
+<path d="M692.4,-19C702.99,-19 714.16,-19 724.95,-19" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="725.1,-21.28 731.6,-19 725.1,-16.73 725.1,-21.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- F&#45;&gt;G -->
+<g class="edge" id="edge6">
+<title>F-&gt;G</title>
+<path d="M841.04,-19C851.96,-19 863.39,-19 874.1,-19" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="874.16,-21.28 880.66,-19 874.16,-16.73 874.16,-21.28" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M97,-38C97,-38 12,-38 12,-38 6,-38 0,-32 0,-26 0,-26 0,-12 0,-12 0,-6 6,0 12,0 12,0 97,0 97,0 103,0 109,-6 109,-12 109,-12 109,-26 109,-26 109,-32 103,-38 97,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="54.5" y="-15.6">收到用户投诉</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M233,-38C233,-38 161,-38 161,-38 155,-38 149,-32 149,-26 149,-26 149,-12 149,-12 149,-6 155,0 161,0 161,0 233,0 233,0 239,0 245,-6 245,-12 245,-12 245,-26 245,-26 245,-32 239,-38 233,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="197" y="-15.6">复制订单号</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M382,-38C382,-38 297,-38 297,-38 291,-38 285,-32 285,-26 285,-26 285,-12 285,-12 285,-6 291,0 297,0 297,0 382,0 382,0 388,0 394,-6 394,-12 394,-12 394,-26 394,-26 394,-32 388,-38 382,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="339.5" y="-15.6">查询订单系统</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M531,-38C531,-38 446,-38 446,-38 440,-38 434,-32 434,-26 434,-26 434,-12 434,-12 434,-6 440,0 446,0 446,0 531,0 531,0 537,0 543,-6 543,-12 543,-12 543,-26 543,-26 543,-32 537,-38 531,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="488.5" y="-15.6">查询支付系统</text>
+</g>
+<!-- E -->
+<g class="node" id="node5">
+<title>E</title>
+<path d="M680,-38C680,-38 595,-38 595,-38 589,-38 583,-32 583,-26 583,-26 583,-12 583,-12 583,-6 589,0 595,0 595,0 680,0 680,0 686,0 692,-6 692,-12 692,-12 692,-26 692,-26 692,-32 686,-38 680,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="637.5" y="-15.6">查询风控系统</text>
+</g>
+<!-- F -->
+<g class="node" id="node6">
+<title>F</title>
+<path d="M829,-38C829,-38 744,-38 744,-38 738,-38 732,-32 732,-26 732,-26 732,-12 732,-12 732,-6 738,0 744,0 744,0 829,0 829,0 835,0 841,-6 841,-12 841,-12 841,-26 841,-26 841,-32 835,-38 829,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="786.5" y="-15.6">人工判断原因</text>
+</g>
+<!-- G -->
+<g class="node" id="node7">
+<title>G</title>
+<path d="M953,-38C953,-38 893,-38 893,-38 887,-38 881,-32 881,-26 881,-26 881,-12 881,-12 881,-6 887,0 893,0 893,0 953,0 953,0 959,0 965,-6 965,-12 965,-12 965,-26 965,-26 965,-32 959,-38 953,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="923" y="-15.6">组织回复</text>
+</g>
+</g>
+</svg>
+</div></div><p>问题：</p><ul>
+<li>系统多</li>
+<li>查询慢</li>
+<li>新客服不熟悉规则</li>
+<li>错误解释可能引发投诉</li>
+</ul><hr/></section><section class="chapter" data-chapter="10" data-title="第一钻：先研究问题，不要急着做 Agent" id="chapter-10"><div class="chapter-heading"><h2 id="chapter-10-heading">10. 第一钻：先研究问题，不要急着做 Agent</h2><button class="mark-read" data-target="chapter-10" type="button">标记已读</button></div><h3 id="discover">Discover</h3><p>需要调查：</p><h4 id="用户访谈">用户访谈</h4><p>问客服：</p><ul>
+<li>最近一次处理支付失败是什么情况？</li>
+<li>最耗时的是哪一步？</li>
+<li>哪些问题最难判断？</li>
+<li>你通常去哪里找答案？</li>
+<li>什么情况下必须找高级客服？</li>
+</ul><h4 id="行为数据">行为数据</h4><p>查看：</p><ul>
+<li>平均处理时长</li>
+<li>转人工比例</li>
+<li>一次解决率</li>
+<li>不同异常类型占比</li>
+</ul><h4 id="情境调查">情境调查</h4><p>直接观察客服处理一次真实订单。</p><hr/><h3 id="define">Define</h3><p>最终可能得到：</p><blockquote>
+<p>客服真正的问题并不是“缺一个 AI 聊天框”。</p>
+</blockquote><p>而是：</p><blockquote>
+<p>订单信息分散在多个系统，客服需要根据复杂规则人工整合判断，导致处理时间长且新人错误率高。</p>
+</blockquote><h4 id="pov">POV</h4><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>用户：
+支付客服
+
+需要：
+快速判断支付失败原因
+
+因为：
+信息分散 + 规则复杂 + 经验依赖高</code></pre></div><hr/></section><section class="chapter" data-chapter="11" data-title="第二钻：探索解决方案" id="chapter-11"><div class="chapter-heading"><h2 id="chapter-11-heading">11. 第二钻：探索解决方案</h2><button class="mark-read" data-target="chapter-11" type="button">标记已读</button></div><p>不要直接决定做 Agent。</p><p>先发散：</p><h4 id="方案-a">方案 A</h4><p>统一订单查询页面。</p><h4 id="方案-b">方案 B</h4><p>支付异常规则引擎。</p><h4 id="方案-c">方案 C</h4><p>知识库搜索。</p><h4 id="方案-d">方案 D</h4><p>AI Copilot 自动查询 + 总结。</p><h4 id="方案-e">方案 E</h4><p>Agent 自动查询并执行处理。</p><p>然后比较：</p><div class="table-scroll"><table class="comparison-table">
+<thead>
+<tr>
+<th>方案</th>
+<th>价值</th>
+<th>风险</th>
+<th>成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>统一页面</td>
+<td>高</td>
+<td>低</td>
+<td>中</td>
+</tr>
+<tr>
+<td>规则引擎</td>
+<td>高</td>
+<td>低</td>
+<td>中</td>
+</tr>
+<tr>
+<td>AI 搜索</td>
+<td>中</td>
+<td>中</td>
+<td>低</td>
+</tr>
+<tr>
+<td>AI Copilot</td>
+<td>高</td>
+<td>中</td>
+<td>中</td>
+</tr>
+<tr>
+<td>全自动 Agent</td>
+<td>高</td>
+<td>高</td>
+<td>高</td>
+</tr>
+</tbody>
+</table></div><p>产品经理的价值不是：</p><blockquote>
+<p>想出 Agent。</p>
+</blockquote><p>而是：</p><blockquote>
+<p><strong>能说明为什么最终选择 Copilot，而不是其他方案。</strong></p>
+</blockquote><hr/></section><section class="chapter" data-chapter="12" data-title="设计 Copilot" id="chapter-12"><div class="chapter-heading"><h2 id="chapter-12-heading">12. 设计 Copilot</h2><button class="mark-read" data-target="chapter-12" type="button">标记已读</button></div><h3 id="step-1-建立正确心智模型">Step 1：建立正确心智模型</h3><p>页面明确：</p><blockquote>
+<p>AI 会根据订单、支付状态和知识库生成辅助判断，结果仅供客服参考。</p>
+</blockquote><p>不要写：</p><blockquote>
+<p>AI 智能专家将为你准确判断。</p>
+</blockquote><hr/><h3 id="step-2-减少执行鸿沟">Step 2：减少执行鸿沟</h3><p>客服只需要输入：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>订单号</code></pre></div><p>系统自动：</p><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">订单</span></div><div class="step"><span class="step-number">02</span><span class="step-label">支付</span></div><div class="step"><span class="step-number">03</span><span class="step-label">退款</span></div><div class="step"><span class="step-number">04</span><span class="step-label">风险信息</span></div><div class="step"><span class="step-number">05</span><span class="step-label">知识库</span></div></div><hr/><h3 id="step-3-减少评估鸿沟">Step 3：减少评估鸿沟</h3><p>AI 不只输出：</p><blockquote>
+<p>疑似风控拒绝。</p>
+</blockquote><p>而是：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>判断：
+疑似风险规则触发
+
+依据：
+1. 支付网关状态：DECLINED
+2. 风控规则：RISK_102
+3. 用户当天连续失败 4 次
+
+建议：
+暂不建议重复支付，建议用户 30 分钟后重试。
+
+置信程度：
+信息较完整，但最终风控原因需要人工确认。</code></pre></div><hr/></section><section class="chapter" data-chapter="13" data-title="控制权设计" id="chapter-13"><div class="chapter-heading"><h2 id="chapter-13-heading">13. 控制权设计</h2><button class="mark-read" data-target="chapter-13" type="button">标记已读</button></div><div class="diagram" data-diagram="6"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 06</span><button aria-label="放大查看流程图 6" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 6" height="auto" role="img" viewbox="0.00 0.00 414.30 351.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 337.4)">
+<title>g</title>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M174.5,-284.94C174.5,-275.23 174.5,-262.79 174.5,-250.71" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="176.78,-250.56 174.5,-244.06 172.23,-250.56 176.78,-250.56" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>B-&gt;C</title>
+<path d="M146.67,-180.42C126.67,-162.75 99.9,-139.1 80.37,-121.85" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="81.44,-119.76 75.06,-117.16 78.43,-123.17 81.44,-119.76" stroke="#8da6ba" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="122.5" y="-140">低风险</text>
+</g>
+<!-- B&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>B-&gt;D</title>
+<path d="M174.5,-167.93C174.5,-153.28 174.5,-136.85 174.5,-123.71" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="176.78,-123.66 174.5,-117.16 172.23,-123.66 176.78,-123.66" stroke="#8da6ba" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="189.5" y="-140">中风险</text>
+</g>
+<!-- B&#45;&gt;E -->
+<g class="edge" id="edge4">
+<title>B-&gt;E</title>
+<path d="M205.13,-181.48C228.5,-163.52 260.5,-138.94 283.47,-121.3" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="285.04,-122.96 288.81,-117.2 282.27,-119.35 285.04,-122.96" stroke="#8da6ba" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="274.5" y="-140">高风险</text>
+</g>
+<!-- C&#45;&gt;F -->
+<g class="edge" id="edge5">
+<title>C-&gt;F</title>
+<path d="M82.63,-78.95C99.96,-67.83 122.28,-53.51 140.59,-41.76" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="141.88,-43.63 146.13,-38.21 139.43,-39.8 141.88,-43.63" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;F -->
+<g class="edge" id="edge6">
+<title>D-&gt;F</title>
+<path d="M174.5,-78.75C174.5,-68.59 174.5,-55.79 174.5,-44.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="176.78,-44.62 174.5,-38.12 172.23,-44.62 176.78,-44.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;F -->
+<g class="edge" id="edge7">
+<title>E-&gt;F</title>
+<path d="M280.15,-78.95C259.03,-67.16 231.46,-51.78 209.78,-39.68" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="210.62,-37.55 203.83,-36.37 208.4,-41.52 210.62,-37.55" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M199,-323C199,-323 150,-323 150,-323 144,-323 138,-317 138,-311 138,-311 138,-297 138,-297 138,-291 144,-285 150,-285 150,-285 199,-285 199,-285 205,-285 211,-291 211,-297 211,-297 211,-311 211,-311 211,-317 205,-323 199,-323" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="174.5" y="-300.6">AI 分析</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M163.57,-239.05C163.57,-239.05 101.43,-210.95 101.43,-210.95 95.97,-208.47 95.97,-203.53 101.43,-201.05 101.43,-201.05 163.57,-172.95 163.57,-172.95 169.03,-170.47 179.97,-170.47 185.43,-172.95 185.43,-172.95 247.57,-201.05 247.57,-201.05 253.03,-203.53 253.03,-208.47 247.57,-210.95 247.57,-210.95 185.43,-239.05 185.43,-239.05 179.97,-241.53 169.03,-241.53 163.57,-239.05" fill="#fdf4e8" stroke="#ddbd93" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="174.5" y="-202.6">风险等级</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M97,-117C97,-117 12,-117 12,-117 6,-117 0,-111 0,-105 0,-105 0,-91 0,-91 0,-85 6,-79 12,-79 12,-79 97,-79 97,-79 103,-79 109,-85 109,-91 109,-91 109,-105 109,-105 109,-111 103,-117 97,-117" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="54.5" y="-94.6">自动生成建议</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M204.5,-117C204.5,-117 144.5,-117 144.5,-117 138.5,-117 132.5,-111 132.5,-105 132.5,-105 132.5,-91 132.5,-91 132.5,-85 138.5,-79 144.5,-79 144.5,-79 204.5,-79 204.5,-79 210.5,-79 216.5,-85 216.5,-91 216.5,-91 216.5,-105 216.5,-105 216.5,-111 210.5,-117 204.5,-117" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="174.5" y="-94.6">客服确认</text>
+</g>
+<!-- E -->
+<g class="node" id="node5">
+<title>E</title>
+<path d="M373.5,-117C373.5,-117 251.5,-117 251.5,-117 245.5,-117 239.5,-111 239.5,-105 239.5,-105 239.5,-91 239.5,-91 239.5,-85 245.5,-79 251.5,-79 251.5,-79 373.5,-79 373.5,-79 379.5,-79 385.5,-85 385.5,-91 385.5,-91 385.5,-105 385.5,-105 385.5,-111 379.5,-117 373.5,-117" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="312.5" y="-94.6">高级客服 / 风控审批</text>
+</g>
+<!-- F -->
+<g class="node" id="node6">
+<title>F</title>
+<path d="M191.5,-38C191.5,-38 157.5,-38 157.5,-38 151.5,-38 145.5,-32 145.5,-26 145.5,-26 145.5,-12 145.5,-12 145.5,-6 151.5,0 157.5,0 157.5,0 191.5,0 191.5,0 197.5,0 203.5,-6 203.5,-12 203.5,-12 203.5,-26 203.5,-26 203.5,-32 197.5,-38 191.5,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="174.5" y="-15.6">发送</text>
+</g>
+</g>
+</svg>
+</div></div><h4 id="核心原则">核心原则</h4><blockquote>
+<p>AI 能力越强，控制权设计越重要。</p>
+</blockquote><hr/></section><section class="chapter" data-chapter="14" data-title="伦理检查" id="chapter-14"><div class="chapter-heading"><h2 id="chapter-14-heading">14. 伦理检查</h2><button class="mark-read" data-target="chapter-14" type="button">标记已读</button></div><p>上线前问：</p><h4 id="transparency">Transparency</h4><p>用户 / 客服是否知道哪些结论由 AI 生成？</p><h4 id="accountability">Accountability</h4><p>AI 判断错误后，是否有日志可以追溯？</p><h4 id="bias">Bias</h4><p>风控信息是否可能导致 AI 对特定用户产生不合理推断？</p><h4 id="autonomy">Autonomy</h4><p>客服能否：</p><ul>
+<li>不采用 AI 建议？</li>
+<li>修改 AI 回复？</li>
+<li>转人工？</li>
+<li>查看原始数据？</li>
+</ul><hr/></section><section class="chapter" data-chapter="15" data-title="用 Kano 做优先级" id="chapter-15"><div class="chapter-heading"><h2 id="chapter-15-heading">15. 用 Kano 做优先级</h2><button class="mark-read" data-target="chapter-15" type="button">标记已读</button></div><h4 id="must-be">Must-be</h4><ul>
+<li>查询结果准确</li>
+<li>不泄露敏感信息</li>
+<li>权限正确</li>
+<li>高风险操作必须确认</li>
+</ul><h4 id="one-dimensional">One-dimensional</h4><ul>
+<li>分析速度</li>
+<li>原因判断准确率</li>
+<li>建议质量</li>
+</ul><h4 id="attractive">Attractive</h4><ul>
+<li>自动生成用户可理解的话术</li>
+<li>自动总结复杂异常链路</li>
+</ul><p>第一版产品不应该为了“惊艳”牺牲基本能力。</p><hr/></section><section class="chapter" data-chapter="16" data-title="这个案例的一条完整产品逻辑链" id="chapter-16"><div class="chapter-heading"><h2 id="chapter-16-heading">16. 这个案例的一条完整产品逻辑链</h2><button class="mark-read" data-target="chapter-16" type="button">标记已读</button></div><div class="diagram" data-diagram="7"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 07</span><button aria-label="放大查看流程图 7" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 7" height="auto" role="img" viewbox="0.00 0.00 215.30 935.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 921.4)">
+<title>g</title>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M73.5,-868.75C73.5,-858.59 73.5,-845.79 73.5,-834.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-834.62 73.5,-828.12 71.23,-834.62 75.78,-834.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>B-&gt;C</title>
+<path d="M73.5,-789.75C73.5,-779.59 73.5,-766.79 73.5,-755.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-755.62 73.5,-749.12 71.23,-755.62 75.78,-755.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>C-&gt;D</title>
+<path d="M73.5,-710.75C73.5,-700.59 73.5,-687.79 73.5,-676.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-676.62 73.5,-670.12 71.23,-676.62 75.78,-676.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;E -->
+<g class="edge" id="edge4">
+<title>D-&gt;E</title>
+<path d="M73.5,-631.75C73.5,-621.59 73.5,-608.79 73.5,-597.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-597.62 73.5,-591.12 71.23,-597.62 75.78,-597.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;F -->
+<g class="edge" id="edge5">
+<title>E-&gt;F</title>
+<path d="M73.5,-552.75C73.5,-542.59 73.5,-529.79 73.5,-518.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-518.62 73.5,-512.12 71.23,-518.62 75.78,-518.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- F&#45;&gt;G -->
+<g class="edge" id="edge6">
+<title>F-&gt;G</title>
+<path d="M73.5,-473.75C73.5,-463.59 73.5,-450.79 73.5,-439.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-439.62 73.5,-433.12 71.23,-439.62 75.78,-439.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- G&#45;&gt;H -->
+<g class="edge" id="edge7">
+<title>G-&gt;H</title>
+<path d="M73.5,-394.75C73.5,-384.59 73.5,-371.79 73.5,-360.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-360.62 73.5,-354.12 71.23,-360.62 75.78,-360.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- H&#45;&gt;I -->
+<g class="edge" id="edge8">
+<title>H-&gt;I</title>
+<path d="M73.5,-315.75C73.5,-305.59 73.5,-292.79 73.5,-281.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-281.62 73.5,-275.12 71.23,-281.62 75.78,-281.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- I&#45;&gt;J -->
+<g class="edge" id="edge9">
+<title>I-&gt;J</title>
+<path d="M73.5,-236.75C73.5,-226.59 73.5,-213.79 73.5,-202.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-202.62 73.5,-196.12 71.23,-202.62 75.78,-202.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- J&#45;&gt;K -->
+<g class="edge" id="edge10">
+<title>J-&gt;K</title>
+<path d="M73.5,-157.75C73.5,-147.59 73.5,-134.79 73.5,-123.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-123.62 73.5,-117.12 71.23,-123.62 75.78,-123.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- K&#45;&gt;L -->
+<g class="edge" id="edge11">
+<title>K-&gt;L</title>
+<path d="M73.5,-78.75C73.5,-68.59 73.5,-55.79 73.5,-44.74" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="75.78,-44.62 73.5,-38.12 71.23,-44.62 75.78,-44.62" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- L&#45;&gt;B -->
+<g class="edge" id="edge12">
+<title>L-&gt;B</title>
+<path d="M85.72,-38.02C97.48,-55.37 113.5,-79 113.5,-79 113.5,-79 158.5,-237 158.5,-237 158.5,-237 158.5,-354 158.5,-354 158.5,-354 139.5,-749 139.5,-749 139.5,-749 117.42,-768.74 98.8,-785.38" fill="none" stroke="#9fb3c4" stroke-dasharray="5,2" stroke-width="1.5"></path>
+<polygon fill="#9fb3c4" points="96.99,-783.95 93.66,-789.98 100.02,-787.34 96.99,-783.95" stroke="#9fb3c4" stroke-width="1.5"></polygon>
+<text fill="#667f94" font-family="Noto Sans CJK SC" font-size="10.00" text-anchor="middle" x="171.5" y="-411.5">新发现</text>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M103.5,-907C103.5,-907 43.5,-907 43.5,-907 37.5,-907 31.5,-901 31.5,-895 31.5,-895 31.5,-881 31.5,-881 31.5,-875 37.5,-869 43.5,-869 43.5,-869 103.5,-869 103.5,-869 109.5,-869 115.5,-875 115.5,-881 115.5,-881 115.5,-895 115.5,-895 115.5,-901 109.5,-907 103.5,-907" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-884.6">用户问题</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M103.5,-828C103.5,-828 43.5,-828 43.5,-828 37.5,-828 31.5,-822 31.5,-816 31.5,-816 31.5,-802 31.5,-802 31.5,-796 37.5,-790 43.5,-790 43.5,-790 103.5,-790 103.5,-790 109.5,-790 115.5,-796 115.5,-802 115.5,-802 115.5,-816 115.5,-816 115.5,-822 109.5,-828 103.5,-828" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-805.6">用户研究</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M116,-749C116,-749 31,-749 31,-749 25,-749 19,-743 19,-737 19,-737 19,-723 19,-723 19,-717 25,-711 31,-711 31,-711 116,-711 116,-711 122,-711 128,-717 128,-723 128,-723 128,-737 128,-737 128,-743 122,-749 116,-749" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-726.6">定义真正问题</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M116,-670C116,-670 31,-670 31,-670 25,-670 19,-664 19,-658 19,-658 19,-644 19,-644 19,-638 25,-632 31,-632 31,-632 116,-632 116,-632 122,-632 128,-638 128,-644 128,-644 128,-658 128,-658 128,-664 122,-670 116,-670" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-647.6">验证问题价值</text>
+</g>
+<!-- E -->
+<g class="node" id="node5">
+<title>E</title>
+<path d="M116,-591C116,-591 31,-591 31,-591 25,-591 19,-585 19,-579 19,-579 19,-565 19,-565 19,-559 25,-553 31,-553 31,-553 116,-553 116,-553 122,-553 128,-559 128,-565 128,-565 128,-579 128,-579 128,-585 122,-591 116,-591" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-568.6">探索多种方案</text>
+</g>
+<!-- F -->
+<g class="node" id="node6">
+<title>F</title>
+<path d="M125,-512C125,-512 22,-512 22,-512 16,-512 10,-506 10,-500 10,-500 10,-486 10,-486 10,-480 16,-474 22,-474 22,-474 125,-474 125,-474 131,-474 137,-480 137,-486 137,-486 137,-500 137,-500 137,-506 131,-512 125,-512" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-489.6">判断 AI 是否合适</text>
+</g>
+<!-- G -->
+<g class="node" id="node7">
+<title>G</title>
+<path d="M116,-433C116,-433 31,-433 31,-433 25,-433 19,-427 19,-421 19,-421 19,-407 19,-407 19,-401 25,-395 31,-395 31,-395 116,-395 116,-395 122,-395 128,-401 128,-407 128,-407 128,-421 128,-421 128,-427 122,-433 116,-433" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-410.6">设计人机分工</text>
+</g>
+<!-- H -->
+<g class="node" id="node8">
+<title>H</title>
+<path d="M135,-354C135,-354 12,-354 12,-354 6,-354 0,-348 0,-342 0,-342 0,-328 0,-328 0,-322 6,-316 12,-316 12,-316 135,-316 135,-316 141,-316 147,-322 147,-328 147,-328 147,-342 147,-342 147,-348 141,-354 135,-354" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-331.6">设计反馈与可解释性</text>
+</g>
+<!-- I -->
+<g class="node" id="node9">
+<title>I</title>
+<path d="M135,-275C135,-275 12,-275 12,-275 6,-275 0,-269 0,-263 0,-263 0,-249 0,-249 0,-243 6,-237 12,-237 12,-237 135,-237 135,-237 141,-237 147,-243 147,-249 147,-249 147,-263 147,-263 147,-269 141,-275 135,-275" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-252.6">设计失败与人工兜底</text>
+</g>
+<!-- J -->
+<g class="node" id="node10">
+<title>J</title>
+<path d="M103.5,-196C103.5,-196 43.5,-196 43.5,-196 37.5,-196 31.5,-190 31.5,-184 31.5,-184 31.5,-170 31.5,-170 31.5,-164 37.5,-158 43.5,-158 43.5,-158 103.5,-158 103.5,-158 109.5,-158 115.5,-164 115.5,-170 115.5,-170 115.5,-184 115.5,-184 115.5,-190 109.5,-196 103.5,-196" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-173.6">原型测试</text>
+</g>
+<!-- K -->
+<g class="node" id="node11">
+<title>K</title>
+<path d="M90.5,-117C90.5,-117 56.5,-117 56.5,-117 50.5,-117 44.5,-111 44.5,-105 44.5,-105 44.5,-91 44.5,-91 44.5,-85 50.5,-79 56.5,-79 56.5,-79 90.5,-79 90.5,-79 96.5,-79 102.5,-85 102.5,-91 102.5,-91 102.5,-105 102.5,-105 102.5,-111 96.5,-117 90.5,-117" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-94.6">上线</text>
+</g>
+<!-- L -->
+<g class="node" id="node12">
+<title>L</title>
+<path d="M103.5,-38C103.5,-38 43.5,-38 43.5,-38 37.5,-38 31.5,-32 31.5,-26 31.5,-26 31.5,-12 31.5,-12 31.5,-6 37.5,0 43.5,0 43.5,0 103.5,0 103.5,0 109.5,0 115.5,-6 115.5,-12 115.5,-12 115.5,-26 115.5,-26 115.5,-32 109.5,-38 103.5,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="73.5" y="-15.6">数据验证</text>
+</g>
+</g>
+</svg>
+</div></div><p>这条链比“需求 → PRD → 开发 → 上线”更适合 AI 产品。</p><hr/></section><section class="chapter" data-chapter="17" data-title="问题树：遇到 AI 产品设计题时怎么拆" id="chapter-17"><div class="chapter-heading"><h2 id="chapter-17-heading">17. 问题树：遇到 AI 产品设计题时怎么拆</h2><button class="mark-read" data-target="chapter-17" type="button">标记已读</button></div><div class="diagram" data-diagram="8"><div class="diagram-header"><span class="diagram-kicker"><span class="diagram-mark">◇</span> 流程图 08</span><button aria-label="放大查看流程图 8" class="diagram-open" type="button">放大查看 <span aria-hidden="true">↗</span></button></div><div class="diagram-viewport"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Generated by graphviz version 2.42.4 (0)
+ -->
+<!-- Title: g Pages: 1 -->
+<svg aria-label="原文流程图 8" height="auto" role="img" viewbox="0.00 0.00 1668.80 222.80" width="100%" xmlns="http://www.w3.org/2000/svg">
+<g class="graph" id="graph0" transform="scale(1 1) rotate(0) translate(14.4 208.4)">
+<title>g</title>
+<!-- A&#45;&gt;B -->
+<g class="edge" id="edge1">
+<title>A-&gt;B</title>
+<path d="M724.75,-165.76C618.33,-151.67 401.85,-123 287.54,-107.87" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="287.58,-105.58 280.83,-106.98 286.98,-110.09 287.58,-105.58" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A&#45;&gt;C -->
+<g class="edge" id="edge2">
+<title>A-&gt;C</title>
+<path d="M724.83,-156.75C683.14,-145.19 628.12,-129.93 584.6,-117.86" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="585.14,-115.65 578.27,-116.1 583.92,-120.03 585.14,-115.65" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A&#45;&gt;D -->
+<g class="edge" id="edge3">
+<title>A-&gt;D</title>
+<path d="M787,-155.99C787,-146.03 787,-133.51 787,-122.65" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="789.28,-122.65 787,-116.15 784.73,-122.65 789.28,-122.65" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A&#45;&gt;E -->
+<g class="edge" id="edge4">
+<title>A-&gt;E</title>
+<path d="M849.27,-157.04C891.82,-145.45 948.38,-130.04 993.04,-117.87" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="993.87,-120.01 999.54,-116.1 992.68,-115.62 993.87,-120.01" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A&#45;&gt;F -->
+<g class="edge" id="edge5">
+<title>A-&gt;F</title>
+<path d="M849.04,-166.61C969.17,-152.3 1232.64,-120.91 1357.2,-106.08" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="1357.56,-108.32 1363.75,-105.3 1357.03,-103.81 1357.56,-108.32" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;B1 -->
+<g class="edge" id="edge6">
+<title>B-&gt;B1</title>
+<path d="M176.98,-77.99C154.82,-66.91 126.31,-52.66 103.11,-41.06" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="103.86,-38.89 97.03,-38.01 101.82,-42.95 103.86,-38.89" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- B&#45;&gt;B2 -->
+<g class="edge" id="edge7">
+<title>B-&gt;B2</title>
+<path d="M213,-77.99C213,-68.03 213,-55.51 213,-44.65" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="215.28,-44.65 213,-38.15 210.73,-44.65 215.28,-44.65" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;C1 -->
+<g class="edge" id="edge8">
+<title>C-&gt;C1</title>
+<path d="M473.42,-77.99C448.87,-66.81 417.23,-52.41 391.62,-40.76" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="392.44,-38.63 385.58,-38.01 390.56,-42.78 392.44,-38.63" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;C2 -->
+<g class="edge" id="edge9">
+<title>C-&gt;C2</title>
+<path d="M498.78,-77.99C490.62,-67.65 480.28,-54.56 471.5,-43.43" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="473.14,-41.84 467.33,-38.15 469.57,-44.66 473.14,-41.84" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- C&#45;&gt;C3 -->
+<g class="edge" id="edge10">
+<title>C-&gt;C3</title>
+<path d="M527.22,-77.99C535.38,-67.65 545.72,-54.56 554.5,-43.43" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="556.43,-44.66 558.67,-38.15 552.86,-41.84 556.43,-44.66" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;D1 -->
+<g class="edge" id="edge11">
+<title>D-&gt;D1</title>
+<path d="M763.06,-77.99C748.83,-67.28 730.66,-53.6 715.53,-42.22" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="716.68,-40.24 710.11,-38.15 713.94,-43.87 716.68,-40.24" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;D2 -->
+<g class="edge" id="edge12">
+<title>D-&gt;D2</title>
+<path d="M787,-77.99C787,-68.03 787,-55.51 787,-44.65" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="789.28,-44.65 787,-38.15 784.73,-44.65 789.28,-44.65" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- D&#45;&gt;D3 -->
+<g class="edge" id="edge13">
+<title>D-&gt;D3</title>
+<path d="M812.36,-77.99C827.57,-67.18 847.03,-53.36 863.13,-41.92" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="864.47,-43.76 868.45,-38.15 861.84,-40.05 864.47,-43.76" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;E1 -->
+<g class="edge" id="edge14">
+<title>E-&gt;E1</title>
+<path d="M1052.02,-77.99C1043.99,-67.65 1033.83,-54.56 1025.19,-43.43" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="1026.87,-41.88 1021.09,-38.15 1023.28,-44.67 1026.87,-41.88" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;E2 -->
+<g class="edge" id="edge15">
+<title>E-&gt;E2</title>
+<path d="M1080.22,-77.99C1088.38,-67.65 1098.72,-54.56 1107.5,-43.43" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="1109.43,-44.66 1111.67,-38.15 1105.86,-41.84 1109.43,-44.66" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- E&#45;&gt;E3 -->
+<g class="edge" id="edge16">
+<title>E-&gt;E3</title>
+<path d="M1110.08,-77.99C1137.54,-66.77 1172.97,-52.29 1201.55,-40.61" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="1202.76,-42.58 1207.92,-38.01 1201.04,-38.37 1202.76,-42.58" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- F&#45;&gt;F1 -->
+<g class="edge" id="edge17">
+<title>F-&gt;F1</title>
+<path d="M1412.44,-77.99C1405.3,-67.75 1396.27,-54.8 1388.55,-43.73" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="1390.24,-42.18 1384.65,-38.15 1386.51,-44.78 1390.24,-42.18" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- F&#45;&gt;F2 -->
+<g class="edge" id="edge18">
+<title>F-&gt;F2</title>
+<path d="M1437.8,-77.99C1445.07,-67.75 1454.28,-54.8 1462.14,-43.73" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="1464.2,-44.76 1466.11,-38.15 1460.49,-42.13 1464.2,-44.76" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- F&#45;&gt;F3 -->
+<g class="edge" id="edge19">
+<title>F-&gt;F3</title>
+<path d="M1464.58,-77.99C1489.13,-66.81 1520.77,-52.41 1546.38,-40.76" fill="none" stroke="#8da6ba" stroke-width="1.5"></path>
+<polygon fill="#8da6ba" points="1547.44,-42.78 1552.42,-38.01 1545.56,-38.63 1547.44,-42.78" stroke="#8da6ba" stroke-width="1.5"></polygon>
+</g>
+<!-- A -->
+<g class="node" id="node1">
+<title>A</title>
+<path d="M837,-194C837,-194 737,-194 737,-194 731,-194 725,-188 725,-182 725,-182 725,-168 725,-168 725,-162 731,-156 737,-156 737,-156 837,-156 837,-156 843,-156 849,-162 849,-168 849,-168 849,-182 849,-182 849,-188 843,-194 837,-194" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="787" y="-171.6">AI 产品体验不好</text>
+</g>
+<!-- B -->
+<g class="node" id="node2">
+<title>B</title>
+<path d="M268.5,-116C268.5,-116 157.5,-116 157.5,-116 151.5,-116 145.5,-110 145.5,-104 145.5,-104 145.5,-90 145.5,-90 145.5,-84 151.5,-78 157.5,-78 157.5,-78 268.5,-78 268.5,-78 274.5,-78 280.5,-84 280.5,-90 280.5,-90 280.5,-104 280.5,-104 280.5,-110 274.5,-116 268.5,-116" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="213" y="-93.6">问题理解错了吗？</text>
+</g>
+<!-- C -->
+<g class="node" id="node3">
+<title>C</title>
+<path d="M574.5,-116C574.5,-116 451.5,-116 451.5,-116 445.5,-116 439.5,-110 439.5,-104 439.5,-104 439.5,-90 439.5,-90 439.5,-84 445.5,-78 451.5,-78 451.5,-78 574.5,-78 574.5,-78 580.5,-78 586.5,-84 586.5,-90 586.5,-90 586.5,-104 586.5,-104 586.5,-110 580.5,-116 574.5,-116" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="513" y="-93.6">交互设计有问题吗？</text>
+</g>
+<!-- D -->
+<g class="node" id="node4">
+<title>D</title>
+<path d="M843.5,-116C843.5,-116 730.5,-116 730.5,-116 724.5,-116 718.5,-110 718.5,-104 718.5,-104 718.5,-90 718.5,-90 718.5,-84 724.5,-78 730.5,-78 730.5,-78 843.5,-78 843.5,-78 849.5,-78 855.5,-84 855.5,-90 855.5,-90 855.5,-104 855.5,-104 855.5,-110 849.5,-116 843.5,-116" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="787" y="-93.6">AI 能力有问题吗？</text>
+</g>
+<!-- E -->
+<g class="node" id="node5">
+<title>E</title>
+<path d="M1121.5,-116C1121.5,-116 1010.5,-116 1010.5,-116 1004.5,-116 998.5,-110 998.5,-104 998.5,-104 998.5,-90 998.5,-90 998.5,-84 1004.5,-78 1010.5,-78 1010.5,-78 1121.5,-78 1121.5,-78 1127.5,-78 1133.5,-84 1133.5,-90 1133.5,-90 1133.5,-104 1133.5,-104 1133.5,-110 1127.5,-116 1121.5,-116" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1066" y="-93.6">控制权有问题吗？</text>
+</g>
+<!-- F -->
+<g class="node" id="node6">
+<title>F</title>
+<path d="M1474,-116C1474,-116 1376,-116 1376,-116 1370,-116 1364,-110 1364,-104 1364,-104 1364,-90 1364,-90 1364,-84 1370,-78 1376,-78 1376,-78 1474,-78 1474,-78 1480,-78 1486,-84 1486,-90 1486,-90 1486,-104 1486,-104 1486,-110 1480,-116 1474,-116" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1425" y="-93.6">价值有问题吗？</text>
+</g>
+<!-- B1 -->
+<g class="node" id="node7">
+<title>B1</title>
+<path d="M110,-38C110,-38 12,-38 12,-38 6,-38 0,-32 0,-26 0,-26 0,-12 0,-12 0,-6 6,0 12,0 12,0 110,0 110,0 116,0 122,-6 122,-12 122,-12 122,-26 122,-26 122,-32 116,-38 110,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="61" y="-15.6">用户目标是什么</text>
+</g>
+<!-- B2 -->
+<g class="node" id="node8">
+<title>B2</title>
+<path d="M268.5,-38C268.5,-38 157.5,-38 157.5,-38 151.5,-38 145.5,-32 145.5,-26 145.5,-26 145.5,-12 145.5,-12 145.5,-6 151.5,0 157.5,0 157.5,0 268.5,0 268.5,0 274.5,0 280.5,-6 280.5,-12 280.5,-12 280.5,-26 280.5,-26 280.5,-32 274.5,-38 268.5,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="213" y="-15.6">当前痛点是否真实</text>
+</g>
+<!-- C1 -->
+<g class="node" id="node9">
+<title>C1</title>
+<path d="M376,-38C376,-38 316,-38 316,-38 310,-38 304,-32 304,-26 304,-26 304,-12 304,-12 304,-6 310,0 316,0 316,0 376,0 376,0 382,0 388,-6 388,-12 388,-12 388,-26 388,-26 388,-32 382,-38 376,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="346" y="-15.6">执行鸿沟</text>
+</g>
+<!-- C2 -->
+<g class="node" id="node10">
+<title>C2</title>
+<path d="M483,-38C483,-38 423,-38 423,-38 417,-38 411,-32 411,-26 411,-26 411,-12 411,-12 411,-6 417,0 423,0 423,0 483,0 483,0 489,0 495,-6 495,-12 495,-12 495,-26 495,-26 495,-32 489,-38 483,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="453" y="-15.6">评估鸿沟</text>
+</g>
+<!-- C3 -->
+<g class="node" id="node11">
+<title>C3</title>
+<path d="M615.5,-38C615.5,-38 530.5,-38 530.5,-38 524.5,-38 518.5,-32 518.5,-26 518.5,-26 518.5,-12 518.5,-12 518.5,-6 524.5,0 530.5,0 530.5,0 615.5,0 615.5,0 621.5,0 627.5,-6 627.5,-12 627.5,-12 627.5,-26 627.5,-26 627.5,-32 621.5,-38 615.5,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="573" y="-15.6">反馈是否充分</text>
+</g>
+<!-- D1 -->
+<g class="node" id="node12">
+<title>D1</title>
+<path d="M709.5,-38C709.5,-38 662.5,-38 662.5,-38 656.5,-38 650.5,-32 650.5,-26 650.5,-26 650.5,-12 650.5,-12 650.5,-6 656.5,0 662.5,0 662.5,0 709.5,0 709.5,0 715.5,0 721.5,-6 721.5,-12 721.5,-12 721.5,-26 721.5,-26 721.5,-32 715.5,-38 709.5,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="686" y="-15.6">准确率</text>
+</g>
+<!-- D2 -->
+<g class="node" id="node13">
+<title>D2</title>
+<path d="M817,-38C817,-38 757,-38 757,-38 751,-38 745,-32 745,-26 745,-26 745,-12 745,-12 745,-6 751,0 757,0 757,0 817,0 817,0 823,0 829,-6 829,-12 829,-12 829,-26 829,-26 829,-32 823,-38 817,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="787" y="-15.6">不确定性</text>
+</g>
+<!-- D3 -->
+<g class="node" id="node14">
+<title>D3</title>
+<path d="M924,-38C924,-38 864,-38 864,-38 858,-38 852,-32 852,-26 852,-26 852,-12 852,-12 852,-6 858,0 864,0 864,0 924,0 924,0 930,0 936,-6 936,-12 936,-12 936,-26 936,-26 936,-32 930,-38 924,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="894" y="-15.6">数据不足</text>
+</g>
+<!-- E1 -->
+<g class="node" id="node15">
+<title>E1</title>
+<path d="M1043,-38C1043,-38 971,-38 971,-38 965,-38 959,-32 959,-26 959,-26 959,-12 959,-12 959,-6 965,0 971,0 971,0 1043,0 1043,0 1049,0 1055,-6 1055,-12 1055,-12 1055,-26 1055,-26 1055,-32 1049,-38 1043,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1007" y="-15.6">是否能修改</text>
+</g>
+<!-- E2 -->
+<g class="node" id="node16">
+<title>E2</title>
+<path d="M1162,-38C1162,-38 1090,-38 1090,-38 1084,-38 1078,-32 1078,-26 1078,-26 1078,-12 1078,-12 1078,-6 1084,0 1090,0 1090,0 1162,0 1162,0 1168,0 1174,-6 1174,-12 1174,-12 1174,-26 1174,-26 1174,-32 1168,-38 1162,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1126" y="-15.6">是否能撤销</text>
+</g>
+<!-- E3 -->
+<g class="node" id="node17">
+<title>E3</title>
+<path d="M1294.5,-38C1294.5,-38 1209.5,-38 1209.5,-38 1203.5,-38 1197.5,-32 1197.5,-26 1197.5,-26 1197.5,-12 1197.5,-12 1197.5,-6 1203.5,0 1209.5,0 1209.5,0 1294.5,0 1294.5,0 1300.5,0 1306.5,-6 1306.5,-12 1306.5,-12 1306.5,-26 1306.5,-26 1306.5,-32 1300.5,-38 1294.5,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1252" y="-15.6">是否能转人工</text>
+</g>
+<!-- F1 -->
+<g class="node" id="node18">
+<title>F1</title>
+<path d="M1402,-38C1402,-38 1342,-38 1342,-38 1336,-38 1330,-32 1330,-26 1330,-26 1330,-12 1330,-12 1330,-6 1336,0 1342,0 1342,0 1402,0 1402,0 1408,0 1414,-6 1414,-12 1414,-12 1414,-26 1414,-26 1414,-32 1408,-38 1402,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1372" y="-15.6">用户价值</text>
+</g>
+<!-- F2 -->
+<g class="node" id="node19">
+<title>F2</title>
+<path d="M1509,-38C1509,-38 1449,-38 1449,-38 1443,-38 1437,-32 1437,-26 1437,-26 1437,-12 1437,-12 1437,-6 1443,0 1449,0 1449,0 1509,0 1509,0 1515,0 1521,-6 1521,-12 1521,-12 1521,-26 1521,-26 1521,-32 1515,-38 1509,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1479" y="-15.6">商业价值</text>
+</g>
+<!-- F3 -->
+<g class="node" id="node20">
+<title>F3</title>
+<path d="M1628,-38C1628,-38 1556,-38 1556,-38 1550,-38 1544,-32 1544,-26 1544,-26 1544,-12 1544,-12 1544,-6 1550,0 1556,0 1556,0 1628,0 1628,0 1634,0 1640,-6 1640,-12 1640,-12 1640,-26 1640,-26 1640,-32 1634,-38 1628,-38" fill="#f2f7fc" stroke="#c7d7e5" stroke-width="1.2"></path>
+<text fill="#1a334a" font-family="Noto Sans CJK SC" font-size="13.00" text-anchor="middle" x="1592" y="-15.6">成本与风险</text>
+</g>
+</g>
+</svg>
+</div></div><p>以后做产品分析，可以先跑这棵树。</p><hr/></section><section class="chapter" data-chapter="18" data-title="设计评审 Checklist" id="chapter-18"><div class="chapter-heading"><h2 id="chapter-18-heading">18. 设计评审 Checklist</h2><button class="mark-read" data-target="chapter-18" type="button">标记已读</button></div><p>以后看到一个 AI 产品，可以逐项检查。</p><h3 id="problem">Problem</h3><ul>
+<li class="checklist-item"><input aria-label="设计评审检查项 1" class="study-checkbox" id="task-1" type="checkbox"/>用户真正的目标是什么？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 2" class="study-checkbox" id="task-2" type="checkbox"/>问题有证据吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 3" class="study-checkbox" id="task-3" type="checkbox"/>AI 真的是最合适的方案吗？</li>
+</ul><h3 id="interaction">Interaction</h3><ul>
+<li class="checklist-item"><input aria-label="设计评审检查项 4" class="study-checkbox" id="task-4" type="checkbox"/>用户知道怎么开始吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 5" class="study-checkbox" id="task-5" type="checkbox"/>系统状态清楚吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 6" class="study-checkbox" id="task-6" type="checkbox"/>AI 为什么这么回答，用户能理解吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 7" class="study-checkbox" id="task-7" type="checkbox"/>用户知道下一步做什么吗？</li>
+</ul><h3 id="ai">AI</h3><ul>
+<li class="checklist-item"><input aria-label="设计评审检查项 8" class="study-checkbox" id="task-8" type="checkbox"/>能力边界明确吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 9" class="study-checkbox" id="task-9" type="checkbox"/>不确定性是否被表达？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 10" class="study-checkbox" id="task-10" type="checkbox"/>AI 错了怎么办？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 11" class="study-checkbox" id="task-11" type="checkbox"/>有没有人工兜底？</li>
+</ul><h3 id="control">Control</h3><ul>
+<li class="checklist-item"><input aria-label="设计评审检查项 12" class="study-checkbox" id="task-12" type="checkbox"/>用户能修改吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 13" class="study-checkbox" id="task-13" type="checkbox"/>用户能拒绝吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 14" class="study-checkbox" id="task-14" type="checkbox"/>用户能撤销吗？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 15" class="study-checkbox" id="task-15" type="checkbox"/>高风险操作是否需要确认？</li>
+</ul><h3 id="ethics">Ethics</h3><ul>
+<li class="checklist-item"><input aria-label="设计评审检查项 16" class="study-checkbox" id="task-16" type="checkbox"/>是否明确 AI 身份？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 17" class="study-checkbox" id="task-17" type="checkbox"/>是否可追溯？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 18" class="study-checkbox" id="task-18" type="checkbox"/>是否可能放大偏见？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 19" class="study-checkbox" id="task-19" type="checkbox"/>是否保留用户自主权？</li>
+</ul><h3 id="business">Business</h3><ul>
+<li class="checklist-item"><input aria-label="设计评审检查项 20" class="study-checkbox" id="task-20" type="checkbox"/>用户价值是什么？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 21" class="study-checkbox" id="task-21" type="checkbox"/>能否量化？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 22" class="study-checkbox" id="task-22" type="checkbox"/>商业价值是什么？</li>
+<li class="checklist-item"><input aria-label="设计评审检查项 23" class="study-checkbox" id="task-23" type="checkbox"/>成本是否合理？</li>
+</ul><hr/></section><section class="chapter" data-chapter="19" data-title="设计决策记录模板" id="chapter-19"><div class="chapter-heading"><h2 id="chapter-19-heading">19. 设计决策记录模板</h2><button class="mark-read" data-target="chapter-19" type="button">标记已读</button></div><p>这是最值得养成的习惯之一。</p><div class="code-panel"><div class="code-header"><span>MARKDOWN · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>### Decision
+
+#### 问题
+我们要解决什么？
+
+#### 用户证据
+为什么认为这是问题？
+
+#### 方案
+有哪些候选方案？
+
+#### 最终选择
+选择哪个？
+
+#### 原因
+为什么？
+
+#### 放弃方案
+为什么不选其他方案？
+
+#### 风险
+可能失败在哪里？
+
+#### 回退方案
+失败以后怎么办？
+
+#### 验证指标
+上线后怎么知道判断正确？</code></pre></div><p>设计评审的重点不是：</p><blockquote>
+<p>“这个页面好不好看？”</p>
+</blockquote><p>而应该是：</p><blockquote>
+<p>“这个决策依据是什么？”</p>
+</blockquote><hr/></section><section class="chapter" data-chapter="20" data-title="一页纸总结" id="chapter-20"><div class="chapter-heading"><h2 id="chapter-20-heading">20. 一页纸总结</h2><button class="mark-read" data-target="chapter-20" type="button">标记已读</button></div><h3 id="设计的本质">设计的本质</h3><div class="vertical-flow"><div class="step"><span class="step-number">01</span><span class="step-label">现状</span></div><div class="step"><span class="step-number">02</span><span class="step-label">理解人</span></div><div class="step"><span class="step-number">03</span><span class="step-label">定义问题</span></div><div class="step"><span class="step-number">04</span><span class="step-label">探索方案</span></div><div class="step"><span class="step-number">05</span><span class="step-label">做出决策</span></div><div class="step"><span class="step-number">06</span><span class="step-label">低成本验证</span></div><div class="step"><span class="step-number">07</span><span class="step-label">获得证据</span></div><div class="step"><span class="step-number">08</span><span class="step-label">重新决策</span></div></div><h3 id="ai-产品需要额外加入">AI 产品需要额外加入</h3><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>不确定性
++
+信任
++
+控制权
++
+失败处理
++
+责任</code></pre></div><h3 id="一个-ai-pm-的设计公式">一个 AI PM 的设计公式</h3><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>好 AI 产品设计
+
+= 正确的问题
+× 合适的 AI 能力
+× 清晰的人机分工
+× 可理解的反馈
+× 可控制的风险
+× 可验证的价值</code></pre></div><p>任何一个接近 0，产品整体价值都会很低。</p><hr/></section><section class="chapter" data-chapter="21" data-title="主动回忆题" id="chapter-21"><div class="chapter-heading"><h2 id="chapter-21-heading">21. 主动回忆题</h2><button class="mark-read" data-target="chapter-21" type="button">标记已读</button></div><p>学习完成后，先关闭文档再回答。</p><h3 id="level-1-概念">Level 1｜概念</h3><ol>
+<li>为什么说“设计的核心是决策，而不是界面”？</li>
+<li>Design Thinking 最重要的两个原则是什么？</li>
+<li>双钻模型为什么能防止“为了 AI 而 AI”？</li>
+<li>UCD 和产品设计有什么区别？</li>
+<li>用户“目标”和“任务”的区别是什么？</li>
+<li>执行鸿沟和评估鸿沟分别是什么？</li>
+<li>为什么 AI 产品特别容易产生评估鸿沟？</li>
+<li>什么叫信任校准？</li>
+<li>为什么 AI 能力越强，控制权设计越重要？</li>
+<li>为什么“用户越信任 AI 越好”是错误的？</li>
+</ol><h3 id="level-2-判断">Level 2｜判断</h3><h4 id="场景-1">场景 1</h4><p>用户说：</p><blockquote>
+<p>“我想要一个 AI 自动帮我退款。”</p>
+</blockquote><p>回答：</p><ul>
+<li>这是需求还是解决方案？</li>
+<li>应该继续问什么？</li>
+<li>哪些情况下不应该自动退款？</li>
+</ul><h4 id="场景-2">场景 2</h4><p>AI 输出：</p><blockquote>
+<p>“建议拒绝该用户退款。”</p>
+</blockquote><p>但没有说明依据。</p><p>回答：</p><ul>
+<li>这里主要是什么设计问题？</li>
+<li>属于执行鸿沟还是评估鸿沟？</li>
+<li>怎么改？</li>
+</ul><h4 id="场景-3">场景 3</h4><p>团队说：</p><blockquote>
+<p>“竞品都已经做 Agent，我们也必须做。”</p>
+</blockquote><p>你应该如何用双钻模型反驳？</p><hr/></section><section class="chapter" data-chapter="22" data-title="面试表达训练" id="chapter-22"><div class="chapter-heading"><h2 id="chapter-22-heading">22. 面试表达训练</h2><button class="mark-read" data-target="chapter-22" type="button">标记已读</button></div><h3 id="q-你如何设计一个-ai-产品">Q：你如何设计一个 AI 产品？</h3><p>不要回答：</p><blockquote>
+<p>需求分析 → PRD → 原型 → 开发 → 上线。</p>
+</blockquote><p>可以回答：</p><blockquote>
+<p>我会先把问题空间和方案空间分开。首先通过用户研究、行为数据和业务指标确认问题是否真实、是否值得解决，再定义用户的目标，而不是直接接受用户提出的功能方案。进入方案空间后，我会同时比较非 AI 和 AI 方案。如果 AI 确实有优势，再重点设计人机分工、不确定性表达、控制权、失败兜底和可解释性，最后通过低成本原型和真实用户测试验证，并在上线后用业务指标和体验指标持续迭代。</p>
+</blockquote><p>这段表达体现的不是“会背流程”，而是：</p><blockquote>
+<p>有产品判断框架。</p>
+</blockquote><hr/></section><section class="chapter" data-chapter="23" data-title="针对工程背景转 AI PM 的学习重点" id="chapter-23"><div class="chapter-heading"><h2 id="chapter-23-heading">23. 针对工程背景转 AI PM 的学习重点</h2><button class="mark-read" data-target="chapter-23" type="button">标记已读</button></div><p>你已经有较强的工程和交互实现经验，所以不需要把主要精力继续放在：</p><ul>
+<li>页面怎么实现</li>
+<li>技术链路怎么搭</li>
+<li>一个功能能不能做出来</li>
+</ul><p>更需要刻意训练：</p><h3 id="1-从-实现-切换到-问题">1. 从“实现”切换到“问题”</h3><p>看到方案先问：</p><blockquote>
+<p>它到底解决什么问题？</p>
+</blockquote><h3 id="2-从-可行性-切换到-价值判断">2. 从“可行性”切换到“价值判断”</h3><p>工程师常问：</p><blockquote>
+<p>能不能做？</p>
+</blockquote><p>PM 还要问：</p><blockquote>
+<p>值不值得做？</p>
+</blockquote><h3 id="3-从-正常路径-切换到-决策与失败">3. 从“正常路径”切换到“决策与失败”</h3><p>AI 产品尤其需要问：</p><blockquote>
+<p>AI 错了怎么办？</p>
+</blockquote><h3 id="4-从-功能-切换到-人机关系">4. 从“功能”切换到“人机关系”</h3><p>不要只设计：</p><blockquote>
+<p>AI 有哪些功能。</p>
+</blockquote><p>还要设计：</p><blockquote>
+<p>人什么时候决定，AI 什么时候决定？</p>
+</blockquote><hr/></section><section class="chapter" data-chapter="24" data-title="推荐学习动作" id="chapter-24"><div class="chapter-heading"><h2 id="chapter-24-heading">24. 推荐学习动作</h2><button class="mark-read" data-target="chapter-24" type="button">标记已读</button></div><p>不要重新通读这篇笔记很多遍。</p><h3 id="第一次">第一次</h3><p>理解知识地图。</p><p>目标：</p><blockquote>
+<p>能说出整个领域有哪些模块。</p>
+</blockquote><h3 id="第二次">第二次</h3><p>只学习 P0 概念。</p><p>目标：</p><blockquote>
+<p>能解释并举例。</p>
+</blockquote><h3 id="第三次">第三次</h3><p>关闭资料，重新画：</p><div class="code-panel"><div class="code-header"><span>TEXT · 示例 / 速记</span><button class="copy-code" type="button">复制</button></div><pre><code>双钻
+AI 产品设计 4 个新问题
+支付 Copilot 案例</code></pre></div><h3 id="第四次">第四次</h3><p>自己重新做一个案例：</p><blockquote>
+<p>AI 退款助手。</p>
+</blockquote><p>不要看答案。</p><p>完整回答：</p><ol>
+<li>用户是谁？</li>
+<li>用户目标是什么？</li>
+<li>当前问题是什么？</li>
+<li>有什么证据？</li>
+<li>有哪些非 AI 方案？</li>
+<li>为什么使用 AI？</li>
+<li>AI 做什么？</li>
+<li>人做什么？</li>
+<li>AI 错了怎么办？</li>
+<li>怎么衡量效果？</li>
+</ol><p>如果可以独立回答这 10 个问题，这一章已经从“知识”开始变成“能力”。</p><hr/></section><section class="chapter" data-chapter="25" data-title="我的复盘区" id="chapter-25"><div class="chapter-heading"><h2 id="chapter-25-heading">25. 我的复盘区</h2><button class="mark-read" data-target="chapter-25" type="button">标记已读</button></div><p class="recap-lead">每次练习后填写。把想法记录下来，比重复阅读更容易形成自己的判断。</p><div class="recap-topline"><span class="recap-tip">6 个问题 · 每次花 5 分钟整理重点</span><span class="recap-progress" id="recap-count">0 / 6 已填写</span></div><div class="recap-grid"><div class="recap-card"><div class="recap-card-head"><span class="recap-number">01</span><span class="recap-label">知识沉淀</span></div><h3 id="今天我真正理解了什么">今天我真正理解了什么？</h3><textarea aria-label="今天我真正理解了什么？" class="recap-textarea" id="recap-note-1" placeholder="写下今天最有收获的一个观点…" rows="3"></textarea><div class="recap-card-foot"><span class="recap-field-status">待填写</span></div></div><div class="recap-card"><div class="recap-card-head"><span class="recap-number">02</span><span class="recap-label">概念盲区</span></div><h3 id="哪个概念我仍然解释不清">哪个概念我仍然解释不清？</h3><textarea aria-label="哪个概念我仍然解释不清？" class="recap-textarea" id="recap-note-2" placeholder="列出仍然没想透的概念，记录疑问…" rows="3"></textarea><div class="recap-card-foot"><span class="recap-field-status">待填写</span></div></div><div class="recap-card"><div class="recap-card-head"><span class="recap-number">03</span><span class="recap-label">追问原因</span></div><h3 id="哪个地方我只是记住了结论-没有理解原因">哪个地方我只是记住了结论，没有理解原因？</h3><textarea aria-label="哪个地方我只是记住了结论，没有理解原因？" class="recap-textarea" id="recap-note-3" placeholder="挑一个结论，问自己：为什么？依据是什么？" rows="3"></textarea><div class="recap-card-foot"><span class="recap-field-status">待填写</span></div></div><div class="recap-card"><div class="recap-card-head"><span class="recap-number">04</span><span class="recap-label">场景应用</span></div><h3 id="今天的知识能解决什么产品问题">今天的知识能解决什么产品问题？</h3><textarea aria-label="今天的知识能解决什么产品问题？" class="recap-textarea" id="recap-note-4" placeholder="举一个实际产品或工作中的应用场景…" rows="3"></textarea><div class="recap-card-foot"><span class="recap-field-status">待填写</span></div></div><div class="recap-card"><div class="recap-card-head"><span class="recap-number">05</span><span class="recap-label">案例表达</span></div><h3 id="如果面试官现在问我-我能举什么案例">如果面试官现在问我，我能举什么案例？</h3><textarea aria-label="如果面试官现在问我，我能举什么案例？" class="recap-textarea" id="recap-note-5" placeholder="用一个具体案例，把你的判断讲清楚…" rows="3"></textarea><div class="recap-card-foot"><span class="recap-field-status">待填写</span></div></div><div class="recap-card"><div class="recap-card-head"><span class="recap-number">06</span><span class="recap-label">下一步计划</span></div><h3 id="下一次我要重点练什么">下一次我要重点练什么？</h3><textarea aria-label="下一次我要重点练什么？" class="recap-textarea" id="recap-note-6" placeholder="下一次想重点练习的内容和方法…" rows="3"></textarea><div class="recap-card-foot"><span class="recap-field-status">待填写</span></div></div></div><div class="recap-actions"><span class="recap-save-note">自动保存到当前浏览器 · 可导出留存</span><button class="recap-export" id="recap-export" type="button">↓  导出复盘笔记</button></div></section><section class="chapter" data-chapter="26" data-title="最终记忆卡" id="chapter-26"><div class="chapter-heading"><h2 id="chapter-26-heading">26. 最终记忆卡</h2><button class="mark-read" data-target="chapter-26" type="button">标记已读</button></div><p>只记这几句话：</p><blockquote>
+<p><strong>设计 = 决策，不是画图。</strong></p>
+</blockquote><blockquote>
+<p><strong>先研究问题，再选择方案。</strong></p>
+</blockquote><blockquote>
+<p><strong>用户要的是目标，不是任务。</strong></p>
+</blockquote><blockquote>
+<p><strong>原型的目的，是用最低成本获得新知识。</strong></p>
+</blockquote><blockquote>
+<p><strong>好的 AI 设计，不只让模型“能做事”，还要让用户知道它在做什么、为什么这样做、错了怎么办。</strong></p>
+</blockquote><blockquote>
+<p><strong>AI 不是越自动越好，真正重要的是合适的人机分工。</strong></p>
+</blockquote><blockquote>
+<p><strong>信任不是越高越好，而是与系统真实能力匹配。</strong></p>
+</blockquote><blockquote>
+<p><strong>最终用真实用户行为和业务结果验证设计，而不是用个人偏好证明设计。</strong></p>
+</blockquote><hr/></section><section class="chapter" data-chapter="ref" data-title="资料来源" id="references"><div class="chapter-heading"><h2 id="references-heading">资料来源</h2></div><p>本文是基于 AI-PM《设计哲学与设计思维》的学习重构版，并结合 AI 产品经理学习目标和支付业务案例重新组织，不是原文逐段摘录。</p><p>原文：<br/>
+https://aipm.ac/pm/design-philosophy/</p><p>建议后续与以下主题一起学习：</p><ol>
+<li>用户研究</li>
+<li>需求分析</li>
+<li>产品设计与原型</li>
+<li>数据分析</li>
+<li>AI 产品评测</li>
+<li>Agent 人机协作与权限设计</li>
+</ol></section></div>
+<div class="bottom-note">基于用户提供的 Markdown 学习笔记整理 · 保留原文知识结构和案例 · 可直接离线打开</div></div></div></div>
+<div id="search-results" class="search-results" role="listbox" aria-label="搜索结果"></div><button id="backtop" class="backtop" type="button" aria-label="返回顶部" title="返回顶部">↑</button>
+<div id="diagram-modal" role="dialog" aria-modal="true" aria-label="流程图放大预览"><div class="modal-panel"><div class="modal-top"><span id="modal-title">流程图</span><button id="modal-exit" class="modal-exit" type="button" aria-label="关闭弹窗">×</button></div><div id="modal-scroll" class="modal-scroll"></div><div class="modal-tools"><button id="zoom-out" type="button">− 缩小</button><span id="zoom-value">100%</span><button id="zoom-in" type="button">＋ 放大</button></div></div></div>
+<script>
+(() => {
+'use strict';
+const root=document.documentElement;
+const body=document.body;
+const sections=[...document.querySelectorAll('.chapter')];
+const navItems=[...document.querySelectorAll('.nav-item[data-id]')];
+const readButtons=[...document.querySelectorAll('.mark-read')];
+const key='design-reading-v1';
+let prefs={theme:'light',font:1,read:[],checks:{}};
+try {const val=JSON.parse(localStorage.getItem(key)||'{}');prefs={...prefs,...val};}catch(e){}
+const persist=()=>{try{localStorage.setItem(key,JSON.stringify(prefs))}catch(e){}};
+function applyTheme(){root.dataset.theme=prefs.theme;document.getElementById('theme-toggle').textContent=prefs.theme==='dark'?'☀':'☾';document.getElementById('theme-toggle').title=prefs.theme==='dark'?'切换浅色':'切换深色';}
+function applyFont(){root.style.setProperty('--font-scale',String(prefs.font));document.getElementById('font-scale').textContent=Math.round(prefs.font*100)+'%';}
+document.getElementById('theme-toggle').addEventListener('click',()=>{prefs.theme=prefs.theme==='dark'?'light':'dark';applyTheme();persist();});
+document.getElementById('font-down').addEventListener('click',()=>{prefs.font=Math.max(.9,Math.round((prefs.font-.1)*10)/10);applyFont();persist()});
+document.getElementById('font-up').addEventListener('click',()=>{prefs.font=Math.min(1.4,Math.round((prefs.font+.1)*10)/10);applyFont();persist()});
+applyTheme();applyFont();
+function readUI(){readButtons.forEach(b=>{const done=prefs.read.includes(b.dataset.target);b.classList.toggle('is-read',done);b.textContent=done?'已读':'标记已读';});navItems.forEach(a=>a.classList.toggle('done',prefs.read.includes(a.dataset.id)));document.getElementById('reading-count').textContent=prefs.read.length+' / '+readButtons.length;document.getElementById('reading-mini').style.width=(prefs.read.length/Math.max(1,readButtons.length))*100+'%';}
+readButtons.forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.target;if(prefs.read.includes(id))prefs.read=prefs.read.filter(v=>v!==id);else prefs.read.push(id);persist();readUI()}));readUI();
+document.querySelectorAll('.study-checkbox').forEach(c=>{if(prefs.checks[c.id])c.checked=true;c.addEventListener('change',()=>{prefs.checks[c.id]=c.checked;persist()});});
+// Recap journal: six independent, locally saved editable answers.
+const recapInputs=[...document.querySelectorAll('.recap-textarea')];
+prefs.recap=(prefs.recap && typeof prefs.recap==='object')?prefs.recap:{};
+function updateRecap(){
+ let filled=0;
+ recapInputs.forEach(field=>{
+   const isFilled=field.value.trim().length>0;
+   if(isFilled)filled++;
+   field.closest('.recap-card').classList.toggle('is-filled',isFilled);
+   field.closest('.recap-card').querySelector('.recap-field-status').textContent=isFilled?'已填写 · '+field.value.trim().length+' 字':'待填写';
+ });
+ const out=document.getElementById('recap-count');if(out)out.textContent=filled+' / '+recapInputs.length+' 已填写';
+}
+recapInputs.forEach(field=>{
+ field.value=prefs.recap[field.id]||'';
+ field.addEventListener('input',()=>{prefs.recap[field.id]=field.value;persist();updateRecap()});
+});
+updateRecap();
+document.getElementById('recap-export')?.addEventListener('click',()=>{
+ const lines=['# 设计哲学与设计思维｜我的学习复盘',''];
+ for(const field of recapInputs){
+   const question=field.closest('.recap-card').querySelector('h3').textContent.trim();
+   lines.push('## '+question, '',field.value.trim()||'（未填写）','');
+ }
+ const blob=new Blob(['\ufeff'+lines.join('\n')],{type:'text/markdown;charset=utf-8'});
+ const url=URL.createObjectURL(blob);
+ const anchor=document.createElement('a');anchor.href=url;anchor.download='设计哲学与设计思维-复盘笔记.md';
+ document.body.appendChild(anchor);anchor.click();anchor.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+const progress=document.getElementById('progress-line'), backtop=document.getElementById('backtop');let ticking=false;
+function updateScroll(){const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max>0?window.scrollY/max*100:0)+'%';backtop.classList.toggle('visible',window.scrollY>450);let active=sections[0]?.id;for(let i=0;i<sections.length;i++){if(sections[i].getBoundingClientRect().top<innerHeight*.38)active=sections[i].id;else break;}navItems.forEach(a=>a.classList.toggle('active',a.dataset.id===active));const a=navItems.find(n=>n.dataset.id===active);if(a&&window.innerWidth>900&&document.activeElement!==document.getElementById('search-input')){const side=document.getElementById('sidebar');const y=a.offsetTop;if(y<side.scrollTop+110)side.scrollTop=Math.max(0,y-145);else if(y>side.scrollTop+side.clientHeight-105)side.scrollTop=y-side.clientHeight+135;}ticking=false;}
+window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(updateScroll);ticking=true}},{passive:true});window.addEventListener('resize',updateScroll);updateScroll();
+backtop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+const drawer=document.getElementById('nav-drawer'), shade=document.getElementById('mobile-backdrop');function closeDrawer(){body.classList.remove('nav-open');drawer.setAttribute('aria-expanded','false')}
+drawer.addEventListener('click',()=>{body.classList.toggle('nav-open');drawer.setAttribute('aria-expanded',String(body.classList.contains('nav-open')))});shade.addEventListener('click',closeDrawer);navItems.forEach(a=>a.addEventListener('click',closeDrawer));
+const search=document.getElementById('search-input'), results=document.getElementById('search-results');let found=[];let selected=0;
+function renderResults(){const q=search.value.trim().toLowerCase();results.replaceChildren();if(!q){results.classList.remove('visible');return;}found=sections.map(s=>{const title=s.dataset.title||'';const text=s.innerText||s.textContent||'';const index=text.toLowerCase().indexOf(q);return {id:s.id,title,index,snippet:index>=0?text.slice(Math.max(0,index-35),Math.min(text.length,index+75)).replace(/\s+/g,' '):''};}).filter(r=>r.index>=0).slice(0,12);selected=0;if(!found.length){const empty=document.createElement('div');empty.className='search-empty';empty.textContent='未找到相关内容，试试其他关键词';results.append(empty);}for(const [i,item]of found.entries()){const b=document.createElement('button');b.type='button';b.className='search-result'+(i===0?' active':'');const title=document.createElement('b');title.textContent=item.title;const small=document.createElement('small');small.textContent=item.snippet;b.append(title,small);b.addEventListener('click',()=>navigate(item.id));results.append(b)}const rect=search.getBoundingClientRect();results.style.top=Math.min(innerHeight-120,rect.bottom+7)+'px';results.style.left=Math.min(innerWidth-results.offsetWidth-10,Math.max(10,rect.left))+'px';results.classList.add('visible');}
+function navigate(id){results.classList.remove('visible');search.blur();closeDrawer();document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
+search.addEventListener('input',renderResults);search.addEventListener('keydown',e=>{if(e.key==='Escape'){results.classList.remove('visible');search.blur();}else if(e.key==='Enter'&&found.length){e.preventDefault();navigate(found[selected]?.id||found[0].id)}else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();selected=(selected+(e.key==='ArrowDown'?1:-1)+found.length)%Math.max(1,found.length);[...results.querySelectorAll('.search-result')].forEach((n,i)=>n.classList.toggle('active',i===selected))}});
+document.addEventListener('click',e=>{if(!results.contains(e.target)&&e.target!==search)results.classList.remove('visible')});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!/input|textarea/i.test(document.activeElement?.tagName||'')){e.preventDefault();if(innerWidth<=900)body.classList.add('nav-open');search.focus()}if(e.key==='Escape'){closeDrawer();closeModal()}});
+document.querySelectorAll('.copy-code').forEach(btn=>btn.addEventListener('click',async()=>{let code=btn.closest('.code-panel').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);btn.textContent='已复制';setTimeout(()=>btn.textContent='复制',1600)}catch(e){btn.textContent='请选择文字复制'}}));
+
+// 一套可缩放组件，统一用于流程图 SVG 与步骤时间线。
+const modal=document.getElementById('diagram-modal');
+const modalScroll=document.getElementById('modal-scroll');
+const modalTitle=document.getElementById('modal-title');
+const modalTools=document.querySelector('#diagram-modal .modal-tools');
+let modalController=null;
+const clamp=(n,low,high)=>Math.min(high,Math.max(low,n));
+
+function makeButton(label,title,handle,className=''){
+  const b=document.createElement('button');
+  b.type='button';b.className='flow-zoom-btn '+className;
+  b.textContent=label;b.title=title;b.setAttribute('aria-label',title);
+  b.addEventListener('click',handle);
+  return b;
+}
+function buildZoomToolbar(ctrl,allowExpand=true){
+  const bar=document.createElement('div');bar.className='flow-zoom-toolbar';
+  const value=document.createElement('span');value.className='flow-zoom-value';value.textContent='100%';
+  value.setAttribute('aria-live','polite');value.title='当前缩放比例';
+  ctrl.values.push(value);
+  bar.append(
+    makeButton('−','缩小流程图',()=>ctrl.change(-.25)),
+    value,
+    makeButton('+','放大流程图',()=>ctrl.change(.25)),
+    makeButton('适配','恢复适合页面大小',()=>ctrl.fit()),
+  );
+  if(allowExpand)bar.append(makeButton('⛶','大图查看与缩放',()=>openModal(ctrl),'flow-zoom-expand'));
+  return bar;
+}
+function createZoomStage(stage,sourceNode,kind){
+  stage.classList.add('zoom-stage');
+  const shell=document.createElement('div');shell.className='flow-zoom-shell';
+  const content=document.createElement('div');content.className='flow-zoom-content';
+  shell.append(content);stage.replaceChildren(shell);
+  content.append(sourceNode);
+  let factor=1,baseWidth=0,lastWidth=0,drag=null;
+  const ctrl={stage,shell,content,sourceNode,kind,values:[],change,fit,get zoom(){return factor}};
+  function contentHeight(){return Math.ceil(Math.max(content.scrollHeight,content.offsetHeight,1));}
+  function resize(preserve=true){
+    const width=Math.max(140,stage.clientWidth - (kind==='svg'?38:42));
+    baseWidth=Math.min(kind==='svg'?1050:820,width);
+    content.style.width=baseWidth+'px';
+    content.style.transform=`scale(${factor})`;
+    shell.style.width=Math.ceil(baseWidth*factor)+'px';
+    shell.style.height=Math.ceil(contentHeight()*factor)+'px';
+    lastWidth=stage.clientWidth;
+    ctrl.values.forEach(e=>e.textContent=Math.round(factor*100)+'%');
+    stage.classList.toggle('zoomed',factor>1.01);
+    if(!preserve){stage.scrollLeft=0;stage.scrollTop=0;}
+  }
+  function change(delta){
+    const next=clamp(Math.round((factor+delta)*100)/100,.5,3.5);
+    if(next===factor)return;
+    const centerX=(stage.scrollLeft+stage.clientWidth/2)/factor;
+    const startX=stage.scrollLeft/factor;
+    const startY=stage.scrollTop/factor;
+    const centerY=(stage.scrollTop+stage.clientHeight/2)/factor;
+    factor=next;
+    resize();
+    // 时间线的步骤编号在左侧，放大时尽量保持左边界可见。
+    stage.scrollLeft=kind==='timeline' ? startX*factor : Math.max(0,centerX*factor-stage.clientWidth/2);
+    stage.scrollTop=kind==='timeline' ? startY*factor : Math.max(0,centerY*factor-stage.clientHeight/2);
+  }
+  function fit(){factor=1;resize(false)}
+  stage.addEventListener('wheel',e=>{
+    if(!e.ctrlKey&&!e.metaKey)return;
+    e.preventDefault();change(e.deltaY<0?.10:-.10);
+  },{passive:false});
+  stage.addEventListener('pointerdown',e=>{
+    if(e.pointerType!=='mouse'||e.button!==0)return;
+    if(stage.scrollWidth<=stage.clientWidth+2&&stage.scrollHeight<=stage.clientHeight+2)return;
+    drag={x:e.clientX,y:e.clientY,left:stage.scrollLeft,top:stage.scrollTop};
+    stage.setPointerCapture(e.pointerId);stage.classList.add('is-dragging');
+  });
+  stage.addEventListener('pointermove',e=>{
+    if(!drag)return;
+    stage.scrollLeft=drag.left-(e.clientX-drag.x);
+    stage.scrollTop=drag.top-(e.clientY-drag.y);
+  });
+  function stopDrag(){drag=null;stage.classList.remove('is-dragging')}
+  stage.addEventListener('pointerup',stopDrag);stage.addEventListener('pointercancel',stopDrag);
+  stage.addEventListener('lostpointercapture',stopDrag);
+  // 图片/字体尺寸变化后再测量，避免容器高度产生剪裁。
+  requestAnimationFrame(()=>resize(false));
+  if(typeof ResizeObserver!=='undefined'){
+    const ro=new ResizeObserver(()=>{
+      if(!stage.isConnected){ro.disconnect();return;}
+      if(Math.abs(stage.clientWidth-lastWidth)>1)resize();
+    });ro.observe(stage);
+  }
+  return ctrl;
+}
+
+function closeModal(){
+  modal.classList.remove('open');
+  modalScroll.replaceChildren();modalController=null;
+  body.style.overflow='';
+}
+function openModal(source){
+  const cloned=source.sourceNode.cloneNode(true);
+  const stage=document.createElement('div');
+  modalScroll.replaceChildren(stage);
+  modalTitle.textContent=source.kind==='svg'
+    ?(source.stage.closest('.diagram')?.querySelector('.diagram-kicker')?.textContent.trim()||'流程图')
+    :'步骤流程 · 大图查看';
+  modal.classList.add('open');body.style.overflow='hidden';
+  modalController=createZoomStage(stage,cloned,source.kind);
+  modalTools.replaceChildren();
+  const hint=document.createElement('span');hint.className='flow-zoom-hint-text';
+  hint.textContent='Ctrl / ⌘ + 滚轮缩放 · 按住鼠标拖动查看';
+  modalTools.append(hint,buildZoomToolbar(modalController,false));
+  requestAnimationFrame(()=>modalController?.fit());
+}
+
+document.querySelectorAll('.diagram').forEach(diagram=>{
+  const stage=diagram.querySelector('.diagram-viewport');
+  const svg=stage?.querySelector('svg');
+  if(!svg)return;
+  diagram.classList.add('flow-zoom-board');
+  const original=diagram.querySelector('.diagram-open');if(original)original.remove();
+  const ctrl=createZoomStage(stage,svg,'svg');
+  diagram.querySelector('.diagram-header')?.append(buildZoomToolbar(ctrl));
+  const hint=document.createElement('div');hint.className='flow-zoom-hint';
+  hint.textContent='Ctrl / ⌘ + 滚轮缩放 · 放大后可拖动查看';
+  diagram.append(hint);
+});
+document.querySelectorAll('.vertical-flow').forEach((flow)=>{
+  const steps=flow.querySelectorAll('.step').length;
+  const board=document.createElement('div');board.className='flow-board';
+  const head=document.createElement('div');head.className='flow-board-head';
+  const caption=document.createElement('span');caption.className='flow-board-caption';
+  const symbol=document.createElement('span');symbol.className='flow-board-symbol';symbol.textContent='↘';
+  const title=document.createElement('span');title.textContent='步骤路径';
+  const count=document.createElement('em');count.textContent=steps+' 个步骤';
+  caption.append(symbol,title,count);head.append(caption);
+  const stage=document.createElement('div');
+  flow.replaceWith(board);board.append(head,stage);
+  const ctrl=createZoomStage(stage,flow,'timeline');
+  head.append(buildZoomToolbar(ctrl));
+  const hint=document.createElement('div');hint.className='flow-zoom-hint';
+  hint.textContent='可以放大细节，也可以打开大图阅读';
+  board.append(hint);
+});
+modal.querySelector('#modal-exit').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+
+})();
+</script></body></html>
